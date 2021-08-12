@@ -18,3 +18,8 @@ body {
   font-family: JetBrains Mono;
   font-style: normal;
 }
+
+a {
+  color: #fff;
+  text-decoration: none;
+}

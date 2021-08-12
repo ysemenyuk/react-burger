@@ -1,8 +1,8 @@
 .header {
   display: flex;
   justify-content: center;
-  background: #1C1C21;
-  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04), 0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  background: #4c4c4c;
+   /* background: #1C1C21; */
 }
 
 .container {
@@ -10,7 +10,6 @@
   justify-content: space-between;
   width: 100%;
   max-width: 1280px;
-  padding: 16px 0;
   align-items: center;
 }
 
@@ -25,26 +24,11 @@
   padding: 0;
 }
 
-/* .menu ul li {
-  padding: 16px 16px;
-} */
-
-a {
+.item {
   display: flex;
-  opacity: 0.5;
-  text-decoration: none;
-  color: #fff;
-  margin: 16px;
 }
 
-a.active {
-  opacity: 1;
+.item svg {
+  margin-right: 8px;
 }
 
-a span {
-  margin-left: 8px;
-}
-
-/* .login {
-
-} */
