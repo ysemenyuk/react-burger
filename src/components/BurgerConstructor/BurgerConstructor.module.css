@@ -6,53 +6,44 @@
   display: flex;
 }
 
-.itemsContainer {
+.itemsBox {
   display: flex;
   flex-direction: column;
-  max-height: 70vh;
+  max-height: 700px;
   overflow: auto;
   
 }
 
-::-webkit-scrollbar { 
-  /* 1 - скроллбар */
-  width: 8px;
-  background-color: #2F2F37;
-}
-
-::-webkit-scrollbar-thumb { 
-  /* 5 - ползунок */
-  height: 492px;
-  background-color: #8585AD;
-}
-
-
-.groupContainer {
+.itemsGroupBox {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 
-.item {
+.itemCard {
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
-  box-sizing: border-box;
-  width: 272px;
+  max-width: 272px;
   height: 208px;
-  border: 1px solid #fff;
+  /* box-sizing: border-box;
+  border: 1px solid #fff; */
 }
 
-.item .price {
+.itemCard img {
+  margin: 0 16px;
+  margin-bottom: 8px;
+}
+
+.itemCard .price {
   display: flex;
   align-items: center;
 }
 
-.item .price svg{
+.itemCard .price svg{
   margin-left: 8px;
 }
 
-.item .name {
+.itemCard .name {
   text-align: center;
 }

@@ -1,53 +1,30 @@
 .section {
   width: 50%;
-  padding: 0 20px;
-  padding-top: 100px;
 }
 
-.items {
-  padding: 0 16px;
+.itemsBox {
+  max-height: 474px;
+  overflow: auto;
 }
 
 .item {
   display: flex;
   align-items: center;
-  height: 80px;
-  border: 1px solid #fff;
-  margin-bottom: 16px;
+  justify-content: flex-end;
+  /* box-sizing: border-box;
+  border: 1px solid #fff; */
 }
 
-.itemInfo {
-  background: #1C1C21;
-  border-radius: 40px;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  margin-left: 8px;
-  padding-right: 32px;
-}
-
-.itemInfo img {
-  width: 80px;
-  height: 40px;
-  margin-left: 24px;
-}
-
-.itemName {
-  max-width: 254px;
-  width: 100%;
-}
-
-.itemPrice {
-  margin-right: 20px;
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  
-}
-
-.itemPrice span {
-  font-size: 24px;
+.item svg {
   margin-right: 8px;
 }
 
+.total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.total span svg {
+  margin-left: 8px;
+}

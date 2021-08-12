@@ -23,3 +23,15 @@ a {
   color: #fff;
   text-decoration: none;
 }
+
+::-webkit-scrollbar { 
+  /* 1 - скроллбар */
+  width: 8px;
+  background-color: #2F2F37;
+}
+
+::-webkit-scrollbar-thumb { 
+  /* 5 - ползунок */
+  height: 50%;
+  background-color: #8585AD;
+}

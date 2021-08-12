@@ -11,9 +11,13 @@ import {
 import styles from './AppHeader.module.css';
 
 function AppHeader(props) {
-
-  const linkItemClass = cs(styles.item, 'm-4', 'text_type_main-default', 'text_color_inactive')
-  const linkItemActiveClass = cs(styles.item, 'm-4', 'text_type_main-default')
+  const linkItemClass = cs(
+    styles.item,
+    'm-4',
+    'text_type_main-default',
+    'text_color_inactive'
+  );
+  const linkItemActiveClass = cs(styles.item, 'm-4', 'text_type_main-default');
 
   return (
     <header className={styles.header}>
@@ -29,10 +33,12 @@ function AppHeader(props) {
           </a>
         </nav>
         <Logo />
-        <a href='/' className={linkItemClass}>
-          <ProfileIcon type='secondary' />
-          Личнный кабинет
-        </a>
+        <div className={styles.loginLink}>
+          <a href='/' className={linkItemClass}>
+            <ProfileIcon type='secondary' />
+            Личнный кабинет
+          </a>
+        </div>
       </div>
     </header>
   );

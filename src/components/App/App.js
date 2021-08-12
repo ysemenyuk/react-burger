@@ -3,7 +3,6 @@ import React from 'react';
 
 import styles from './App.module.css';
 
-
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';

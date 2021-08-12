@@ -1,52 +1,87 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import cs from 'classnames';
 import {
   Button,
   CurrencyIcon,
   DragIcon,
-  DeleteIcon,
+  ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './BurgerIngredients.module.css';
 
-function Item(props) {
-  return (
-    <div className={styles.item}>
-      <DragIcon type='primary' />
-      <div className={styles.itemInfo}>
-        <img src={props.item.image_mobile} alt={props.item.name}></img>
-        <div className={styles.itemName}>{props.item.name}</div>
-        <div className={styles.itemPrice}>
-          <span>{props.item.price}</span>
-          <CurrencyIcon type='primary' />
-        </div>
-        <DeleteIcon type='primary' />
-      </div>
-    </div>
-  );
-}
+const itemDataPropTypes = PropTypes.shape({
+  _id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  proteins: PropTypes.number,
+  fat: PropTypes.number,
+  carbohydrates: PropTypes.number,
+  calories: PropTypes.number,
+  price: PropTypes.number,
+  image: PropTypes.string,
+  image_mobile: PropTypes.string,
+  image_large: PropTypes.string,
+});
 
 function BurgerIngredients(props) {
+  const loackedElement = props.data[0];
+
   return (
-    <section className={styles.section}>
-      <div className={styles.items}>
+    <section className={cs(styles.section, 'p-5', 'pt-25')}>
+      <div className={cs(styles.item, 'm-4')}>
+        <ConstructorElement
+          type={'top'}
+          isLocked={true}
+          text={loackedElement.name}
+          price={loackedElement.price}
+          thumbnail={loackedElement.image}
+        />
+      </div>
+
+      <div className={cs(styles.itemsBox, 'mb-4')}>
         {props.data.map((item) => (
-          <Item item={item} />
+          <div
+            key={item._id}
+            className={cs(styles.item, 'mb-4', 'ml-4', 'mr-2')}
+          >
+            <DragIcon type='primary' />
+            <ConstructorElement
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image}
+            />
+          </div>
         ))}
       </div>
-      <div className={styles.total}>
-        <div className={styles.totalPrice}>
-          <span>5500</span>
+
+      <div className={cs(styles.item, 'm-4')}>
+        <ConstructorElement
+          type={'bottom'}
+          isLocked={true}
+          text={loackedElement.name}
+          price={loackedElement.price}
+          thumbnail={loackedElement.image}
+        />
+      </div>
+
+      <div
+        className={cs(styles.total, 'm-4', 'mt-10', 'text_type_digits-medium')}
+      >
+        <span className={'mr-10'}>
+          8610
           <CurrencyIcon type='primary' />
-        </div>
-        <Button type='primary' size='medium'>
-          Нажми на меня
+        </span>
+        <Button type='primary' size='large'>
+          Оформить заказ
         </Button>
       </div>
     </section>
   );
 }
 
-BurgerIngredients.propTypes = {};
+BurgerIngredients.propTypes = {
+  data: PropTypes.arrayOf(itemDataPropTypes),
+};
 
 export default BurgerIngredients;
