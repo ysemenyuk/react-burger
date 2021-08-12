@@ -9,11 +9,42 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  max-width: 1240px;
-  height: 88px;
+  max-width: 1280px;
+  padding: 16px 0;
   align-items: center;
 }
 
-.nav {
+.menu {
   display: flex;
 }
+
+.menu ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* .menu ul li {
+  padding: 16px 16px;
+} */
+
+a {
+  display: flex;
+  opacity: 0.5;
+  text-decoration: none;
+  color: #fff;
+  margin: 16px;
+}
+
+a.active {
+  opacity: 1;
+}
+
+a span {
+  margin-left: 8px;
+}
+
+/* .login {
+
+} */

@@ -12,22 +12,22 @@ import styles from './AppHeader.module.css';
 function AppHeader(props) {
   return (
     <header className={styles.header}>
-      <div className={styles.container}>
-        <nav className={styles.nav}>
-          <div>
+      <div className={`${styles.container}`}>
+        <nav className={styles.menu}>
+          <a href='/' className={styles.active}>
             <BurgerIcon type='primary' />
-            Конструктор
-          </div>
-          <div>
+            <span>Конструктор</span>
+          </a>
+          <a href='/'>
             <ListIcon type='primary' />
-            Лента заказов
-          </div>
+            <span>Лента заказов</span>
+          </a>
         </nav>
         <Logo />
-        <div>
+        <a href='/'>
           <ProfileIcon type='primary' />
-          Личнный кабинет
-        </div>
+          <span>Личнный кабинет</span>
+        </a>
       </div>
     </header>
   );

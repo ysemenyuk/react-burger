@@ -1,0 +1,75 @@
+.section {
+  width: 50%;
+  padding: 0 20px;
+}
+
+h1 {
+  font-family: JetBrains Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 40px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.tabs {
+  display: flex;
+  margin-bottom: 32px;
+}
+
+.tabContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  /* max-height: 100vh;
+  overflow: auto; */
+}
+
+.tabContainer h2 {
+  flex-basis: 100%;
+  font-family: JetBrains Mono;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  margin-top: 8px;
+  margin-bottom: 24px;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  width: 272px;
+  height: 208px;
+  border: 1px solid #fff;
+  margin-bottom: 32px;
+}
+
+.item img {
+
+}
+
+.item .price {
+  display: flex;
+  align-items: center;
+  font-family: Iceland;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 28px;
+  line-height: 28px;
+  margin: 4px 0;
+}
+
+.item .price span{
+  margin-right: 8px;
+}
+
+.item .name {
+  font-family: JetBrains Mono;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+}
