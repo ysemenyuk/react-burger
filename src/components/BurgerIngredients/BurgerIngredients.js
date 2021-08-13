@@ -1,80 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cs from 'classnames';
-import {
-  Button,
-  CurrencyIcon,
-  DragIcon,
-  ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+
+import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import ItemsGroup from './ItemsGroup/ItemsGroup';
 
 import styles from './BurgerIngredients.module.css';
-
-const itemDataPropTypes = PropTypes.shape({
-  _id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-});
+import itemDataPropTypes from '../itemDataPropTypes.js';
 
 function BurgerIngredients(props) {
-  const loackedElement = props.data[0];
+  const mainTitleClass = cs('text', 'text_type_main-large', 'mt-5', 'mb-5');
 
   return (
-    <section className={cs(styles.section, 'p-5', 'pt-25')}>
-      <div className={cs(styles.item, 'm-4')}>
-        <ConstructorElement
-          type={'top'}
-          isLocked={true}
-          text={loackedElement.name}
-          price={loackedElement.price}
-          thumbnail={loackedElement.image}
-        />
+    <section className={cs(styles.section, 'p-5')}>
+      <h1 className={mainTitleClass}>Соберите бургер</h1>
+
+      <div className={cs(styles.tabs, 'mb-10')}>
+        <Tab value='one' active={true}>
+          Булки
+        </Tab>
+        <Tab value='two'>Соусы</Tab>
+        <Tab value='three'>Начинки</Tab>
       </div>
 
-      <div className={cs(styles.itemsBox, 'mb-4')}>
-        {props.data.map((item) => (
-          <div
-            key={item._id}
-            className={cs(styles.item, 'mb-4', 'ml-4', 'mr-2')}
-          >
-            <DragIcon type='primary' />
-            <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-            />
-          </div>
-        ))}
-      </div>
-
-      <div className={cs(styles.item, 'm-4')}>
-        <ConstructorElement
-          type={'bottom'}
-          isLocked={true}
-          text={loackedElement.name}
-          price={loackedElement.price}
-          thumbnail={loackedElement.image}
-        />
-      </div>
-
-      <div
-        className={cs(styles.total, 'm-4', 'mt-10', 'text_type_digits-medium')}
-      >
-        <span className={'mr-10'}>
-          8610
-          <CurrencyIcon type='primary' />
-        </span>
-        <Button type='primary' size='large'>
-          Оформить заказ
-        </Button>
+      <div className={styles.itemsBox}>
+        <ItemsGroup data={props.data} type={'bun'} />
+        <ItemsGroup data={props.data} type={'sauce'} />
+        <ItemsGroup data={props.data} type={'main'} />
       </div>
     </section>
   );

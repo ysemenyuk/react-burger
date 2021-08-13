@@ -4,8 +4,8 @@ import React from 'react';
 import styles from './App.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import BurgerConstructor from '../BurgerIngredients/BurgerIngredients';
+import BurgerIngredients from '../BurgerConstructor/BurgerConstructor';
 
 import data from '../../utils/data';
 

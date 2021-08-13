@@ -2,29 +2,14 @@
   width: 50%;
 }
 
+.tabs {
+  display: flex;
+}
+
 .itemsBox {
-  max-height: 474px;
+  display: flex;
+  flex-direction: column;
+  max-height: 700px;
   overflow: auto;
-}
-
-.item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  /* box-sizing: border-box;
-  border: 1px solid #fff; */
-}
-
-.item svg {
-  margin-right: 8px;
-}
-
-.total {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
-
-.total span svg {
-  margin-left: 8px;
+  
 }
