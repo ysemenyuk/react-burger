@@ -1,0 +1,33 @@
+.itemsGroupBox {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.itemCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 272px;
+  height: 208px;
+  /* box-sizing: border-box;
+  border: 1px solid #fff; */
+}
+
+.itemCard img {
+  margin: 0 16px;
+  margin-bottom: 8px;
+}
+
+.itemCard .price {
+  display: flex;
+  align-items: center;
+}
+
+.itemCard .price svg{
+  margin-left: 8px;
+}
+
+.itemCard .name {
+  text-align: center;
+}
