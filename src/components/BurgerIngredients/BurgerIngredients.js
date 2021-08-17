@@ -25,8 +25,8 @@ function BurgerIngredients(props) {
 
       <div className={styles.itemsBox}>
         <ItemsGroup data={props.data} type={'bun'} />
-        <ItemsGroup data={props.data} type={'sauce'} />
-        <ItemsGroup data={props.data} type={'main'} />
+        {/* <ItemsGroup data={props.data} type={'sauce'} /> */}
+        {/* <ItemsGroup data={props.data} type={'main'} /> */}
       </div>
     </section>
   );
