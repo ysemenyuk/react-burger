@@ -1,13 +1,14 @@
 import React from 'react';
-// import cs from 'classnames';
+// import cn from 'classnames';
 
 import styles from './App.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstructor from '../BurgerIngredients/BurgerIngredients';
-import BurgerIngredients from '../BurgerConstructor/BurgerConstructor';
+import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 // import data from '../../utils/data';
+import { ingridientsRoute } from '../../api/routes.js';
 
 function App() {
   const [state, setState] = React.useState({
@@ -17,16 +18,16 @@ function App() {
   });
 
   React.useEffect(() => {
-    function getData() {
+    function getData(url) {
       setState((state) => ({ ...state, hasError: false, isLoading: true }));
-      fetch('https://norma.nomoreparties.space/api/ingredients')
+      fetch(url)
         .then((res) => res.json())
-        .then((data) => setState((state) => ({ ...state, data: data.data, isLoading: false })))
+        .then(({ data }) => setState((state) => ({ ...state, data, isLoading: false })))
         .catch((e) => {
           setState((state) => ({ ...state, hasError: true, isLoading: false }));
         });
     }
-    getData();
+    getData(ingridientsRoute);
   }, []);
 
   return (
@@ -38,8 +39,8 @@ function App() {
           {state.hasError && 'Произошла ошибка'}
           {!state.isLoading && !state.hasError && state.data.length && (
             <>
-              <BurgerConstructor data={state.data} />
               <BurgerIngredients data={state.data} />
+              <BurgerConstructor data={state.data} />
             </>
           )}
         </div>

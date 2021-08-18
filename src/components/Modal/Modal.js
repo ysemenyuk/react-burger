@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cs from 'classnames';
+import cn from 'classnames';
 
 import styles from './Modal.module.css';
-import ModalOverlay from './ModalOverlay';
+import ModalOverlay from './ModalOverlay/ModalOverlay';
 
 const modalRoot = document.getElementById('modals');
 
@@ -36,10 +36,10 @@ function Modal(props) {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onClose={onClose}>
-        <div className={cs(styles.modal, 'p-10')} onClick={cancelClose}>
-          <h2 className={cs('pt-3', 'pt-3', 'text text_type_main-large')}>{header}</h2>
+        <div className={cn(styles.modal, 'p-10')} onClick={cancelClose}>
+          {header && <h2 className={cn('pt-3', 'pb-3', 'text text_type_main-large')}>{header}</h2>}
           <span onClick={onClose} className={styles.close}></span>
-          <div>{children}</div>
+          {children}
         </div>
       </ModalOverlay>
     </>,

@@ -1,6 +1,6 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
-import cs from 'classnames';
+import cn from 'classnames';
 import {
   Logo,
   BurgerIcon,
@@ -11,12 +11,12 @@ import {
 import styles from './AppHeader.module.css';
 
 function AppHeader(props) {
-  const linkItemClass = cs(styles.item, 'm-4', 'text_type_main-default', 'text_color_inactive');
-  const linkItemActiveClass = cs(styles.item, 'm-4', 'text_type_main-default');
+  const linkItemClass = cn(styles.item, 'm-4', 'text_type_main-default', 'text_color_inactive');
+  const linkItemActiveClass = cn(styles.item, 'm-4', 'text_type_main-default');
 
   return (
     <header className={styles.header}>
-      <nav className={cs(styles.container, 'pt-4', 'pb-4')}>
+      <nav className={cn(styles.container, 'pt-4', 'pb-4')}>
         <ul className={styles.menu}>
           <li>
             <a href='/' className={linkItemActiveClass}>
