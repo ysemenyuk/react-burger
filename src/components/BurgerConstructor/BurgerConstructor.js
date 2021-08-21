@@ -13,7 +13,7 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
 import styles from './BurgerConstructor.module.css';
-import itemDataPropTypes from '../itemDataPropTypes.js';
+import ingridientPropTypes from '../../types/ingridientPropTypes.js';
 
 function BurgerConstructor(props) {
   const loackedElement = props.data[0];
@@ -30,9 +30,11 @@ function BurgerConstructor(props) {
 
   return (
     <section className={cn(styles.section, 'p-5', 'pt-25')}>
-      <Modal visible={visible} onClose={handleCloseModal}>
-        <OrderDetails />
-      </Modal>
+      {visible && (
+        <Modal onClose={handleCloseModal}>
+          <OrderDetails />
+        </Modal>
+      )}
 
       <div className={cn(styles.item, 'm-4')}>
         <ConstructorElement
@@ -77,7 +79,7 @@ function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(itemDataPropTypes),
+  data: PropTypes.arrayOf(ingridientPropTypes).isRequired,
 };
 
 export default BurgerConstructor;

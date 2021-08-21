@@ -7,27 +7,28 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-// import data from '../../utils/data';
-import { ingridientsRoute } from '../../api/routes.js';
+import normaApi from '../../api/normaApi.js';
 
 function App() {
   const [state, setState] = React.useState({
     isLoading: false,
     hasError: false,
-    data: [],
+    ingridients: [],
   });
 
   React.useEffect(() => {
-    function getData(url) {
+    function getIngredients() {
       setState((state) => ({ ...state, hasError: false, isLoading: true }));
-      fetch(url)
-        .then((res) => res.json())
-        .then(({ data }) => setState((state) => ({ ...state, data, isLoading: false })))
+      normaApi
+        .getIngredients()
+        .then(({ data }) =>
+          setState((state) => ({ ...state, ingridients: data, isLoading: false }))
+        )
         .catch((e) => {
           setState((state) => ({ ...state, hasError: true, isLoading: false }));
         });
     }
-    getData(ingridientsRoute);
+    getIngredients();
   }, []);
 
   return (
@@ -37,10 +38,10 @@ function App() {
         <div className={styles.container}>
           {state.isLoading && 'Загрузка...'}
           {state.hasError && 'Произошла ошибка'}
-          {!state.isLoading && !state.hasError && state.data.length && (
+          {!state.isLoading && !state.hasError && state.ingridients.length && (
             <>
-              <BurgerIngredients data={state.data} />
-              <BurgerConstructor data={state.data} />
+              <BurgerIngredients ingridients={state.ingridients} />
+              <BurgerConstructor data={state.ingridients} />
             </>
           )}
         </div>
