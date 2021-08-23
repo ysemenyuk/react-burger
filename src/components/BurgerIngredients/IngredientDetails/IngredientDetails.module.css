@@ -12,6 +12,10 @@
   margin-bottom: 16px;
 }
 
+.title {
+  align-self: start;
+}
+
 .props {
   display: flex;
   width: 520px;
