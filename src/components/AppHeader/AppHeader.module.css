@@ -1,34 +1,19 @@
 .header {
   display: flex;
   justify-content: center;
-  /* background: #4c4c4c; */
-   background: #1C1C21;
+  background: #1C1C21;
 }
 
 .container {
   display: flex;
-  justify-content: space-between;
+  position: relative;
   width: 100%;
   max-width: 1280px;
   align-items: center;
 }
 
-.menu {
-  display: flex;
-  flex-basis: 30%;
+.container > svg {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
-
-.loginLink {
-  display: flex;
-  flex-basis: 30%;
-  justify-content: flex-end;
-}
-
-.item {
-  display: flex;
-}
-
-.item svg {
-  margin-right: 8px;
-}
-

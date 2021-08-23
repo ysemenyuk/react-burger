@@ -1,6 +1,7 @@
 import React from 'react';
 // import PropTypes from 'prop-types';
 import cn from 'classnames';
+
 import {
   Logo,
   BurgerIcon,
@@ -8,36 +9,27 @@ import {
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import HeaderLink from './HeaderLink/HeaderLink';
+
 import styles from './AppHeader.module.css';
 
 function AppHeader(props) {
-  const linkItemClass = cn(styles.item, 'm-4', 'text_type_main-default', 'text_color_inactive');
-  const linkItemActiveClass = cn(styles.item, 'm-4', 'text_type_main-default');
-
   return (
     <header className={styles.header}>
       <nav className={cn(styles.container, 'pt-4', 'pb-4')}>
-        <ul className={styles.menu}>
-          <li>
-            <a href='/' className={linkItemActiveClass}>
-              <BurgerIcon type='primary' />
-              Конструктор
-            </a>
-          </li>
-          <li>
-            <a href='/' className={linkItemClass}>
-              <ListIcon type='secondary' />
-              Лента заказов
-            </a>
-          </li>
-        </ul>
+        <HeaderLink href={'/'} active={true}>
+          <BurgerIcon /> Конструктор
+        </HeaderLink>
+
+        <HeaderLink href={'/'} active={false}>
+          <ListIcon /> Лента заказов
+        </HeaderLink>
+
         <Logo />
-        <div className={styles.loginLink}>
-          <a href='/' className={linkItemClass}>
-            <ProfileIcon type='secondary' />
-            Личнный кабинет
-          </a>
-        </div>
+
+        <HeaderLink href={'/'} active={false} style={{ marginLeft: 'auto' }}>
+          <ProfileIcon /> Личный кабинет
+        </HeaderLink>
       </nav>
     </header>
   );
