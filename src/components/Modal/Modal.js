@@ -3,23 +3,28 @@ import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 
-import styles from './Modal.module.css';
+import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
+
+import styles from './Modal.module.css';
 
 const modalRoot = document.getElementById('modals');
 
 function Modal({ children, title, onClose }) {
-  function handleClickOnOverlay(e) {
-    if (e.target !== e.currentTarget) {
-      return;
-    }
-    onClose();
-  }
+  const [hover, setHover] = React.useState(false);
+
+  const handleMouseEnter = () => setHover(true);
+  const handleMouseLeave = () => setHover(false);
+
+  const handleClickOnOverlay = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
 
   React.useEffect(() => {
-    function onKeyDown(e) {
+    const onKeyDown = (e) => {
       if (e.code === 'Escape') onClose();
-    }
+    };
+
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = '8px';
     document.addEventListener('keydown', onKeyDown);
@@ -34,8 +39,14 @@ function Modal({ children, title, onClose }) {
   return ReactDOM.createPortal(
     <ModalOverlay handleClickOnOverlay={handleClickOnOverlay}>
       <div className={cn(styles.modal, 'p-10')}>
-        {title && <h2 className={cn('pt-3', 'pb-3', 'text text_type_main-large')}>{title}</h2>}
-        <span onClick={onClose} className={styles.close}></span>
+        <span
+          onClick={onClose}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className={styles.closeIcon}
+        >
+          <CloseIcon type={hover ? 'primary' : 'secondary'} />
+        </span>
         {children}
       </div>
     </ModalOverlay>,
@@ -45,7 +56,6 @@ function Modal({ children, title, onClose }) {
 
 Modal.propTypes = {
   children: PropTypes.element,
-  title: PropTypes.string,
   onClose: PropTypes.func.isRequired,
 };
 

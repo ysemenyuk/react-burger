@@ -10,33 +10,9 @@
   box-shadow: 0px 24px 32px rgb(0 0 0 / 4%), 0px 16px 24px rgb(0 0 0 / 4%), 0px 4px 8px rgb(0 0 0 / 4%), 0px 0px 1px rgb(0 0 0 / 4%);
 }
 
-.close {
+.closeIcon {
   position: absolute;
   right: 40px;
   top: 60px;
-  width: 18px;
-  height: 18px;
-  opacity: 0.5;
   cursor: pointer;
-}
-
-.close:hover {
-  opacity: 1;
-}
-
-.close:before, .close:after {
-  position: absolute;
-  left: 8px;
-  content: ' ';
-  height: 18px;
-  width: 2px;
-  background-color: rgb(255, 255, 255);
-}
-
-.close:before {
-  transform: rotate(45deg);
-}
-
-.close:after {
-  transform: rotate(-45deg);
 }
