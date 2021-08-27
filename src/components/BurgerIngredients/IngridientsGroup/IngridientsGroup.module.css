@@ -1,4 +1,4 @@
-.itemsGroupBox {
+.ingridientsGroup {
   display: flex;
   flex-wrap: wrap;
 }
@@ -10,13 +10,14 @@
   position: relative;
   max-width: 272px;
   height: 208px;
+  cursor: pointer;
   /* box-sizing: border-box;
   border: 1px solid #fff; */
 }
 
 .itemCard img {
-  margin: 0 16px;
-  margin-bottom: 8px;
+  height: 120px;
+  width: 240px;
 }
 
 .itemCard .price {
@@ -24,7 +25,7 @@
   align-items: center;
 }
 
-.itemCard .price svg{
+.itemCard .price svg {
   margin-left: 8px;
 }
 

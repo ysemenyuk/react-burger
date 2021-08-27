@@ -1,0 +1,34 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container img {
+  height: 240px;
+  width: 520px;
+  /* margin: 0 16px; */
+  margin-bottom: 16px;
+}
+
+.title {
+  align-self: start;
+}
+
+.props {
+  display: flex;
+  width: 520px;
+  justify-content: space-between;
+}
+
+.props li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.props li span {
+  margin-top: 8px;
+}
