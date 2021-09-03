@@ -46,7 +46,7 @@ function BurgerConstructor(props) {
         />
       </div>
 
-      <ul className={cn(styles.itemsBox, 'mb-4')}>
+      <ul className={cn(styles.itemsBox)}>
         {props.data.map((item, id) => (
           <li key={id} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-2')}>
             <DragIcon type='primary' />

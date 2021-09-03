@@ -12,7 +12,7 @@ function HeaderLink({ children, href, active, ...props }) {
 
   const type = !hover && !active ? 'secondary' : 'primary';
 
-  const linkClass = cn(styles.link, 'm-4', 'text_type_main-default', {
+  const linkClass = cn(styles.link, 'm-4', {
     text_color_inactive: !hover && !active,
   });
 

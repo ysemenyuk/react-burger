@@ -2,21 +2,23 @@
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 300;
-  src: url("./fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  src: url('./fonts/JetBrainsMono-Regular.woff2') format('woff2');
 }
 
 @font-face {
   font-family: 'JetBrains Mono';
   font-style: normal;
   font-weight: 700;
-  src: url("./fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  src: url('./fonts/JetBrainsMono-Bold.woff2') format('woff2');
 }
 
 body {
-  font-size: 16px;
-  line-height: 24px;
   font-family: JetBrains Mono;
-  font-style: normal;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -30,14 +32,14 @@ ul {
   padding: 0;
 }
 
-::-webkit-scrollbar { 
+::-webkit-scrollbar {
   /* 1 - скроллбар */
   width: 8px;
-  background-color: #2F2F37;
+  background-color: #2f2f37;
 }
 
-::-webkit-scrollbar-thumb { 
+::-webkit-scrollbar-thumb {
   /* 5 - ползунок */
   height: 50%;
-  background-color: #8585AD;
+  background-color: #8585ad;
 }

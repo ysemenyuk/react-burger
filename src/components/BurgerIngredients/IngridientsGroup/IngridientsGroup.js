@@ -7,10 +7,10 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import styles from './IngridientsGroup.module.css';
 import ingridientPropTypes from '../../../types/ingridientPropTypes.js';
 
-function IngridientsGroup({ ingridients, handleOpenModal }) {
+function IngridientsGroup({ items, handleOpenModal }) {
   return (
     <ul className={cn(styles.ingridientsGroup, 'mb-10')}>
-      {ingridients.map((item) => (
+      {items.map((item) => (
         <li
           key={item._id}
           className={cn(styles.itemCard, 'm-4', 'mr-2')}
@@ -30,8 +30,8 @@ function IngridientsGroup({ ingridients, handleOpenModal }) {
 }
 
 IngridientsGroup.propTypes = {
-  ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-  handleOpenModal: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(ingridientPropTypes).isRequired,
+  handleOpenModal: PropTypes.func,
 };
 
 export default IngridientsGroup;

@@ -8,6 +8,7 @@ import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
 import normaApi from '../../api/normaApi.js';
+// import data from '../../utils/data.js';
 
 function App() {
   const [state, setState] = React.useState({
@@ -15,6 +16,10 @@ function App() {
     hasError: false,
     ingridients: [],
   });
+
+  // React.useEffect(() => {
+  //   setState((state) => ({ ...state, ingridients: data, isLoading: false }));
+  // }, []);
 
   React.useEffect(() => {
     function getIngredients() {
