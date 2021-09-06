@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,34 +8,9 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
 import styles from './BurgerIngredients.module.css';
-import ingridientPropTypes from '../../types/ingridientPropTypes.js';
-
-function useScroll(containerRef, targetsRefs, callback) {
-  React.useEffect(() => {
-    const container = containerRef.current;
-    const targets = Object.values(targetsRefs.current);
-
-    const options = {
-      root: container,
-      rootMargin: '0px 0px -80% 0px',
-      threshold: 0.5,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          callback(entry);
-        }
-      });
-    }, options);
-
-    targets.forEach((el) => observer.observe(el));
-
-    return () => {
-      targets.forEach((el) => observer.unobserve(el));
-    };
-  }, [containerRef, targetsRefs, callback]);
-}
+// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+import { OrderContext } from '../../context/order.context';
+import { useScroll } from '../../hooks/useScroll';
 
 const ingridientsGroups = [
   { type: 'bun', title: 'Булки' },
@@ -43,7 +18,9 @@ const ingridientsGroups = [
   { type: 'main', title: 'Начинки' },
 ];
 
-function BurgerIngredients({ ingridients }) {
+function BurgerIngredients() {
+  const { dispatch, ingridients } = React.useContext(OrderContext);
+
   const ingridientsByGroups = React.useMemo(
     () =>
       ingridients.reduce((acc, ingridient) => {
@@ -65,13 +42,14 @@ function BurgerIngredients({ ingridients }) {
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
   const handleOpenModal = (item) => () => {
+    dispatch({ type: 'ADD_ITEM', payload: item });
     setItem(item);
     setVisible(true);
   };
 
   const handleCloseModal = () => {
-    setItem(null);
     setVisible(false);
+    setItem(null);
   };
 
   const handleTabClick = (tab) => {
@@ -128,8 +106,8 @@ function BurgerIngredients({ ingridients }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
+// };
 
 export default BurgerIngredients;

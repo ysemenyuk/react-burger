@@ -7,9 +7,17 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-import { OrderContext } from '../../sevices/orderContext';
-import normaApi from '../../sevices/normaApi.js';
+import { OrderContext } from '../../context/order.context';
+import normaApi from '../../sevices/norma.api.js';
+import { orderReducer } from '../../redux/reducers/order.reducer';
 // import data from '../../utils/data.js';
+
+const orderInitialState = {
+  bun: null,
+  orderItems: [],
+  totalPrice: 0,
+  orderNumber: null,
+};
 
 function App() {
   const [state, setState] = React.useState({
@@ -37,8 +45,7 @@ function App() {
     getIngredients();
   }, []);
 
-  const orderItems = state.ingridients.filter((i) => i.price < 2000 && i.type !== 'bun');
-  const fixedItem = state.ingridients[0];
+  const [orderState, dispatch] = React.useReducer(orderReducer, orderInitialState);
 
   return (
     <main className={styles.wrapper}>
@@ -48,9 +55,11 @@ function App() {
           {state.isLoading && 'Загрузка...'}
           {state.hasError && 'Произошла ошибка'}
           {!state.isLoading && !state.hasError && state.ingridients.length && (
-            <OrderContext.Provider value={{ orderItems, fixedItem }}>
-              <BurgerIngredients ingridients={state.ingridients} />
-              <BurgerConstructor orderItems={orderItems} fixedItem={fixedItem} />
+            <OrderContext.Provider
+              value={{ ingridients: state.ingridients, dispatch, orderState }}
+            >
+              <BurgerIngredients />
+              <BurgerConstructor />
             </OrderContext.Provider>
           )}
         </div>

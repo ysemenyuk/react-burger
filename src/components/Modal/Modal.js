@@ -10,7 +10,7 @@ import styles from './Modal.module.css';
 
 const modalRoot = document.getElementById('modals');
 
-function Modal({ children, title, onClose }) {
+function Modal({ children, onClose }) {
   const [hover, setHover] = React.useState(false);
 
   const handleMouseEnter = () => setHover(true);
