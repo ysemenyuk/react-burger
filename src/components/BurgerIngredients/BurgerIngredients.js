@@ -1,14 +1,16 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsGroup from './IngridientsGroup/IngridientsGroup';
+import IngridientsGroupItems from './IngridientsGroup/IngridientsGroup';
 import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
 import styles from './BurgerIngredients.module.css';
-import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+import { OrderContext } from '../../context/order.context';
+import { useScroll } from '../../hooks/useScroll';
 
 const ingridientsGroups = [
   { type: 'bun', title: 'Булки' },
@@ -16,7 +18,9 @@ const ingridientsGroups = [
   { type: 'main', title: 'Начинки' },
 ];
 
-function BurgerIngredients({ ingridients }) {
+function BurgerIngredients() {
+  const { dispatch, ingridients } = React.useContext(OrderContext);
+
   const ingridientsByGroups = React.useMemo(
     () =>
       ingridients.reduce((acc, ingridient) => {
@@ -29,50 +33,38 @@ function BurgerIngredients({ ingridients }) {
 
   const [visible, setVisible] = React.useState(false);
   const [item, setItem] = React.useState(null);
+
   const [currentTab, setCurrentTab] = React.useState('bun');
 
-  const setCurrent = (tab) => {
-    setCurrentTab(tab);
-    const target = document.getElementById(tab);
-    const rootElement = document.getElementById('ingridientsList');
-    if (target && target.parentNode) {
-      rootElement.scrollTo({
-        top: target.offsetTop - rootElement.offsetTop,
-        behavior: 'smooth',
-      });
-    }
-  };
+  const containerRef = React.useRef(null);
+  const targetsRefs = React.useRef({});
+
+  useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
   const handleOpenModal = (item) => () => {
+    dispatch({ type: 'ADD_ITEM', payload: item });
     setItem(item);
     setVisible(true);
   };
 
   const handleCloseModal = () => {
     setVisible(false);
+    setItem(null);
   };
 
-  React.useEffect(() => {
-    const rootElement = document.getElementById('ingridientsList');
-    const options = {
-      root: rootElement,
-      rootMargin: '0px 0px -80% 0px',
-      threshold: 0.5,
-    };
+  const handleTabClick = (tab) => {
+    setCurrentTab(tab);
 
-    const observer = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setCurrentTab(entry.target.id);
-        }
+    const target = targetsRefs.current[tab];
+    const container = containerRef.current;
+
+    if (target && container) {
+      container.scrollTo({
+        top: target.offsetTop - container.offsetTop,
+        behavior: 'smooth',
       });
-    }, options);
-
-    const elements = document.querySelectorAll('.group');
-    elements.forEach((i) => {
-      observer.observe(i);
-    });
-  });
+    }
+  };
 
   return (
     <section className={cn(styles.section, 'p-5')}>
@@ -81,27 +73,30 @@ function BurgerIngredients({ ingridients }) {
           <IngredientDetails item={item} />
         </Modal>
       )}
-
       <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>Соберите бургер</h1>
-
       <ul className={cn(styles.tabs, 'mb-10')}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
-            <Tab value={type} active={currentTab === type} onClick={setCurrent}>
+            <Tab value={type} active={currentTab === type} onClick={handleTabClick}>
               {title}
             </Tab>
           </li>
         ))}
       </ul>
-
-      <ul id={'ingridientsList'} className={styles.ingridientsList}>
+      <ul ref={containerRef} className={cn(styles.ingridientsList)}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
-            <h2 id={type} className={cn('group', 'text', 'text_type_main-medium', 'mb-2')}>
+            <h2
+              ref={(el) => (targetsRefs.current[type] = el)}
+              data-type={type}
+              className={cn('text', 'text_type_main-medium', 'mb-2')}
+            >
               {title}
             </h2>
-            <IngridientsGroup
-              ingridients={ingridientsByGroups[type]}
+            <IngridientsGroupItems
+              type={type}
+              title={title}
+              items={ingridientsByGroups[type]}
               handleOpenModal={handleOpenModal}
             />
           </li>
@@ -111,8 +106,8 @@ function BurgerIngredients({ ingridients }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-};
+// BurgerIngredients.propTypes = {
+//   ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
+// };
 
 export default BurgerIngredients;

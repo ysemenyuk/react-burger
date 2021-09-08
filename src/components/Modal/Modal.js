@@ -10,7 +10,7 @@ import styles from './Modal.module.css';
 
 const modalRoot = document.getElementById('modals');
 
-function Modal({ children, title, onClose }) {
+function Modal({ children, onClose }) {
   const [hover, setHover] = React.useState(false);
 
   const handleMouseEnter = () => setHover(true);
@@ -26,12 +26,12 @@ function Modal({ children, title, onClose }) {
     };
 
     document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = '8px';
+    // document.body.style.paddingRight = '8px';
     document.addEventListener('keydown', onKeyDown);
 
     return () => {
       document.body.style.overflow = 'unset';
-      document.body.style.paddingRight = '0px';
+      // document.body.style.paddingRight = '0px';
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [onClose]);

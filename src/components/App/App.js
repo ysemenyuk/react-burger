@@ -7,7 +7,17 @@ import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-import normaApi from '../../api/normaApi.js';
+import { OrderContext } from '../../context/order.context';
+import normaApi from '../../sevices/norma.api.js';
+import { orderReducer } from '../../redux/reducers/order.reducer';
+// import data from '../../utils/data.js';
+
+const orderInitialState = {
+  bun: null,
+  orderItems: [],
+  totalPrice: 0,
+  orderNumber: null,
+};
 
 function App() {
   const [state, setState] = React.useState({
@@ -15,6 +25,10 @@ function App() {
     hasError: false,
     ingridients: [],
   });
+
+  // React.useEffect(() => {
+  //   setState((state) => ({ ...state, ingridients: data, isLoading: false }));
+  // }, []);
 
   React.useEffect(() => {
     function getIngredients() {
@@ -31,22 +45,26 @@ function App() {
     getIngredients();
   }, []);
 
+  const [orderState, dispatch] = React.useReducer(orderReducer, orderInitialState);
+
   return (
-    <>
+    <main className={styles.wrapper}>
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
           {state.isLoading && 'Загрузка...'}
           {state.hasError && 'Произошла ошибка'}
           {!state.isLoading && !state.hasError && state.ingridients.length && (
-            <>
-              <BurgerIngredients ingridients={state.ingridients} />
-              <BurgerConstructor data={state.ingridients} />
-            </>
+            <OrderContext.Provider
+              value={{ ingridients: state.ingridients, dispatch, orderState }}
+            >
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </OrderContext.Provider>
           )}
         </div>
       </main>
-    </>
+    </main>
   );
 }
 

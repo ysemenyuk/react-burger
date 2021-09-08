@@ -1,6 +1,8 @@
 .ingridientsGroup {
   display: flex;
   flex-wrap: wrap;
+  /* box-sizing: border-box; */
+  /* border: 1px solid #fff; */
 }
 
 .itemCard {
@@ -13,6 +15,11 @@
   cursor: pointer;
   /* box-sizing: border-box;
   border: 1px solid #fff; */
+}
+
+.itemCard:hover {
+  /* box-sizing: border-box; */
+  outline: 1px solid #fff;
 }
 
 .itemCard img {
