@@ -29,7 +29,7 @@ const ingridientsSucces = (data) => ({
 
 const ingridientsError = (err) => ({
   type: INGRIDIENTS_ERROR,
-  payload: err.message,
+  error: err.message,
 });
 
 export const setCurrentItem = (item) => ({

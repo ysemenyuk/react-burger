@@ -17,7 +17,10 @@ export const orderItemsReducer = (state = { bun: null, toppings: [] }, action) =
       return { ...state, toppings: [...state.toppings, action.item] };
     }
     case DELETE_TOPPING: {
-      return [];
+      return {
+        ...state,
+        toppings: [...state.toppings.filter((el, i) => i !== action.index)],
+      };
     }
     default:
       return state;

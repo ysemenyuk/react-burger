@@ -1,5 +1,5 @@
 import React from 'react';
-// import cn from 'classnames';
+// import cs from 'classnames';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 

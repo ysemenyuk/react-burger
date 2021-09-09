@@ -6,15 +6,15 @@ import {
   CLOSE_ORDER,
   ADD_BUN,
   ADD_TOPPING,
+  DELETE_TOPPING,
 } from './types';
 
 export const createOrder = (itemsIds) => async (dispatch) => {
   dispatch(orderRequest());
 
   try {
-    const { data } = await normaApi.createOrder(itemsIds);
-    console.log('order', data);
-    dispatch(orderSucces(data));
+    const resp = await normaApi.createOrder(itemsIds);
+    dispatch(orderSucces(resp.order));
   } catch (error) {
     dispatch(orderError(error));
   }
@@ -31,7 +31,7 @@ const orderSucces = (data) => ({
 
 const orderError = (err) => ({
   type: ORDER_ERROR,
-  payload: err.message,
+  error: err.message,
 });
 
 export const closeOrderDetails = () => ({
@@ -46,4 +46,9 @@ export const addBun = (item) => ({
 export const addTopping = (item) => ({
   type: ADD_TOPPING,
   item: item,
+});
+
+export const deleteTopping = (index) => ({
+  type: DELETE_TOPPING,
+  index: index,
 });

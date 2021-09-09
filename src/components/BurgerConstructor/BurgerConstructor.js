@@ -19,6 +19,7 @@ import {
   closeOrderDetails,
   addBun,
   addTopping,
+  deleteTopping,
 } from '../../services/actions/constructorActions';
 
 function BurgerConstructor() {
@@ -32,7 +33,10 @@ function BurgerConstructor() {
   }, [toppings, bun]);
 
   const orderTotalPrice = React.useMemo(() => {
-    return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
+    return [bun, bun, ...toppings].reduce(
+      (acc, item) => (item ? acc + item.price : acc),
+      0
+    );
   }, [toppings, bun]);
 
   const [{ isHover }, dropTarget] = useDrop({
@@ -54,68 +58,78 @@ function BurgerConstructor() {
   }
 
   function handleDeleteItem(index) {
-    dispatch({ type: 'DELETE_ITEM', payload: index });
+    dispatch(deleteTopping(index));
   }
 
   return (
     <section className={cn(styles.section, 'p-5', 'pt-25')}>
       {visible && (
-        <Modal onClose={handleCloseModal}>
+        <Modal loading={loading} onClose={handleCloseModal}>
           <OrderDetails loading={loading} order={currentOrder} />
         </Modal>
       )}
 
-      {(!bun || !toppings.length) && <p>Выбирете ингридиенты</p>}
+      {!bun && !toppings.length && <p>Перетащите ингридиенты в поле ниже</p>}
+      {!bun && !!toppings.length && <p>Добавьте булку</p>}
+      {bun && !toppings.length && <p>Добавьте ингридиенты</p>}
+      {bun && !!toppings.length && <p>Можно оформлять</p>}
 
-      {bun && (
-        <div className={cn(styles.item, 'm-4')}>
-          <ConstructorElement
-            type={'top'}
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
-
-      <ul ref={dropTarget} className={cn(styles.itemsBox, `${isHover && styles.itemsBoxHover}`)}>
-        {toppings.map((item, index) => (
-          <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
-            <DragIcon type='primary' />
+      <div
+        ref={dropTarget}
+        className={cn(
+          styles.dropTarget,
+          `${isHover && styles.dropTargetHover}`,
+          `${!bun && styles.dropTargetHeight}`
+        )}
+      >
+        {bun && (
+          <div className={cn(styles.bun, 'm-4')}>
             <ConstructorElement
-              text={item.name}
-              price={item.price}
-              thumbnail={item.image}
-              handleClose={() => handleDeleteItem(index)}
+              type={'top'}
+              isLocked={true}
+              text={`${bun.name} (верх)`}
+              price={bun.price}
+              thumbnail={bun.image}
             />
-          </li>
-        ))}
-      </ul>
+          </div>
+        )}
 
-      {bun && (
-        <div className={cn(styles.item, 'm-4')}>
-          <ConstructorElement
-            type={'bottom'}
-            isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
+        <ul className={cn(styles.itemsBox)}>
+          {toppings.map((item, index) => (
+            <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
+              <DragIcon type='primary' />
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+                handleClose={() => handleDeleteItem(index)}
+              />
+            </li>
+          ))}
+        </ul>
 
-      {(bun || !!toppings.length) && (
-        <div className={cn(styles.total, 'm-4', 'mt-10', 'text_type_digits-medium')}>
-          <span className={'mr-10'}>
-            {orderTotalPrice}
-            <CurrencyIcon type='primary' />
-          </span>
-          <Button disabled={!bun} onClick={handleCreateOrder} type='primary' size='large'>
-            'Оформить заказ'
-          </Button>
-        </div>
-      )}
+        {bun && (
+          <div className={cn(styles.bun, 'm-4')}>
+            <ConstructorElement
+              type={'bottom'}
+              isLocked={true}
+              text={`${bun.name} (низ)`}
+              price={bun.price}
+              thumbnail={bun.image}
+            />
+          </div>
+        )}
+      </div>
+
+      <div className={cn(styles.total, 'm-4', 'mt-8', 'text_type_digits-medium')}>
+        <span className={'mr-10'}>
+          {orderTotalPrice}
+          <CurrencyIcon type='primary' />
+        </span>
+        <Button disabled={!bun} onClick={handleCreateOrder} type='primary' size='large'>
+          Оформить заказ
+        </Button>
+      </div>
     </section>
   );
 }
