@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientCard from './IngridientsGroup/IngridientCard';
+import IngridientCard from './IngridientCard/IngridientCard';
 import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
@@ -30,7 +30,7 @@ function BurgerIngredients({ ingridients }) {
 
   const counts = React.useMemo(
     () =>
-      [bun, bun, ...toppings].reduce((acc, item) => {
+      [{ ...bun }, { ...bun }, ...toppings].reduce((acc, item) => {
         !acc[item._id] ? (acc[item._id] = 1) : (acc[item._id] += 1);
         return acc;
       }, {}),

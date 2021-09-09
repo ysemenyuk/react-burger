@@ -9,7 +9,6 @@ import {
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './IngridientCard.module.css';
-// import { useSelector } from 'react-redux';
 
 function IngridientCard({ item, count, handleOpenModal }) {
   const [{ opacity }, drag] = useDrag({
@@ -19,9 +18,6 @@ function IngridientCard({ item, count, handleOpenModal }) {
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
   });
-
-  // const orderItems = useSelector((state) => state.orderItems);
-  // console.log(orderItems);
 
   return (
     <li

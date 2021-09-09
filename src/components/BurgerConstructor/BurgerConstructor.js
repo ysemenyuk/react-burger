@@ -6,7 +6,7 @@ import { useDrop } from 'react-dnd';
 import {
   Button,
   CurrencyIcon,
-  DragIcon,
+  // DragIcon,
   ConstructorElement,
 } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -21,6 +21,7 @@ import {
   addTopping,
   deleteTopping,
 } from '../../services/actions/constructorActions';
+import ToppingCard from './ToppingCard/ToppingCard';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -96,15 +97,21 @@ function BurgerConstructor() {
 
         <ul className={cn(styles.itemsBox)}>
           {toppings.map((item, index) => (
-            <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
-              <DragIcon type='primary' />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => handleDeleteItem(index)}
-              />
-            </li>
+            <ToppingCard
+              key={index}
+              item={item}
+              index={index}
+              handleDeleteItem={handleDeleteItem}
+            />
+            // <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
+            //   <DragIcon type='primary' />
+            //   <ConstructorElement
+            //     text={item.name}
+            //     price={item.price}
+            //     thumbnail={item.image}
+            //     handleClose={() => handleDeleteItem(index)}
+            //   />
+            // </li>
           ))}
         </ul>
 
