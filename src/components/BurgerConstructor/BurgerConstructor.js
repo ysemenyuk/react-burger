@@ -1,6 +1,7 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
 
 import {
   Button,
@@ -13,48 +14,43 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 
 import styles from './BurgerConstructor.module.css';
-// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+import {
+  createOrder,
+  closeOrderDetails,
+  addBun,
+  addTopping,
+} from '../../services/actions/constructorActions';
 
-import normaApi from '../../sevices/norma.api.js';
-
-import { OrderContext } from '../../context/order.context';
-
-function BurgerConstructor(props) {
-  // const { orderItems, fixedItem } = props;
-  const { dispatch, orderState } = React.useContext(OrderContext);
-  const { bun, orderItems } = orderState;
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const { bun, toppings } = useSelector((state) => state.orderItems);
+  const { visible, loading, currentOrder } = useSelector((state) => state.orderDetails);
 
   const orderItemsIds = React.useMemo(() => {
-    const itemIds = orderItems.map((item) => item._id);
+    const itemIds = toppings.map((item) => item._id);
     return [bun?._id, ...itemIds];
-  }, [orderItems, bun]);
+  }, [toppings, bun]);
 
   const orderTotalPrice = React.useMemo(() => {
-    return [bun, bun, ...orderItems].reduce((acc, item) => (item ? acc + item.price : acc), 0);
-  }, [orderItems, bun]);
+    return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
+  }, [toppings, bun]);
 
-  const [visible, setVisible] = React.useState(false);
-  const [state, setState] = React.useState({
-    isLoading: false,
-    hasError: false,
-    response: null,
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: 'items',
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      item.type === 'bun' ? dispatch(addBun(item)) : dispatch(addTopping(item));
+    },
   });
 
   const handleCreateOrder = () => {
-    setState((state) => ({ ...state, hasError: false, isLoading: true }));
-    normaApi
-      .createOrder(orderItemsIds)
-      .then((res) => {
-        setState((state) => ({ ...state, response: res, isLoading: false }));
-        setVisible(true);
-      })
-      .catch((e) => {
-        setState((state) => ({ ...state, hasError: true, isLoading: false }));
-      });
+    dispatch(createOrder(orderItemsIds));
   };
 
   function handleCloseModal() {
-    setVisible(false);
+    dispatch(closeOrderDetails());
   }
 
   function handleDeleteItem(index) {
@@ -65,9 +61,11 @@ function BurgerConstructor(props) {
     <section className={cn(styles.section, 'p-5', 'pt-25')}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails orderNumber={state.response.order.number} />
+          <OrderDetails loading={loading} order={currentOrder} />
         </Modal>
       )}
+
+      {(!bun || !toppings.length) && <p>Выбирете ингридиенты</p>}
 
       {bun && (
         <div className={cn(styles.item, 'm-4')}>
@@ -81,21 +79,19 @@ function BurgerConstructor(props) {
         </div>
       )}
 
-      {!!orderItems.length && (
-        <ul className={cn(styles.itemsBox)}>
-          {orderItems.map((item, index) => (
-            <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
-              <DragIcon type='primary' />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => handleDeleteItem(index)}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul ref={dropTarget} className={cn(styles.itemsBox, `${isHover && styles.itemsBoxHover}`)}>
+        {toppings.map((item, index) => (
+          <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
+            <DragIcon type='primary' />
+            <ConstructorElement
+              text={item.name}
+              price={item.price}
+              thumbnail={item.image}
+              handleClose={() => handleDeleteItem(index)}
+            />
+          </li>
+        ))}
+      </ul>
 
       {bun && (
         <div className={cn(styles.item, 'm-4')}>
@@ -109,31 +105,19 @@ function BurgerConstructor(props) {
         </div>
       )}
 
-      {bun || !!orderItems.length ? (
+      {(bun || !!toppings.length) && (
         <div className={cn(styles.total, 'm-4', 'mt-10', 'text_type_digits-medium')}>
           <span className={'mr-10'}>
             {orderTotalPrice}
             <CurrencyIcon type='primary' />
           </span>
-          <Button
-            disabled={state.isLoading || !bun}
-            onClick={handleCreateOrder}
-            type='primary'
-            size='large'
-          >
-            {state.isLoading ? 'Оформляем...' : 'Оформить заказ'}
+          <Button disabled={!bun} onClick={handleCreateOrder} type='primary' size='large'>
+            'Оформить заказ'
           </Button>
         </div>
-      ) : (
-        <p>Выбирете ингридиенты</p>
       )}
     </section>
   );
 }
-
-// BurgerConstructor.propTypes = {
-//   orderItems: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-//   fixedItem: ingridientPropTypes.isRequired,
-// };
 
 export default BurgerConstructor;

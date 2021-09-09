@@ -6,8 +6,15 @@
 
 .itemsBox {
   max-height: 368px;
-  min-height: 80px;
+  min-height: 160px;
   overflow: auto;
+  box-sizing: border-box;
+  border: 1px solid #2f2f37;
+  border-radius: 5px;
+}
+
+.itemsBoxHover {
+  border: 1px solid #1b1b7a;
 }
 
 .item {

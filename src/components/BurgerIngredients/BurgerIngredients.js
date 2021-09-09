@@ -1,6 +1,7 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientsGroupItems from './IngridientsGroup/IngridientsGroup';
@@ -8,8 +9,9 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
 import styles from './BurgerIngredients.module.css';
-// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
-import { OrderContext } from '../../context/order.context';
+import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+
+import { setCurrentItem, resetCurrentItem } from '../../services/actions/ingridientsActions';
 import { useScroll } from '../../hooks/useScroll';
 
 const ingridientsGroups = [
@@ -18,8 +20,9 @@ const ingridientsGroups = [
   { type: 'main', title: 'Начинки' },
 ];
 
-function BurgerIngredients() {
-  const { dispatch, ingridients } = React.useContext(OrderContext);
+function BurgerIngredients({ ingridients }) {
+  const dispatch = useDispatch();
+  const { visible, currentItem } = useSelector((state) => state.ingridientDetails);
 
   const ingridientsByGroups = React.useMemo(
     () =>
@@ -31,26 +34,7 @@ function BurgerIngredients() {
     [ingridients]
   );
 
-  const [visible, setVisible] = React.useState(false);
-  const [item, setItem] = React.useState(null);
-
   const [currentTab, setCurrentTab] = React.useState('bun');
-
-  const containerRef = React.useRef(null);
-  const targetsRefs = React.useRef({});
-
-  useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
-
-  const handleOpenModal = (item) => () => {
-    dispatch({ type: 'ADD_ITEM', payload: item });
-    setItem(item);
-    setVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setVisible(false);
-    setItem(null);
-  };
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
@@ -66,14 +50,29 @@ function BurgerIngredients() {
     }
   };
 
+  const containerRef = React.useRef(null);
+  const targetsRefs = React.useRef({});
+
+  useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
+
+  const handleOpenModal = (item) => () => {
+    dispatch(setCurrentItem(item));
+  };
+
+  const handleCloseModal = () => {
+    dispatch(resetCurrentItem());
+  };
+
   return (
     <section className={cn(styles.section, 'p-5')}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          <IngredientDetails item={item} />
+          <IngredientDetails item={currentItem} />
         </Modal>
       )}
+
       <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>Соберите бургер</h1>
+
       <ul className={cn(styles.tabs, 'mb-10')}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
@@ -83,6 +82,7 @@ function BurgerIngredients() {
           </li>
         ))}
       </ul>
+
       <ul ref={containerRef} className={cn(styles.ingridientsList)}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
@@ -106,8 +106,8 @@ function BurgerIngredients() {
   );
 }
 
-// BurgerIngredients.propTypes = {
-//   ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-// };
+BurgerIngredients.propTypes = {
+  ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
+};
 
 export default BurgerIngredients;
