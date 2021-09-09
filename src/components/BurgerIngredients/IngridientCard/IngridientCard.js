@@ -1,21 +1,16 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { useDrag } from 'react-dnd';
-
-import {
-  Counter,
-  CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './IngridientCard.module.css';
+import { INGRIDIENTS } from '../../../utils/constants';
 
 function IngridientCard({ item, count, handleOpenModal }) {
   const [{ opacity }, drag] = useDrag({
-    type: 'items',
+    type: INGRIDIENTS,
     item: { ...item },
     collect: (monitor) => ({
-      opacity: monitor.isDragging() ? 0.5 : 1,
+      opacity: monitor.isDragging() ? 0.2 : 1,
     }),
   });
 
@@ -36,5 +31,15 @@ function IngridientCard({ item, count, handleOpenModal }) {
     </li>
   );
 }
+
+IngridientCard.propTypes = {
+  item: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.string.isRequired,
+  }),
+  handleOpenModal: PropTypes.func,
+  count: PropTypes.number,
+};
 
 export default IngridientCard;

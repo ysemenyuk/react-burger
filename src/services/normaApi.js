@@ -1,8 +1,9 @@
 import checkResponse from '../utils/checkResponse.js';
-import { NORMA_BASE_URL } from '../utils/constants.js';
+const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
 
 const normaApi = {
-  fetchIngredients: async () => await fetch(`${NORMA_BASE_URL}/ingredients`).then(checkResponse),
+  fetchIngredients: async () =>
+    await fetch(`${NORMA_BASE_URL}/ingredients`).then(checkResponse),
   createOrder: async (data) =>
     await fetch(`${NORMA_BASE_URL}/orders`, {
       method: 'POST',

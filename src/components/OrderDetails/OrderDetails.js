@@ -16,9 +16,7 @@ function OrderDetails({ loading, order }) {
           <span className={cn(styles.num, 'text_type_digits-large', 'mt-10')}>
             {order.number}
           </span>
-          <span className={cn('text_type_main-medium', 'mt-8')}>
-            идентификатор заказа
-          </span>
+          <span className={cn('text_type_main-medium', 'mt-8')}>идентификатор заказа</span>
           <img className={cn('mt-15', 'mb-15')} src={done} alt={'done'} />
           <span className={cn('mb-2')}>Ваш заказ начали готовить</span>
           <span className={cn('mb-10', 'text_color_inactive')}>
@@ -30,8 +28,11 @@ function OrderDetails({ loading, order }) {
   );
 }
 
-// OrderDetails.propTypes = {
-//   orderNumber: PropTypes.number.isRequired,
-// };
+OrderDetails.propTypes = {
+  loading: PropTypes.bool,
+  order: PropTypes.shape({
+    number: PropTypes.number,
+  }),
+};
 
 export default OrderDetails;

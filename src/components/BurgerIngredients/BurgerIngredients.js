@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,35 +9,30 @@ import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
 import styles from './BurgerIngredients.module.css';
-import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+import ingridientPropTypes from '../../utils/ingridientPropTypes';
 
-import {
-  setCurrentItem,
-  resetCurrentItem,
-} from '../../services/actions/ingridientsActions';
+import { setCurrentItem, resetCurrentItem } from '../../services/actions/ingridientsActions';
 import { useScroll } from '../../hooks/useScroll';
+import { ItemTypes } from '../../utils/constants';
 
 const ingridientsGroups = [
-  { type: 'bun', title: 'Булки' },
-  { type: 'sauce', title: 'Соусы' },
-  { type: 'main', title: 'Начинки' },
+  { type: ItemTypes.BUN, title: 'Булки' },
+  { type: ItemTypes.SAUCE, title: 'Соусы' },
+  { type: ItemTypes.MAIN, title: 'Начинки' },
 ];
 
 function BurgerIngredients({ ingridients }) {
   const dispatch = useDispatch();
   const { visible, currentItem } = useSelector((state) => state.ingridientDetails);
   const { bun, toppings } = useSelector((state) => state.orderItems);
+  const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
 
-  const counts = React.useMemo(
-    () =>
-      [{ ...bun }, { ...bun }, ...toppings].reduce((acc, item) => {
-        !acc[item._id] ? (acc[item._id] = 1) : (acc[item._id] += 1);
-        return acc;
-      }, {}),
-    [bun, toppings]
-  );
+  const containerRef = useRef(null);
+  const targetsRefs = useRef({});
 
-  const ingridientsByGroups = React.useMemo(
+  useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
+
+  const ingridientsByGroups = useMemo(
     () =>
       ingridients.reduce((acc, item) => {
         if (!acc[item.type]) acc[item.type] = [];
@@ -47,7 +42,14 @@ function BurgerIngredients({ ingridients }) {
     [ingridients]
   );
 
-  const [currentTab, setCurrentTab] = React.useState('bun');
+  const counts = useMemo(
+    () =>
+      [bun, bun, ...toppings].reduce((acc, item) => {
+        if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
+        return acc;
+      }, {}),
+    [bun, toppings]
+  );
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
@@ -62,13 +64,6 @@ function BurgerIngredients({ ingridients }) {
       });
     }
   };
-
-  const containerRef = React.useRef(null);
-  const targetsRefs = React.useRef({});
-
-  useScroll(containerRef, targetsRefs, (entry) =>
-    setCurrentTab(entry.target.dataset.type)
-  );
 
   const handleOpenModal = (item) => () => {
     dispatch(setCurrentItem(item));
@@ -86,9 +81,7 @@ function BurgerIngredients({ ingridients }) {
         </Modal>
       )}
 
-      <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>
-        Соберите бургер
-      </h1>
+      <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>Соберите бургер</h1>
 
       <ul className={cn(styles.tabs, 'mb-10')}>
         {ingridientsGroups.map(({ type, title }) => (

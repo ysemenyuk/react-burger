@@ -6,6 +6,7 @@ import {
   ADD_BUN,
   ADD_TOPPING,
   DELETE_TOPPING,
+  UPDATE_TOPPINGS_LIST,
 } from '../actions/types';
 
 export const orderItemsReducer = (state = { bun: null, toppings: [] }, action) => {
@@ -20,6 +21,12 @@ export const orderItemsReducer = (state = { bun: null, toppings: [] }, action) =
       return {
         ...state,
         toppings: [...state.toppings.filter((el, i) => i !== action.index)],
+      };
+    }
+    case UPDATE_TOPPINGS_LIST: {
+      return {
+        ...state,
+        toppings: [...action.list],
       };
     }
     default:

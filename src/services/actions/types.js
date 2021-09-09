@@ -11,6 +11,7 @@ export const RESET_CURRENT_ITEM = 'RESET_CURRENT_ITEM';
 export const ADD_BUN = 'ADD_BUN';
 export const ADD_TOPPING = 'ADD_TOPPING';
 export const DELETE_TOPPING = 'DELETE_TOPPING';
+export const UPDATE_TOPPINGS_LIST = 'UPDATE_TOPPINGS_LIST';
 
 //OrderDetails reducer
 export const ORDER_REQUEST = 'ORDER_REQUEST';

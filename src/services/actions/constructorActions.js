@@ -7,6 +7,7 @@ import {
   ADD_BUN,
   ADD_TOPPING,
   DELETE_TOPPING,
+  UPDATE_TOPPINGS_LIST,
 } from './types';
 
 export const createOrder = (itemsIds) => async (dispatch) => {
@@ -51,4 +52,9 @@ export const addTopping = (item) => ({
 export const deleteTopping = (index) => ({
   type: DELETE_TOPPING,
   index: index,
+});
+
+export const updateToppingsList = (list) => ({
+  type: UPDATE_TOPPINGS_LIST,
+  list: list,
 });

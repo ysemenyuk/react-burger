@@ -1,9 +1,8 @@
-import React from 'react';
 // import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import styles from './IngredientDetails.module.css';
-import ingridientPropTypes from '../../../types/ingridientPropTypes.js';
+import ingridientPropTypes from '../../../utils/ingridientPropTypes';
 
 function IngredientDetails({ item }) {
   return (
@@ -19,7 +18,8 @@ function IngredientDetails({ item }) {
           <span className={cn('text_type_digits-default', 'mt-4')}>{item.calories}</span>
         </li>
         <li>
-          Белки, г<span className={cn('text_type_digits-default', 'mt-4')}>{item.proteins}</span>
+          Белки, г
+          <span className={cn('text_type_digits-default', 'mt-4')}>{item.proteins}</span>
         </li>
         <li>
           Жиры, г <span className={cn('text_type_digits-default', 'mt-4')}>{item.fat}</span>

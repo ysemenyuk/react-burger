@@ -1,0 +1,7 @@
+.bun {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* box-sizing: border-box;
+  border: 1px solid #fff; */
+}

@@ -1,1 +1,8 @@
-export const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
+export const ItemTypes = {
+  BUN: 'bun',
+  SAUCE: 'sauce',
+  MAIN: 'main',
+};
+
+export const INGRIDIENTS = 'INGRIDIENTS';
+export const TOPPINGS = 'TOPPINGS';
