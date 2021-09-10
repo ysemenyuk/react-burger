@@ -1,3 +1,4 @@
+import groupByType from '../../utils/groupByType';
 import {
   INGRIDIENTS_REQUEST,
   INGRIDIENTS_SUCCESS,
@@ -6,13 +7,15 @@ import {
   RESET_CURRENT_ITEM,
 } from '../actions/types';
 
-export const ingridientsReducer = (state = { loading: true, error: null, items: [] }, action) => {
+const ingridientsInitialState = { loading: true, error: null, ingridientsByGroup: {} };
+
+export const ingridientsReducer = (state = ingridientsInitialState, action) => {
   switch (action.type) {
     case INGRIDIENTS_REQUEST: {
       return { ...state, loading: true, error: null };
     }
     case INGRIDIENTS_SUCCESS: {
-      return { loading: false, error: null, items: [...action.items] };
+      return { loading: false, error: null, ingridientsByGroup: groupByType(action.items) };
     }
     case INGRIDIENTS_ERROR: {
       return { ...state, loading: false, error: action.error };
@@ -22,13 +25,15 @@ export const ingridientsReducer = (state = { loading: true, error: null, items: 
   }
 };
 
-export const ingridientDetailsReducer = (state = { visible: false, currentItem: {} }, action) => {
+const ingridientDetailsInitialState = { visible: false, currentItem: {} };
+
+export const ingridientDetailsReducer = (state = ingridientDetailsInitialState, action) => {
   switch (action.type) {
     case SET_CURRENT_ITEM: {
       return { visible: true, currentItem: { ...action.item } };
     }
     case RESET_CURRENT_ITEM: {
-      return { visible: false, currentItem: {} };
+      return ingridientDetailsInitialState;
     }
     default:
       return state;

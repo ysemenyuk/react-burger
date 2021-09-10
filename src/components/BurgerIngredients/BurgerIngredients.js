@@ -1,6 +1,4 @@
 import { useState, useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
-import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,8 +6,8 @@ import IngridientCard from './IngridientCard/IngridientCard';
 import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
+import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
-import ingridientPropTypes from '../../utils/ingridientPropTypes';
 
 import { setCurrentItem, resetCurrentItem } from '../../services/actions/ingridientsActions';
 import { useScroll } from '../../hooks/useScroll';
@@ -21,10 +19,21 @@ const ingridientsGroups = [
   { type: ItemTypes.MAIN, title: 'Начинки' },
 ];
 
-function BurgerIngredients({ ingridients }) {
+const calculateQuantity = (orderItems) => {
+  const { bun, toppings } = orderItems;
+  return [bun, bun, ...toppings].reduce((acc, item) => {
+    if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
+    return acc;
+  }, {});
+};
+
+function BurgerIngredients() {
   const dispatch = useDispatch();
+
+  const { ingridientsByGroup } = useSelector((state) => state.ingridients);
+  const orderItems = useSelector((state) => state.orderItems);
+
   const { visible, currentItem } = useSelector((state) => state.ingridientDetails);
-  const { bun, toppings } = useSelector((state) => state.orderItems);
   const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
 
   const containerRef = useRef(null);
@@ -32,24 +41,7 @@ function BurgerIngredients({ ingridients }) {
 
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
-  const ingridientsByGroups = useMemo(
-    () =>
-      ingridients.reduce((acc, item) => {
-        if (!acc[item.type]) acc[item.type] = [];
-        acc[item.type].push(item);
-        return acc;
-      }, {}),
-    [ingridients]
-  );
-
-  const counts = useMemo(
-    () =>
-      [bun, bun, ...toppings].reduce((acc, item) => {
-        if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
-        return acc;
-      }, {}),
-    [bun, toppings]
-  );
+  const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
@@ -65,7 +57,7 @@ function BurgerIngredients({ ingridients }) {
     }
   };
 
-  const handleOpenModal = (item) => () => {
+  const handleCardClick = (item) => () => {
     dispatch(setCurrentItem(item));
   };
 
@@ -104,13 +96,13 @@ function BurgerIngredients({ ingridients }) {
               {title}
             </h2>
             <ul className={cn(styles.ingridientsGroup, 'mb-10')}>
-              {ingridientsByGroups[type].map((item) => {
+              {ingridientsByGroup[type].map((item) => {
                 return (
                   <IngridientCard
                     key={item._id}
-                    count={counts[item._id]}
+                    count={quantity[item._id]}
                     item={item}
-                    handleOpenModal={handleOpenModal}
+                    onCardClick={handleCardClick}
                   />
                 );
               })}
@@ -121,9 +113,5 @@ function BurgerIngredients({ ingridients }) {
     </section>
   );
 }
-
-BurgerIngredients.propTypes = {
-  ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-};
 
 export default BurgerIngredients;

@@ -1,12 +1,9 @@
-import { useRef } from 'react';
-import cn from 'classnames';
 import PropTypes from 'prop-types';
+import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import {
-  ConstructorElement,
-  DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
+import cn from 'classnames';
 import styles from './ToppingCard.module.css';
 
 import { TOPPINGS } from '../../../utils/constants';
@@ -64,9 +61,9 @@ ToppingCard.propTypes = {
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }),
-  index: PropTypes.number,
-  handleMoveCard: PropTypes.func,
-  handleDeleteCard: PropTypes.func,
+  index: PropTypes.number.isRequired,
+  handleMoveCard: PropTypes.func.isRequired,
+  handleDeleteCard: PropTypes.func.isRequired,
 };
 
 export default ToppingCard;

@@ -1,6 +1,7 @@
-import cn from 'classnames';
 import PropTypes from 'prop-types';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import cn from 'classnames';
 import styles from './BunCard.module.css';
 
 function BunCard({ item, top }) {

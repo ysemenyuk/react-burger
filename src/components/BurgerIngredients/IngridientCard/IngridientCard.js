@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import { useDrag } from 'react-dnd';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+
+import cn from 'classnames';
 import styles from './IngridientCard.module.css';
+
 import { INGRIDIENTS } from '../../../utils/constants';
 
-function IngridientCard({ item, count, handleOpenModal }) {
+function IngridientCard({ item, count = 0, onCardClick }) {
   const [{ opacity }, drag] = useDrag({
     type: INGRIDIENTS,
     item: { ...item },
@@ -19,7 +21,7 @@ function IngridientCard({ item, count, handleOpenModal }) {
       style={{ opacity }}
       ref={drag}
       className={cn(styles.itemCard, 'm-4', 'mr-2')}
-      onClick={handleOpenModal(item)}
+      onClick={onCardClick(item)}
     >
       <Counter count={count} size='default' />
       <img src={item.image} alt={item.name} className={cn('mr-4', 'ml-4', 'mb-2')}></img>
@@ -38,7 +40,7 @@ IngridientCard.propTypes = {
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
   }),
-  handleOpenModal: PropTypes.func,
+  onCardClick: PropTypes.func.isRequired,
   count: PropTypes.number,
 };
 

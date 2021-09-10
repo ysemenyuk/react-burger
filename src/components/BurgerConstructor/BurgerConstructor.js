@@ -1,7 +1,8 @@
 import { useCallback, useMemo } from 'react';
-import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
+
+import cn from 'classnames';
 import styles from './BurgerConstructor.module.css';
 
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -17,6 +18,7 @@ import {
   addTopping,
   updateToppingsList,
   deleteTopping,
+  clearOrderItems,
 } from '../../services/actions/constructorActions';
 
 import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
@@ -51,6 +53,11 @@ function BurgerConstructor() {
 
   const handleCloseModal = () => {
     dispatch(closeOrderDetails());
+    dispatch(clearOrderItems());
+  };
+
+  const handleClearOrderItems = () => {
+    dispatch(clearOrderItems());
   };
 
   const handleDeleteCard = (index) => {
@@ -76,10 +83,19 @@ function BurgerConstructor() {
         </Modal>
       )}
 
-      {!bun && !toppings.length && <p>Перетащите ингридиенты в поле ниже</p>}
-      {!bun && !!toppings.length && <p>Добавьте булку</p>}
-      {bun && !toppings.length && <p>Добавьте ингридиенты</p>}
-      {bun && !!toppings.length && <p>Можно оформлять</p>}
+      <div className={cn(styles.header)}>
+        <span>
+          {!bun && !toppings.length && <p>Перетащите ингридиенты в поле ниже</p>}
+          {!bun && !!toppings.length && <p>Добавьте булку</p>}
+          {bun && !toppings.length && <p>Добавьте начинки</p>}
+          {bun && !!toppings.length && <p>Оформите заказ или добавьте что-то еще</p>}
+        </span>
+        {(bun || !!toppings.length) && (
+          <button className={cn(styles.clearBtn)} onClick={handleClearOrderItems}>
+            Очистить
+          </button>
+        )}
+      </div>
 
       <div
         ref={dropTarget}

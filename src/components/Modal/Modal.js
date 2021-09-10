@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
@@ -11,7 +11,7 @@ import styles from './Modal.module.css';
 const modalRoot = document.getElementById('modals');
 
 function Modal({ children, onClose }) {
-  const [hover, setHover] = React.useState(false);
+  const [hover, setHover] = useState(false);
 
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
@@ -20,7 +20,7 @@ function Modal({ children, onClose }) {
     if (e.target === e.currentTarget) onClose();
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onKeyDown = (e) => {
       if (e.code === 'Escape') onClose();
     };

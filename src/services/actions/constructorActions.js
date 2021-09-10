@@ -3,11 +3,12 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_ERROR,
-  CLOSE_ORDER,
+  CLOSE_ORDER_DETAILS,
   ADD_BUN,
   ADD_TOPPING,
   DELETE_TOPPING,
   UPDATE_TOPPINGS_LIST,
+  CLEAR_ORDER_ITEMS,
 } from './types';
 
 export const createOrder = (itemsIds) => async (dispatch) => {
@@ -36,7 +37,7 @@ const orderError = (err) => ({
 });
 
 export const closeOrderDetails = () => ({
-  type: CLOSE_ORDER,
+  type: CLOSE_ORDER_DETAILS,
 });
 
 export const addBun = (item) => ({
@@ -57,4 +58,8 @@ export const deleteTopping = (index) => ({
 export const updateToppingsList = (list) => ({
   type: UPDATE_TOPPINGS_LIST,
   list: list,
+});
+
+export const clearOrderItems = () => ({
+  type: CLEAR_ORDER_ITEMS,
 });
