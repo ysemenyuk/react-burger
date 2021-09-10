@@ -6,6 +6,7 @@ import styles from './OrderDetails.module.css';
 import Loader from '../UI/Loader/Loader';
 
 function OrderDetails({ loading, order }) {
+  console.log(order);
   return (
     <section className={cn(styles.container, 'text_type_main-default', 'mb-10', 'mt-10')}>
       {loading ? (
@@ -28,7 +29,7 @@ function OrderDetails({ loading, order }) {
 OrderDetails.propTypes = {
   loading: PropTypes.bool,
   order: PropTypes.shape({
-    number: PropTypes.number.isRequired,
+    number: PropTypes.number,
   }),
 };
 
