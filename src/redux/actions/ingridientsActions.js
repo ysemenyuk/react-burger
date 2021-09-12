@@ -1,17 +1,11 @@
-import normaApi from '../normaApi.js';
-import {
-  INGRIDIENTS_REQUEST,
-  INGRIDIENTS_SUCCESS,
-  INGRIDIENTS_ERROR,
-  SET_CURRENT_ITEM,
-  RESET_CURRENT_ITEM,
-} from './types';
+import normaService from '../../services/normaService.js';
+import { INGRIDIENTS_REQUEST, INGRIDIENTS_SUCCESS, INGRIDIENTS_ERROR } from './types';
 
 export const getIngridients = () => async (dispatch) => {
   dispatch(ingridientsRequest());
 
   try {
-    const { data } = await normaApi.fetchIngredients();
+    const { data } = await normaService.fetchIngredients();
     dispatch(ingridientsSucces(data));
   } catch (error) {
     dispatch(ingridientsError(error));
@@ -30,13 +24,4 @@ const ingridientsSucces = (data) => ({
 const ingridientsError = (err) => ({
   type: INGRIDIENTS_ERROR,
   error: err.message,
-});
-
-export const setCurrentItem = (item) => ({
-  type: SET_CURRENT_ITEM,
-  item: { ...item },
-});
-
-export const resetCurrentItem = () => ({
-  type: RESET_CURRENT_ITEM,
 });

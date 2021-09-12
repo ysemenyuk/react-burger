@@ -3,13 +3,16 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 
+import cn from 'classnames';
 import styles from './App.module.css';
 
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 
-import { getIngridients } from '../../services/actions/ingridientsActions';
+import { getIngridients } from '../../redux/actions/ingridientsActions';
+import Loader from '../UI/Loader/Loader';
+import Message from '../UI/Message/Message';
 // import data from '../../utils/data.js';
 
 function App() {
@@ -25,21 +28,28 @@ function App() {
   // }, []);
 
   return (
-    <main className={styles.wrapper}>
+    <div className={styles.wrapper}>
       <AppHeader />
       <main className={styles.main}>
         <div className={styles.container}>
-          {loading && 'Загрузка..'}
-          {error && 'Произошла ошибка..'}
+          {loading && <Loader height='300px' />}
+          {error && <Message message='Network error' />}
           {!loading && !error && (
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
+            <>
+              <h1 className={cn('text', 'text_type_main-large', 'm-5', 'mt-10')}>
+                Соберите бургер
+              </h1>
+              <div className={styles.constructor}>
+                <DndProvider backend={HTML5Backend}>
+                  <BurgerIngredients />
+                  <BurgerConstructor />
+                </DndProvider>
+              </div>
+            </>
           )}
         </div>
       </main>
-    </main>
+    </div>
   );
 }
 

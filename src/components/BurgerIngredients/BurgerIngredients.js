@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
@@ -9,9 +9,9 @@ import IngredientDetails from './IngredientDetails/IngredientDetails';
 import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
 
-import { setCurrentItem, resetCurrentItem } from '../../services/actions/ingridientsActions';
 import { useScroll } from '../../hooks/useScroll';
 import { ItemTypes } from '../../utils/constants';
+import { calculateQuantity } from '../../utils/calculateQuantity';
 
 const ingridientsGroups = [
   { type: ItemTypes.BUN, title: 'Булки' },
@@ -19,22 +19,12 @@ const ingridientsGroups = [
   { type: ItemTypes.MAIN, title: 'Начинки' },
 ];
 
-const calculateQuantity = (orderItems) => {
-  const { bun, toppings } = orderItems;
-  return [bun, bun, ...toppings].reduce((acc, item) => {
-    if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
-    return acc;
-  }, {});
-};
-
 function BurgerIngredients() {
-  const dispatch = useDispatch();
-
   const { ingridientsByGroup } = useSelector((state) => state.ingridients);
   const orderItems = useSelector((state) => state.orderItems);
 
-  const { visible, currentItem } = useSelector((state) => state.ingridientDetails);
   const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
+  const [currentItem, setCurrentItem] = useState({ visible: false, item: null });
 
   const containerRef = useRef(null);
   const targetsRefs = useRef({});
@@ -58,22 +48,20 @@ function BurgerIngredients() {
   };
 
   const handleCardClick = (item) => () => {
-    dispatch(setCurrentItem(item));
+    setCurrentItem({ visible: true, item: item });
   };
 
   const handleCloseModal = () => {
-    dispatch(resetCurrentItem());
+    setCurrentItem({ visible: false, item: null });
   };
 
   return (
     <section className={cn(styles.section, 'p-5')}>
-      {visible && (
+      {currentItem.visible && (
         <Modal onClose={handleCloseModal}>
-          <IngredientDetails item={currentItem} />
+          <IngredientDetails item={currentItem.item} />
         </Modal>
       )}
-
-      <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>Соберите бургер</h1>
 
       <ul className={cn(styles.tabs, 'mb-10')}>
         {ingridientsGroups.map(({ type, title }) => (

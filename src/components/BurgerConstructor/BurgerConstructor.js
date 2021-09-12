@@ -10,23 +10,24 @@ import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import ToppingCard from './ToppingCard/ToppingCard';
 import BunCard from './BunCard/BunCard';
+import Loader from '../UI/Loader/Loader';
+import Message from '../UI/Message/Message';
 
+import { createOrder, closeOrderDetails } from '../../redux/actions/orderDetailsActions';
 import {
-  createOrder,
-  closeOrderDetails,
   addBun,
   addTopping,
-  updateToppingsList,
   deleteTopping,
+  updateToppingsList,
   clearOrderItems,
-} from '../../services/actions/constructorActions';
+} from '../../redux/actions/orderItemsActions';
 
 import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
   const { bun, toppings } = useSelector((state) => state.orderItems);
-  const { visible, loading, currentOrder } = useSelector((state) => state.orderDetails);
+  const { visible, loading, error, currentOrder } = useSelector((state) => state.orderDetails);
 
   const orderItemsIds = useMemo(() => {
     const itemIds = toppings.map((item) => item._id);
@@ -76,20 +77,26 @@ function BurgerConstructor() {
   );
 
   return (
-    <section className={cn(styles.section, 'p-5', 'pt-25')}>
+    <section className={cn(styles.section, 'p-5')}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails loading={loading} order={currentOrder} />
+          {error ? (
+            <Message message='Network error' />
+          ) : loading ? (
+            <Loader height='500px' />
+          ) : (
+            <OrderDetails order={currentOrder} />
+          )}
         </Modal>
       )}
 
       <div className={cn(styles.header)}>
-        <span>
-          {!bun && !toppings.length && <p>Перетащите ингридиенты в поле ниже</p>}
-          {!bun && !!toppings.length && <p>Добавьте булку</p>}
-          {bun && !toppings.length && <p>Добавьте начинки</p>}
-          {bun && !!toppings.length && <p>Оформите заказ или добавьте что-то еще</p>}
-        </span>
+        <p>
+          {!bun && !toppings.length && 'Перетащите ингридиенты в поле ниже'}
+          {!bun && !!toppings.length && 'Добавьте булку'}
+          {bun && !toppings.length && 'Добавьте начинки'}
+          {bun && !!toppings.length && 'Добавьте еще начинки или Оформите заказ'}
+        </p>
         {(bun || !!toppings.length) && (
           <button className={cn(styles.clearBtn)} onClick={handleClearOrderItems}>
             Очистить
@@ -106,7 +113,7 @@ function BurgerConstructor() {
         <ul className={cn(styles.itemsBox)}>
           {toppings.map((item, index) => (
             <ToppingCard
-              key={index}
+              key={item.uuid}
               item={item}
               index={index}
               handleMoveCard={handleMoveCard}
@@ -117,13 +124,17 @@ function BurgerConstructor() {
 
         {bun && <BunCard item={bun} />}
       </div>
-
       <div className={cn(styles.total, 'm-4', 'mt-8', 'text_type_digits-medium')}>
         <span className={'mr-10'}>
           {orderTotalPrice}
           <CurrencyIcon type='primary' />
         </span>
-        <Button disabled={!bun} onClick={handleCreateOrder} type='primary' size='large'>
+        <Button
+          disabled={!bun || !toppings.length}
+          onClick={handleCreateOrder}
+          type='primary'
+          size='large'
+        >
           Оформить заказ
         </Button>
       </div>

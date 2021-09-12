@@ -3,10 +3,6 @@ export const INGRIDIENTS_REQUEST = 'INGRIDIENTS_REQUEST';
 export const INGRIDIENTS_SUCCESS = 'INGRIDIENTS_SUCCESS';
 export const INGRIDIENTS_ERROR = 'INGRIDIENTS_ERROR';
 
-// ingridientDetails reducer
-export const SET_CURRENT_ITEM = 'SET_CURRENT_ITEM';
-export const RESET_CURRENT_ITEM = 'RESET_CURRENT_ITEM';
-
 // orderItems reducer
 export const ADD_BUN = 'ADD_BUN';
 export const ADD_TOPPING = 'ADD_TOPPING';
