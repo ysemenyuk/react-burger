@@ -1,56 +1,47 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
-import cn from 'classnames';
+import { useState, useRef, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngridientsGroupItems from './IngridientsGroup/IngridientsGroup';
+import IngridientCard from './IngridientCard/IngridientCard';
 import Modal from '../Modal/Modal';
 import IngredientDetails from './IngredientDetails/IngredientDetails';
 
+import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
-// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
-import { OrderContext } from '../../context/order.context';
+
+import { setCurrentItem, resetCurrentItem } from '../../services/actions/ingridientsActions';
 import { useScroll } from '../../hooks/useScroll';
+import { ItemTypes } from '../../utils/constants';
 
 const ingridientsGroups = [
-  { type: 'bun', title: 'Булки' },
-  { type: 'sauce', title: 'Соусы' },
-  { type: 'main', title: 'Начинки' },
+  { type: ItemTypes.BUN, title: 'Булки' },
+  { type: ItemTypes.SAUCE, title: 'Соусы' },
+  { type: ItemTypes.MAIN, title: 'Начинки' },
 ];
 
+const calculateQuantity = (orderItems) => {
+  const { bun, toppings } = orderItems;
+  return [bun, bun, ...toppings].reduce((acc, item) => {
+    if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
+    return acc;
+  }, {});
+};
+
 function BurgerIngredients() {
-  const { dispatch, ingridients } = React.useContext(OrderContext);
+  const dispatch = useDispatch();
 
-  const ingridientsByGroups = React.useMemo(
-    () =>
-      ingridients.reduce((acc, ingridient) => {
-        if (!acc[ingridient.type]) acc[ingridient.type] = [];
-        acc[ingridient.type].push(ingridient);
-        return acc;
-      }, {}),
-    [ingridients]
-  );
+  const { ingridientsByGroup } = useSelector((state) => state.ingridients);
+  const orderItems = useSelector((state) => state.orderItems);
 
-  const [visible, setVisible] = React.useState(false);
-  const [item, setItem] = React.useState(null);
+  const { visible, currentItem } = useSelector((state) => state.ingridientDetails);
+  const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
 
-  const [currentTab, setCurrentTab] = React.useState('bun');
-
-  const containerRef = React.useRef(null);
-  const targetsRefs = React.useRef({});
+  const containerRef = useRef(null);
+  const targetsRefs = useRef({});
 
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
-  const handleOpenModal = (item) => () => {
-    dispatch({ type: 'ADD_ITEM', payload: item });
-    setItem(item);
-    setVisible(true);
-  };
-
-  const handleCloseModal = () => {
-    setVisible(false);
-    setItem(null);
-  };
+  const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
@@ -66,14 +57,24 @@ function BurgerIngredients() {
     }
   };
 
+  const handleCardClick = (item) => () => {
+    dispatch(setCurrentItem(item));
+  };
+
+  const handleCloseModal = () => {
+    dispatch(resetCurrentItem());
+  };
+
   return (
     <section className={cn(styles.section, 'p-5')}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          <IngredientDetails item={item} />
+          <IngredientDetails item={currentItem} />
         </Modal>
       )}
+
       <h1 className={cn('text', 'text_type_main-large', 'mt-5', 'mb-5')}>Соберите бургер</h1>
+
       <ul className={cn(styles.tabs, 'mb-10')}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
@@ -83,6 +84,7 @@ function BurgerIngredients() {
           </li>
         ))}
       </ul>
+
       <ul ref={containerRef} className={cn(styles.ingridientsList)}>
         {ingridientsGroups.map(({ type, title }) => (
           <li key={type}>
@@ -93,21 +95,23 @@ function BurgerIngredients() {
             >
               {title}
             </h2>
-            <IngridientsGroupItems
-              type={type}
-              title={title}
-              items={ingridientsByGroups[type]}
-              handleOpenModal={handleOpenModal}
-            />
+            <ul className={cn(styles.ingridientsGroup, 'mb-10')}>
+              {ingridientsByGroup[type].map((item) => {
+                return (
+                  <IngridientCard
+                    key={item._id}
+                    count={quantity[item._id]}
+                    item={item}
+                    onCardClick={handleCardClick}
+                  />
+                );
+              })}
+            </ul>
           </li>
         ))}
       </ul>
     </section>
   );
 }
-
-// BurgerIngredients.propTypes = {
-//   ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-// };
 
 export default BurgerIngredients;

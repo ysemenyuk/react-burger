@@ -1,5 +1,3 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import {
@@ -13,7 +11,7 @@ import HeaderLink from './HeaderLink/HeaderLink';
 
 import styles from './AppHeader.module.css';
 
-function AppHeader(props) {
+function AppHeader() {
   return (
     <header className={styles.header}>
       <nav className={cn(styles.container, 'pt-4', 'pb-4')}>
@@ -34,7 +32,5 @@ function AppHeader(props) {
     </header>
   );
 }
-
-// AppHeader.propTypes = {};
 
 export default AppHeader;

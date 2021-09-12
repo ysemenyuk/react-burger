@@ -1,0 +1,16 @@
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  /* box-sizing: border-box;
+  border: 1px solid #fff; */
+}
+
+.item:last-child {
+  margin-bottom: 0;
+}
+
+.item svg {
+  margin-right: 8px;
+}

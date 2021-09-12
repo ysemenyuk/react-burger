@@ -1,139 +1,134 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+import { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrop } from 'react-dnd';
+
 import cn from 'classnames';
+import styles from './BurgerConstructor.module.css';
 
-import {
-  Button,
-  CurrencyIcon,
-  DragIcon,
-  ConstructorElement,
-} from '@ya.praktikum/react-developer-burger-ui-components';
-
+import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
 import OrderDetails from '../OrderDetails/OrderDetails';
+import ToppingCard from './ToppingCard/ToppingCard';
+import BunCard from './BunCard/BunCard';
 
-import styles from './BurgerConstructor.module.css';
-// import ingridientPropTypes from '../../types/ingridientPropTypes.js';
+import {
+  createOrder,
+  closeOrderDetails,
+  addBun,
+  addTopping,
+  updateToppingsList,
+  deleteTopping,
+  clearOrderItems,
+} from '../../services/actions/constructorActions';
 
-import normaApi from '../../sevices/norma.api.js';
+import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
 
-import { OrderContext } from '../../context/order.context';
+function BurgerConstructor() {
+  const dispatch = useDispatch();
+  const { bun, toppings } = useSelector((state) => state.orderItems);
+  const { visible, loading, currentOrder } = useSelector((state) => state.orderDetails);
 
-function BurgerConstructor(props) {
-  // const { orderItems, fixedItem } = props;
-  const { dispatch, orderState } = React.useContext(OrderContext);
-  const { bun, orderItems } = orderState;
-
-  const orderItemsIds = React.useMemo(() => {
-    const itemIds = orderItems.map((item) => item._id);
+  const orderItemsIds = useMemo(() => {
+    const itemIds = toppings.map((item) => item._id);
     return [bun?._id, ...itemIds];
-  }, [orderItems, bun]);
+  }, [toppings, bun]);
 
-  const orderTotalPrice = React.useMemo(() => {
-    return [bun, bun, ...orderItems].reduce((acc, item) => (item ? acc + item.price : acc), 0);
-  }, [orderItems, bun]);
+  const orderTotalPrice = useMemo(() => {
+    return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
+  }, [toppings, bun]);
 
-  const [visible, setVisible] = React.useState(false);
-  const [state, setState] = React.useState({
-    isLoading: false,
-    hasError: false,
-    response: null,
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: INGRIDIENTS,
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+    drop(item) {
+      item.type === ItemTypes.BUN ? dispatch(addBun(item)) : dispatch(addTopping(item));
+    },
   });
 
   const handleCreateOrder = () => {
-    setState((state) => ({ ...state, hasError: false, isLoading: true }));
-    normaApi
-      .createOrder(orderItemsIds)
-      .then((res) => {
-        setState((state) => ({ ...state, response: res, isLoading: false }));
-        setVisible(true);
-      })
-      .catch((e) => {
-        setState((state) => ({ ...state, hasError: true, isLoading: false }));
-      });
+    dispatch(createOrder(orderItemsIds));
   };
 
-  function handleCloseModal() {
-    setVisible(false);
-  }
+  const handleCloseModal = () => {
+    dispatch(closeOrderDetails());
+    dispatch(clearOrderItems());
+  };
 
-  function handleDeleteItem(index) {
-    dispatch({ type: 'DELETE_ITEM', payload: index });
-  }
+  const handleClearOrderItems = () => {
+    dispatch(clearOrderItems());
+  };
+
+  const handleDeleteCard = (index) => {
+    dispatch(deleteTopping(index));
+  };
+
+  const handleMoveCard = useCallback(
+    (dragIndex, hoverIndex) => {
+      const dragCard = toppings[dragIndex];
+      const updatedList = [...toppings];
+      updatedList.splice(dragIndex, 1);
+      updatedList.splice(hoverIndex, 0, dragCard);
+      dispatch(updateToppingsList(updatedList));
+    },
+    [dispatch, toppings]
+  );
 
   return (
     <section className={cn(styles.section, 'p-5', 'pt-25')}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          <OrderDetails orderNumber={state.response.order.number} />
+          <OrderDetails loading={loading} order={currentOrder} />
         </Modal>
       )}
 
-      {bun && (
-        <div className={cn(styles.item, 'm-4')}>
-          <ConstructorElement
-            type={'top'}
-            isLocked={true}
-            text={`${bun.name} (верх)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
+      <div className={cn(styles.header)}>
+        <span>
+          {!bun && !toppings.length && <p>Перетащите ингридиенты в поле ниже</p>}
+          {!bun && !!toppings.length && <p>Добавьте булку</p>}
+          {bun && !toppings.length && <p>Добавьте начинки</p>}
+          {bun && !!toppings.length && <p>Оформите заказ или добавьте что-то еще</p>}
+        </span>
+        {(bun || !!toppings.length) && (
+          <button className={cn(styles.clearBtn)} onClick={handleClearOrderItems}>
+            Очистить
+          </button>
+        )}
+      </div>
 
-      {!!orderItems.length && (
+      <div
+        ref={dropTarget}
+        className={cn(styles.dropTarget, `${isHover && styles.dropTargetHover}`)}
+      >
+        {bun && <BunCard item={bun} top />}
+
         <ul className={cn(styles.itemsBox)}>
-          {orderItems.map((item, index) => (
-            <li key={index} className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}>
-              <DragIcon type='primary' />
-              <ConstructorElement
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-                handleClose={() => handleDeleteItem(index)}
-              />
-            </li>
+          {toppings.map((item, index) => (
+            <ToppingCard
+              key={index}
+              item={item}
+              index={index}
+              handleMoveCard={handleMoveCard}
+              handleDeleteCard={handleDeleteCard}
+            />
           ))}
         </ul>
-      )}
 
-      {bun && (
-        <div className={cn(styles.item, 'm-4')}>
-          <ConstructorElement
-            type={'bottom'}
-            isLocked={true}
-            text={`${bun.name} (низ)`}
-            price={bun.price}
-            thumbnail={bun.image}
-          />
-        </div>
-      )}
+        {bun && <BunCard item={bun} />}
+      </div>
 
-      {bun || !!orderItems.length ? (
-        <div className={cn(styles.total, 'm-4', 'mt-10', 'text_type_digits-medium')}>
-          <span className={'mr-10'}>
-            {orderTotalPrice}
-            <CurrencyIcon type='primary' />
-          </span>
-          <Button
-            disabled={state.isLoading || !bun}
-            onClick={handleCreateOrder}
-            type='primary'
-            size='large'
-          >
-            {state.isLoading ? 'Оформляем...' : 'Оформить заказ'}
-          </Button>
-        </div>
-      ) : (
-        <p>Выбирете ингридиенты</p>
-      )}
+      <div className={cn(styles.total, 'm-4', 'mt-8', 'text_type_digits-medium')}>
+        <span className={'mr-10'}>
+          {orderTotalPrice}
+          <CurrencyIcon type='primary' />
+        </span>
+        <Button disabled={!bun} onClick={handleCreateOrder} type='primary' size='large'>
+          Оформить заказ
+        </Button>
+      </div>
     </section>
   );
 }
-
-// BurgerConstructor.propTypes = {
-//   orderItems: PropTypes.arrayOf(ingridientPropTypes).isRequired,
-//   fixedItem: ingridientPropTypes.isRequired,
-// };
 
 export default BurgerConstructor;

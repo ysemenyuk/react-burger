@@ -1,9 +1,7 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
 import cn from 'classnames';
-
 import styles from './IngredientDetails.module.css';
-import ingridientPropTypes from '../../../types/ingridientPropTypes.js';
+
+import ingridientPropTypes from '../../../utils/ingridientPropTypes';
 
 function IngredientDetails({ item }) {
   return (
