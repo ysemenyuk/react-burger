@@ -20,7 +20,7 @@ const ingridientsGroups = [
 ];
 
 function BurgerIngredients() {
-  const { ingridientsByGroup } = useSelector((state) => state.ingridients);
+  const { ingridientsByType } = useSelector((state) => state.ingridients);
   const orderItems = useSelector((state) => state.orderItems);
 
   const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
@@ -84,7 +84,7 @@ function BurgerIngredients() {
               {title}
             </h2>
             <ul className={cn(styles.ingridientsGroup, 'mb-10')}>
-              {ingridientsByGroup[type].map((item) => {
+              {ingridientsByType[type].map((item) => {
                 return (
                   <IngridientCard
                     key={item._id}

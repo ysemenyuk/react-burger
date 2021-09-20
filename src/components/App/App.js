@@ -1,54 +1,69 @@
-import { useEffect } from 'react';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
-import { useDispatch, useSelector } from 'react-redux';
-
-import cn from 'classnames';
 import styles from './App.module.css';
 
-import AppHeader from '../AppHeader/AppHeader';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
-import { getIngridients } from '../../redux/actions/ingridientsActions';
+import AppHeader from '../AppHeader/AppHeader';
+import Home from '../../pages/Home/Home';
+import Login from '../../pages/Login/Login';
+import Register from '../../pages/Register/Register';
+import ForgotPassword from '../../pages/ForgotPassword/ForgotPassword';
+import ResetPassword from '../../pages/ResetPassword/ResetPassword';
+import Profile from '../../pages/Profile/Profile';
+import Ingridient from '../../pages/Ingridient/Ingridient';
+import NotFound from '../../pages/404/NotFound';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Loader from '../UI/Loader/Loader';
-import Message from '../UI/Message/Message';
-// import data from '../../utils/data.js';
+
+import { checkUser } from '../../redux/actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
-  const { loading, error } = useSelector((state) => state.ingridients);
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(getIngridients());
+    dispatch(checkUser());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   setState((state) => ({ ...state, ingridients: data, isLoading: false }));
-  // }, []);
+  if (user.checkAuth) {
+    return <Loader height='100vh' />;
+  }
 
   return (
     <div className={styles.wrapper}>
-      <AppHeader />
-      <main className={styles.main}>
-        <div className={styles.container}>
-          {loading && <Loader height='300px' />}
-          {error && <Message message='Network error' />}
-          {!loading && !error && (
-            <>
-              <h1 className={cn('text', 'text_type_main-large', 'm-5', 'mt-10')}>
-                Соберите бургер
-              </h1>
-              <div className={styles.constructor}>
-                <DndProvider backend={HTML5Backend}>
-                  <BurgerIngredients />
-                  <BurgerConstructor />
-                </DndProvider>
-              </div>
-            </>
-          )}
+      <Router>
+        <AppHeader />
+        <div className={styles.main}>
+          <Switch>
+            <Route path='/' exact>
+              <Home />
+            </Route>
+            <Route path='/login' exact>
+              <Login />
+            </Route>
+            <Route path='/register' exact>
+              <Register />
+            </Route>
+            <Route path='/forgot-password' exact>
+              <ForgotPassword />
+            </Route>
+            <Route path='/reset-password' exact>
+              <ResetPassword />
+            </Route>
+            <ProtectedRoute path='/profile'>
+              <Profile />
+            </ProtectedRoute>
+            <Route path='/ingredients/:id'>
+              <Ingridient />
+            </Route>
+            <Route path='/not-found'>
+              <NotFound />
+            </Route>
+            <Redirect to='/not-found' />
+          </Switch>
         </div>
-      </main>
+      </Router>
     </div>
   );
 }

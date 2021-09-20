@@ -1,11 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cn from 'classnames';
-
 import styles from './HeaderLink.module.css';
 
-function HeaderLink({ children, href, active, ...props }) {
-  const [hover, setHover] = React.useState(false);
+import { useState, Children, isValidElement, cloneElement } from 'react';
+import PropTypes from 'prop-types';
+
+import { Link } from 'react-router-dom';
+
+function HeaderLink({ children, to, active, ...props }) {
+  const [hover, setHover] = useState(false);
 
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
@@ -17,22 +19,22 @@ function HeaderLink({ children, href, active, ...props }) {
   });
 
   return (
-    <a
-      href={href}
+    <Link
+      to={to}
       className={linkClass}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       {...props}
     >
-      {React.Children.map(children, (child) =>
-        React.isValidElement(child) ? React.cloneElement(child, { type }) : child
+      {Children.map(children, (child) =>
+        isValidElement(child) ? cloneElement(child, { type }) : child
       )}
-    </a>
+    </Link>
   );
 }
 
 HeaderLink.propTypes = {
-  href: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
   active: PropTypes.bool,
 };
 
