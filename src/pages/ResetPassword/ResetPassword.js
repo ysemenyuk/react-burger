@@ -1,28 +1,54 @@
 import cn from 'classnames';
 import styles from './ResetPassword.module.css';
 
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import useForm from '../../hooks/useForm';
+import useInput from '../../hooks/useInput';
 import FormContainer from '../../components/FormContainer/FormContainer';
 import usePassInput from '../../hooks/usePasswordInput';
+import { resetUserPassword } from '../../redux/actions/userActions';
 
 function ResetPassword() {
-  const { values, onChange } = useForm();
-  const passInput = usePassInput();
+  const dispatch = useDispatch();
+
+  const isAuth = useSelector((state) => state.userInfo.isAuth);
+  const resetPassword = useSelector((state) => state.userResetPassword);
+
+  const passInput = usePassInput('');
+  const tokenInput = useInput('');
+
+  useEffect(() => {
+    if (passInput.ref && passInput.ref.current) {
+      passInput.ref.current.focus();
+    }
+  }, [passInput.ref]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('values', values);
+    dispatch(resetUserPassword({ password: passInput.value, token: tokenInput.value }));
   };
+
+  if (isAuth) {
+    return <Redirect to={'/'} />;
+  }
+
+  if (resetPassword.success) {
+    return <Redirect to={'/login'} />;
+  }
+
+  if (!localStorage.getItem('resetEmailSent')) {
+    return <Redirect to={'/forgot-password'} />;
+  }
 
   return (
     <FormContainer title='Восстановление пароля'>
       <form className={cn(styles.form)} onSubmit={submitHandler}>
         <Input
-          onChange={onChange}
-          value={values.password || ''}
+          onChange={passInput.onChange}
+          value={passInput.value}
           type={passInput.type}
           name='password'
           placeholder='Введите новый пароль'
@@ -32,8 +58,8 @@ function ResetPassword() {
           errorText={'Ошибка'}
         />
         <Input
-          onChange={onChange}
-          value={values.token || ''}
+          onChange={tokenInput.onChange}
+          value={tokenInput.value}
           type='text'
           name='token'
           placeholder='Введите код из письма'

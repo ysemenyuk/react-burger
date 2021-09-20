@@ -7,9 +7,17 @@ function usePasswordInput(initValue) {
   const ref = useRef(null);
 
   const onIconClick = (e) => {
-    input.type === 'password'
-      ? setInput({ type: 'text', icon: 'HideIcon' })
-      : setInput({ type: 'password', icon: 'ShowIcon' });
+    if (input.type === 'password') {
+      setInput({ type: 'text', icon: 'HideIcon' });
+    } else {
+      setInput({ type: 'password', icon: 'ShowIcon' });
+    }
+
+    setTimeout(() => {
+      if (ref && ref.current) {
+        ref.current.focus();
+      }
+    }, 0);
   };
 
   const onChange = (e) => {

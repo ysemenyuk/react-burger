@@ -13,8 +13,9 @@ import { userLogin } from '../../redux/actions/userActions';
 
 function Login() {
   const dispatch = useDispatch();
-  const isAuth = useSelector((state) => state.user.isAuth);
   const location = useLocation();
+
+  const isAuth = useSelector((state) => state.userInfo.isAuth);
 
   const emailInput = useInput('');
   const passInput = usePasswordInput('');
@@ -31,7 +32,7 @@ function Login() {
   };
 
   if (isAuth) {
-    return <Redirect to={location.state.from || '/'} />;
+    return <Redirect to={location.state?.from || '/'} />;
   }
 
   return (

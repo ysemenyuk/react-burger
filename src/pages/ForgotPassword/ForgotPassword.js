@@ -1,29 +1,52 @@
 import cn from 'classnames';
 import styles from './ForgotPassword.module.css';
 
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import FormContainer from '../../components/FormContainer/FormContainer';
-import useForm from '../../hooks/useForm';
+import useInput from '../../hooks/useInput';
+
+import { forgotUserPassword } from '../../redux/actions/userActions';
 
 function ForgotPassword() {
-  const { values, onChange } = useForm();
+  const dispatch = useDispatch();
+
+  const isAuth = useSelector((state) => state.userInfo.isAuth);
+
+  const emailInput = useInput('');
+
+  useEffect(() => {
+    if (emailInput.ref && emailInput.ref.current) {
+      emailInput.ref.current.focus();
+    }
+  }, [emailInput.ref]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('values', values);
+    dispatch(forgotUserPassword({ email: emailInput.value }));
   };
+
+  if (isAuth) {
+    return <Redirect to={'/'} />;
+  }
+
+  if (localStorage.getItem('resetEmailSent')) {
+    return <Redirect to={'/reset-password'} />;
+  }
 
   return (
     <FormContainer title='Восстановление пароля'>
       <form className={cn(styles.form)} onSubmit={submitHandler}>
         <Input
-          onChange={onChange}
-          value={values.email || ''}
-          name='email'
+          onChange={emailInput.onChange}
+          value={emailInput.value}
+          ref={emailInput.ref}
           type='email'
-          placeholder='Укажите E-mail'
+          name='email'
+          placeholder='E-mail'
         />
         <Button>Восстановить</Button>
       </form>

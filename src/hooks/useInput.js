@@ -12,8 +12,8 @@ function useInput(initValue) {
 
   return {
     ref,
-    onChange,
     value,
+    onChange,
   };
 }
 

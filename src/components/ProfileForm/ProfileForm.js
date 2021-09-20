@@ -1,29 +1,37 @@
 import cn from 'classnames';
-import styles from './Profile.module.css';
+import styles from './ProfileForm.module.css';
 
-import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import useProfileInput from '../../hooks/useProfileInput';
+import { updateUserInfo } from '../../redux/actions/userActions';
 
-function Profile() {
+function ProfileForm() {
   const dispatch = useDispatch();
-  const { email, name } = useSelector((state) => state.user.userInfo);
+  const { email, name } = useSelector((state) => state.userInfo.userInfo);
+  const { loading, success, error } = useSelector((state) => state.userUpdateProfile);
 
   const userInput = useProfileInput(name);
   const emailInput = useProfileInput(email);
   const passInput = useProfileInput('');
 
-  // useEffect(() => {
-  //   if (inputRef && inputRef.current) {
-  //     inputRef?.current?.focus();
-  //   }
-  // });
-
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log('values', values);
+    dispatch(
+      updateUserInfo({
+        name: userInput.value,
+        email: emailInput.value,
+        // password: passInput.value,
+      })
+    );
+  };
+
+  const resetHandler = (e) => {
+    e.preventDefault();
+    userInput.onReset();
+    emailInput.onReset();
+    passInput.onReset();
   };
 
   return (
@@ -62,11 +70,16 @@ function Profile() {
         onIconClick={passInput.onIconClick}
       />
       <div className={styles.buttons}>
-        <Button type='secondary'>Отмена</Button>
-        <Button>Сохранить</Button>
+        <Button type='secondary' onClick={resetHandler}>
+          Отмена
+        </Button>
+        <Button type='primary'>Сохранить</Button>
       </div>
+      {loading && 'Loading'}
+      {success && 'Success'}
+      {error && 'Error'}
     </form>
   );
 }
 
-export default Profile;
+export default ProfileForm;

@@ -20,7 +20,7 @@ import { checkUser } from '../../redux/actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     dispatch(checkUser());

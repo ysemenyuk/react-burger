@@ -28,25 +28,25 @@ const userLogin = async ({ email, password }) =>
     body: JSON.stringify({ email, password }),
   }).then(checkResponse);
 
-const userLogout = async (data) =>
+const userLogout = async () =>
   await fetch(`${NORMA_BASE_URL}/auth/logout`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ token: getRefreshToken() }),
   }).then(checkResponse);
 
-const forgotPassword = async (data) =>
+const forgotPassword = async ({ email }) =>
   await fetch(`${NORMA_BASE_URL}/password-reset`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify({ email }),
   }).then(checkResponse);
 
-const resetPassword = async (data) =>
+const resetPassword = async ({ password, token }) =>
   await fetch(`${NORMA_BASE_URL}/password-reset/reset`, {
     method: 'POST',
     headers,
-    body: JSON.stringify(data),
+    body: JSON.stringify({ password, token }),
   }).then(checkResponse);
 
 const refreshToken = async () =>
@@ -65,6 +65,16 @@ const fetchUserInfo = async () =>
     },
   }).then(checkResponse);
 
+const updateUserInfo = async ({ name, email, password }) =>
+  await fetch(`${NORMA_BASE_URL}/auth/user`, {
+    method: 'PATCH',
+    headers: {
+      ...headers,
+      Authorization: 'Bearer ' + getAccessToken(),
+    },
+    body: JSON.stringify({ name, email, password }),
+  }).then(checkResponse);
+
 const normaService = {
   fetchIngredients,
   createOrder,
@@ -75,6 +85,7 @@ const normaService = {
   resetPassword,
   refreshToken,
   fetchUserInfo,
+  updateUserInfo,
 };
 
 export default normaService;
