@@ -1,5 +1,11 @@
 import normaService from '../../services/normaService.js';
-import { INGRIDIENTS_REQUEST, INGRIDIENTS_SUCCESS, INGRIDIENTS_ERROR } from './types';
+import {
+  INGRIDIENTS_REQUEST,
+  INGRIDIENTS_SUCCESS,
+  INGRIDIENTS_ERROR,
+  RESET_CURRENT_INGREDIENT,
+  SET_CURRENT_INGREDIENT,
+} from '../../utils/types';
 
 const ingredientsRequest = () => ({
   type: INGRIDIENTS_REQUEST,
@@ -7,12 +13,12 @@ const ingredientsRequest = () => ({
 
 const ingredientsSucces = (data) => ({
   type: INGRIDIENTS_SUCCESS,
-  items: data,
+  payload: data,
 });
 
-const ingredientsError = (err) => ({
+const ingredientsError = (error) => ({
   type: INGRIDIENTS_ERROR,
-  error: err.message,
+  error: error,
 });
 
 export const getIngredients = () => async (dispatch) => {
@@ -27,10 +33,10 @@ export const getIngredients = () => async (dispatch) => {
 };
 
 export const setCurrentIngredient = (data) => ({
-  type: 'SET_CURRENT_INGREDIENT',
+  type: SET_CURRENT_INGREDIENT,
   payload: data,
 });
 
 export const resetCurrentIngredient = () => ({
-  type: 'RESET_CURRENT_INGREDIENT',
+  type: RESET_CURRENT_INGREDIENT,
 });

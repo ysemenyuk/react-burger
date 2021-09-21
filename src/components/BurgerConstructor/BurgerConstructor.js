@@ -25,6 +25,7 @@ import {
 } from '../../redux/actions/constructorActions';
 
 import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
+import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -32,17 +33,13 @@ function BurgerConstructor() {
   const location = useLocation();
 
   const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const { bun, toppings } = useSelector((state) => state.orderItems);
+  const orderItems = useSelector((state) => state.orderItems);
   const { visible, loading, error, currentOrder } = useSelector((state) => state.orderDetails);
 
-  const orderItemsIds = useMemo(() => {
-    const itemIds = toppings.map((item) => item._id);
-    return [bun?._id, ...itemIds];
-  }, [toppings, bun]);
+  const { bun, toppings } = orderItems;
 
-  const orderTotalPrice = useMemo(() => {
-    return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
-  }, [toppings, bun]);
+  const orderItemsIds = useMemo(() => getOrderItemsIds(orderItems), [orderItems]);
+  const orderTotalPrice = useMemo(() => calculateTotalPrice(orderItems), [orderItems]);
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: INGRIDIENTS,
@@ -75,11 +72,8 @@ function BurgerConstructor() {
 
   const handleMoveCard = useCallback(
     (dragIndex, hoverIndex) => {
-      const dragCard = toppings[dragIndex];
-      const updatedList = [...toppings];
-      updatedList.splice(dragIndex, 1);
-      updatedList.splice(hoverIndex, 0, dragCard);
-      dispatch(updateToppingsList(updatedList));
+      const updatedToppings = swapItems(dragIndex, hoverIndex, toppings);
+      dispatch(updateToppingsList(updatedToppings));
     },
     [dispatch, toppings]
   );
@@ -91,12 +85,13 @@ function BurgerConstructor() {
           {error ? (
             <Message message={error} />
           ) : loading ? (
-            <Loader height={'500px'} />
+            <Loader height={'400px'} />
           ) : (
             <OrderDetails order={currentOrder} />
           )}
         </Modal>
       )}
+
       <div className={cn(styles.header)}>
         <p>
           {!bun && !toppings.length && 'Перетащите ингридиенты в поле ниже'}
@@ -110,6 +105,7 @@ function BurgerConstructor() {
           </button>
         )}
       </div>
+
       <div
         ref={dropTarget}
         className={cn(styles.dropTarget, `${isHover && styles.dropTargetHover}`)}
@@ -131,7 +127,7 @@ function BurgerConstructor() {
         {bun && <BunCard item={bun} />}
       </div>
 
-      <div className={cn(styles.total, 'm-4', 'mt-8', 'text_type_digits-medium')}>
+      <div className={cn(styles.total, 'text_type_digits-medium')}>
         <span className={'mr-10'}>
           {orderTotalPrice}
           <CurrencyIcon type='primary' />

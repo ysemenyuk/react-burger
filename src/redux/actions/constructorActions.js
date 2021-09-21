@@ -9,26 +9,26 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS,
-} from './types';
+} from '../../utils/types';
 
 export const addBun = (item) => ({
   type: ADD_BUN,
-  item: item,
+  payload: item,
 });
 
 export const addTopping = (item) => ({
   type: ADD_TOPPING,
-  item: item,
+  payload: item,
 });
 
-export const deleteTopping = (index) => ({
+export const deleteTopping = (uuid) => ({
   type: DELETE_TOPPING,
-  index: index,
+  payload: uuid,
 });
 
 export const updateToppingsList = (list) => ({
   type: UPDATE_TOPPINGS_LIST,
-  list: list,
+  payload: list,
 });
 
 export const clearOrderItems = () => ({
@@ -41,12 +41,12 @@ export const createOrderRequest = () => ({
 
 export const createOrderSucces = (data) => ({
   type: ORDER_SUCCESS,
-  data: data,
+  payload: data,
 });
 
-export const createOrderError = (err) => ({
+export const createOrderError = (error) => ({
   type: ORDER_ERROR,
-  error: err.message,
+  error: error,
 });
 
 export const closeOrderDetails = () => ({

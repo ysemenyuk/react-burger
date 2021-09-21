@@ -15,6 +15,7 @@ function ForgotPassword() {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((state) => state.userInfo.isAuth);
+  const { loading, success, error } = useSelector((state) => state.userForgotPassword);
 
   const emailInput = useInput('');
 
@@ -26,6 +27,7 @@ function ForgotPassword() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // todo: validate input
     dispatch(forgotUserPassword({ email: emailInput.value }));
   };
 
@@ -33,7 +35,7 @@ function ForgotPassword() {
     return <Redirect to={'/'} />;
   }
 
-  if (localStorage.getItem('resetEmailSent')) {
+  if (success || localStorage.getItem('resetEmailSent')) {
     return <Redirect to={'/reset-password'} />;
   }
 
@@ -44,13 +46,20 @@ function ForgotPassword() {
           onChange={emailInput.onChange}
           value={emailInput.value}
           ref={emailInput.ref}
+          disabled={loading}
+          error={error}
           type='email'
           name='email'
           placeholder='E-mail'
         />
-        <Button>Восстановить</Button>
+        <Button disabled={loading}>Восстановить</Button>
+
+        {loading && 'Loading...'}
+        {success && 'Success'}
+        {error && error.message}
       </form>
-      <span className={cn(styles.text, 'text_color_inactive', 'mb-4')}>
+
+      <span className={cn(styles.text, 'text_color_inactive')}>
         Вспомнили пароль?{' '}
         <Link className={styles.link} to='/login'>
           Войти

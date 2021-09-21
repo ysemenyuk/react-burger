@@ -12,12 +12,11 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 import { useScroll } from '../../hooks/useScroll';
 import { ItemTypes } from '../../utils/constants';
-import { calculateQuantity } from '../../utils/calculateQuantity';
+import { calculateQuantity, groupByType } from '../../utils/helpers';
 import {
   resetCurrentIngredient,
   setCurrentIngredient,
 } from '../../redux/actions/ingredientsActions';
-import groupByType from '../../utils/groupByType';
 
 const ingredientsGroups = [
   { type: ItemTypes.BUN, title: 'Булки' },
@@ -29,7 +28,7 @@ function BurgerIngredients() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const items = useSelector((state) => state.ingredients.items);
+  const ingredients = useSelector((state) => state.ingredients.items);
   const orderItems = useSelector((state) => state.orderItems);
   const { isModalOpen, currentIngredient } = useSelector((state) => state.ingredientDetails);
 
@@ -40,7 +39,7 @@ function BurgerIngredients() {
 
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
-  const ingredientsByType = useMemo(() => groupByType(items), [items]);
+  const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
   const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const handleTabClick = (tab) => {
@@ -68,14 +67,14 @@ function BurgerIngredients() {
   };
 
   return (
-    <section className={cn(styles.section, 'p-5')}>
+    <section className={cn(styles.section)}>
       {isModalOpen && (
         <Modal onClose={handleCloseModal} title={'Детали ингредиента'}>
           <IngredientDetails item={currentIngredient} />
         </Modal>
       )}
 
-      <ul className={cn(styles.tabs, 'mb-10')}>
+      <ul className={cn(styles.tabs)}>
         {ingredientsGroups.map(({ type, title }) => (
           <li key={type}>
             <Tab value={type} active={currentTab === type} onClick={handleTabClick}>
@@ -91,11 +90,11 @@ function BurgerIngredients() {
             <h2
               ref={(el) => (targetsRefs.current[type] = el)}
               data-type={type}
-              className={cn('text', 'text_type_main-medium', 'mb-2')}
+              className={cn(styles.ingredientsGroupTitle, 'text', 'text_type_main-medium')}
             >
               {title}
             </h2>
-            <ul className={cn(styles.ingredientsGroup, 'mb-10')}>
+            <ul className={cn(styles.ingredientsGroup)}>
               {ingredientsByType[type].map((item) => {
                 return (
                   <IngridientCard

@@ -27,10 +27,10 @@ function Ingredient() {
   return (
     <div className={styles.container}>
       {loading && <Loader height='300px' />}
-      {error && <Message message='Network error' />}
+      {error && <Message message={error.message} />}
       {success && (
         <>
-          <h2 className={cn(styles.title, 'pt-3', 'pb-3', 'text text_type_main-large')}>
+          <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>
             Детали ингредиента
           </h2>
           <IngredientDetails item={currentItem} />

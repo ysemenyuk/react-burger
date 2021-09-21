@@ -4,10 +4,7 @@ import styles from './IngridientCard.module.css';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 
-import {
-  Counter,
-  CurrencyIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { INGRIDIENTS } from '../../../utils/constants';
 
@@ -28,8 +25,8 @@ function IngridientCard({ item, count = 0, onCardClick }) {
       onClick={onCardClick(item)}
     >
       <Counter count={count} size='default' />
-      <img src={item.image} alt={item.name} className={cn('mr-4', 'ml-4', 'mb-2')}></img>
-      <span className={cn(styles.price, 'text_type_digits-default', 'mb-2')}>
+      <img src={item.image} alt={item.name}></img>
+      <span className={cn(styles.price, 'text_type_digits-default')}>
         {item.price}
         <CurrencyIcon type='primary' />
       </span>

@@ -1,13 +1,19 @@
 .form {
   display: flex;
-  flex-direction: column;
   align-items: center;
+  flex-direction: column;
+
   width: 480px;
+  margin-bottom: calc(var(--offset-base-size) * 6);
+}
+
+.text {
+  margin-bottom: calc(var(--offset-base-size) * 4);
 }
 
 .form > div {
-  margin-bottom: calc(var(--offset-base-size) * 6);
   width: 100%;
+  margin-bottom: calc(var(--offset-base-size) * 6);
 }
 
 .form > div > div {
@@ -15,7 +21,7 @@
 }
 
 .form > button {
-  margin-bottom: calc(var(--offset-base-size) * 20);
+  margin-bottom: calc(var(--offset-base-size) * 6);
 }
 
 .link {

@@ -1,11 +1,13 @@
 import normaService from '../../services/normaService';
+
 import {
   getRefreshToken,
   removeAccessToken,
   removeRefreshToken,
   setAccessToken,
   setRefreshToken,
-} from '../../utils/tokens';
+} from '../../utils/helpers';
+
 import {
   USER_CHECK_AUTH_SUCCESS,
   USER_CHECK_AUTH_FAIL,
@@ -30,7 +32,7 @@ import {
   USER_RESET_PASSWORD_REQUEST,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_FAIL,
-} from '../actions/types';
+} from '../../utils/types';
 
 // actionCreators
 
@@ -41,7 +43,7 @@ const checkUserAuthSuccess = (user) => ({
 
 const checkUserAuthFail = (error) => ({
   type: USER_CHECK_AUTH_FAIL,
-  payload: error,
+  error: error,
 });
 
 const userLoginRequest = () => ({
@@ -55,7 +57,7 @@ const userLoginSuccess = (user) => ({
 
 const userLoginError = (error) => ({
   type: USER_LOGIN_FAIL,
-  payload: error,
+  error: error,
 });
 
 const userLogoutRequest = () => ({
@@ -69,7 +71,7 @@ const userLogoutSuccess = (user) => ({
 
 const userLogoutError = (error) => ({
   type: USER_LOGOUT_FAIL,
-  payload: error,
+  error: error,
 });
 
 const userRegisterRequest = () => ({
@@ -83,7 +85,7 @@ const userRegisterSucces = (data) => ({
 
 const userRegisterError = (error) => ({
   type: USER_REGISTER_FAIL,
-  payload: error,
+  error: error,
 });
 
 const userProfileRequest = () => ({
@@ -97,7 +99,7 @@ const userProfileSuccess = (user) => ({
 
 const userProfileError = (error) => ({
   type: USER_PROFILE_FAIL,
-  payload: error,
+  error: error,
 });
 
 const updateUserProfileRequest = () => ({
@@ -111,7 +113,7 @@ const updateUserProfileSuccess = (user) => ({
 
 const updateUserProfileError = (error) => ({
   type: USER_UPDATE_PROFILE_FAIL,
-  payload: error,
+  error: error,
 });
 
 const forgotUserPasswordRequest = () => ({
@@ -125,7 +127,7 @@ const forgotUserPasswordSuccess = (user) => ({
 
 const forgotUserPasswordError = (error) => ({
   type: USER_FORGOT_PASSWORD_FAIL,
-  payload: error,
+  error: error,
 });
 
 const resetUserPasswordRequest = () => ({
@@ -139,7 +141,7 @@ const resetUserPasswordSuccess = (user) => ({
 
 const resetUserPasswordError = (error) => ({
   type: USER_RESET_PASSWORD_FAIL,
-  payload: error,
+  error: error,
 });
 
 // thunks
@@ -171,12 +173,12 @@ export const userLogin = (form) => async (dispatch) => {
   dispatch(userLoginRequest());
 
   try {
-    const resp = await normaService.userLogin(form);
-    // console.log('userLogin resp', resp);
-    setRefreshToken(resp);
-    setAccessToken(resp);
+    const response = await normaService.userLogin(form);
+    // console.log('userLogin response', response);
+    setRefreshToken(response);
+    setAccessToken(response);
 
-    dispatch(userLoginSuccess(resp.user));
+    dispatch(userLoginSuccess(response.user));
   } catch (error) {
     // console.log('userLogin error', error);
     dispatch(userLoginError(error));
@@ -187,10 +189,10 @@ export const userLogout = () => async (dispatch) => {
   dispatch(userLogoutRequest());
 
   try {
-    const resp = await normaService.userLogout();
-    // console.log('userLogin resp', resp);
-    removeRefreshToken(resp);
-    removeAccessToken(resp);
+    const response = await normaService.userLogout();
+    // console.log('userLogin response', response);
+    removeRefreshToken(response);
+    removeAccessToken(response);
 
     dispatch(userLogoutSuccess());
   } catch (error) {
@@ -203,24 +205,25 @@ export const userRegister = (form) => async (dispatch) => {
   dispatch(userRegisterRequest());
 
   try {
-    const resp = await normaService.userRegister(form);
-    // console.log('userRegister resp', resp);
-    setRefreshToken(resp);
-    setAccessToken(resp);
+    const response = await normaService.userRegister(form);
+    // console.log('userRegister response', response);
+    setRefreshToken(response);
+    setAccessToken(response);
 
-    dispatch(userRegisterSucces(resp));
+    dispatch(userRegisterSucces(response));
   } catch (error) {
     // console.log('userRegister error', error);
-    dispatch(userRegisterError(error.message));
+    dispatch(userRegisterError(error));
   }
 };
 
 export const getUserInfo = () => async (dispatch) => {
   dispatch(userProfileRequest());
+
   try {
-    const resp = await normaService.fetchUserInfo();
-    // console.log('userInfo resp', resp);
-    dispatch(userProfileSuccess(resp.user));
+    const response = await normaService.fetchUserInfo();
+    // console.log('userInfo response', response);
+    dispatch(userProfileSuccess(response.user));
   } catch (error) {
     // console.log('userInfo error', error);
     dispatch(userProfileError(error));
@@ -229,10 +232,11 @@ export const getUserInfo = () => async (dispatch) => {
 
 export const updateUserInfo = (form) => async (dispatch) => {
   dispatch(updateUserProfileRequest());
+
   try {
-    const resp = await normaService.updateUserInfo(form);
-    // console.log('updateUserInfo resp', resp);
-    dispatch(updateUserProfileSuccess(resp.user));
+    const response = await normaService.updateUserInfo(form);
+    // console.log('updateUserInfo response', response);
+    dispatch(updateUserProfileSuccess(response.user));
   } catch (error) {
     // console.log('updateUserInfo error', error);
     dispatch(updateUserProfileError(error));
@@ -242,9 +246,9 @@ export const updateUserInfo = (form) => async (dispatch) => {
 export const forgotUserPassword = (form) => async (dispatch) => {
   dispatch(forgotUserPasswordRequest());
   try {
-    const resp = await normaService.forgotPassword(form);
+    const response = await normaService.forgotPassword(form);
 
-    console.log('forgotUserPassword resp', resp);
+    console.log('forgotUserPassword response', response);
     localStorage.setItem('resetEmailSent', true);
 
     dispatch(forgotUserPasswordSuccess());
@@ -257,14 +261,14 @@ export const forgotUserPassword = (form) => async (dispatch) => {
 export const resetUserPassword = (form) => async (dispatch) => {
   dispatch(resetUserPasswordRequest());
   try {
-    const resp = await normaService.resetPassword(form);
+    const response = await normaService.resetPassword(form);
 
-    console.log('resetUserPassword resp', resp);
+    console.log('resetUserPassword response', response);
     localStorage.removeItem('resetEmailSent');
 
     dispatch(resetUserPasswordSuccess());
   } catch (error) {
-    console.log('resetUserPassword error', error);
+    // console.log('resetUserPassword error', error);
     dispatch(resetUserPasswordError(error));
   }
 };

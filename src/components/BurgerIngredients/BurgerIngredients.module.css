@@ -1,23 +1,33 @@
 .section {
-  width: 50%;
   display: flex;
   flex-direction: column;
+
+  width: 50%;
+
+  padding: calc(var(--offset-base-size) * 5);
 }
 
 .tabs {
   display: flex;
+
+  margin-bottom: calc(var(--offset-base-size) * 10);
 }
 
 .ingredientsList {
   display: flex;
-  flex-direction: column;
-  max-height: 600px;
   overflow: auto;
+  flex-direction: column;
+
+  max-height: 600px;
+}
+
+.ingredientsGroupTitle {
+  margin-bottom: calc(var(--offset-base-size) * 2);
 }
 
 .ingredientsGroup {
   display: flex;
   flex-wrap: wrap;
-  /* box-sizing: border-box; */
-  /* border: 1px solid #fff; */
+
+  margin-bottom: calc(var(--offset-base-size) * 10);
 }

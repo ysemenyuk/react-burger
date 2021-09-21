@@ -1,9 +1,10 @@
 .link {
   display: flex;
   align-items: center;
+
+  margin: calc(var(--offset-base-size) * 4);
 }
 
 .link svg {
-  margin-right: 8px;
+  margin-right: calc(var(--offset-base-size) * 4);
 }
-

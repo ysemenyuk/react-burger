@@ -16,7 +16,7 @@ function AppHeader() {
 
   return (
     <header className={styles.header}>
-      <nav className={cn(styles.container, 'pt-4', 'pb-4')}>
+      <nav className={cn(styles.container)}>
         <HeaderLink to={'/'} active={pathname === '/'}>
           <BurgerIcon /> Конструктор
         </HeaderLink>

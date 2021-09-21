@@ -1,10 +1,14 @@
+import cn from 'classnames';
+import styles from './ToppingCard.module.css';
+
 import PropTypes from 'prop-types';
 import { useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
-import cn from 'classnames';
-import styles from './ToppingCard.module.css';
+import {
+  ConstructorElement,
+  DragIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { TOPPINGS } from '../../../utils/constants';
 
@@ -38,18 +42,13 @@ function ToppingCard({ item, index, handleMoveCard, handleDeleteCard }) {
   drag(drop(ref));
 
   return (
-    <li
-      style={{ opacity }}
-      ref={ref}
-      draggable
-      className={cn(styles.item, 'mb-4', 'ml-4', 'mr-4')}
-    >
+    <li style={{ opacity }} ref={ref} draggable className={cn(styles.item)}>
       <DragIcon type='primary' />
       <ConstructorElement
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => handleDeleteCard(index)}
+        handleClose={() => handleDeleteCard(item.uuid)}
       />
     </li>
   );

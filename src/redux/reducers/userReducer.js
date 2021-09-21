@@ -22,22 +22,23 @@ import {
   USER_RESET_PASSWORD_REQUEST,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_FAIL,
-} from '../actions/types';
+} from '../../utils/types';
 
-export const userInfoReducer = (
-  state = { isCheckUserAuth: true, isAuth: false, userInfo: { email: '', name: '' } },
-  action
-) => {
+const initState = { isCheckAuth: true, isAuth: false, userInfo: { email: '', name: '' } };
+
+export const userInfoReducer = (state = initState, action) => {
   switch (action.type) {
     case USER_CHECK_AUTH_SUCCESS:
+      return { isCheckAuth: false, isAuth: true, userInfo: action.payload };
+    case USER_CHECK_AUTH_FAIL:
+      return { ...state, isCheckAuth: false };
     case USER_LOGIN_SUCCESS:
     case USER_REGISTER_SUCCESS:
-      return { isCheckUserAuth: false, isAuth: true, userInfo: action.payload };
+      return { ...state, isAuth: true, userInfo: action.payload };
     case USER_UPDATE_PROFILE_SUCCESS:
       return { ...state, userInfo: action.payload };
-    case USER_CHECK_AUTH_FAIL:
     case USER_LOGOUT_SUCCESS:
-      return { isCheckUserAuth: false, isAuth: false, userInfo: { email: '', name: '' } };
+      return { ...initState, isCheckAuth: false };
     default:
       return state;
   }
@@ -53,7 +54,7 @@ export const userLoginReducer = (
     case USER_LOGIN_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_LOGIN_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }
@@ -69,7 +70,7 @@ export const userRegisterReducer = (
     case USER_REGISTER_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_REGISTER_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }
@@ -85,7 +86,7 @@ export const userProfileReducer = (
     case USER_PROFILE_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_PROFILE_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }
@@ -101,7 +102,7 @@ export const userUpdateProfileReducer = (
     case USER_UPDATE_PROFILE_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_UPDATE_PROFILE_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }
@@ -117,7 +118,7 @@ export const userForgotPasswordReducer = (
     case USER_FORGOT_PASSWORD_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_FORGOT_PASSWORD_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }
@@ -133,7 +134,7 @@ export const userResetPasswordReducer = (
     case USER_RESET_PASSWORD_SUCCESS:
       return { loading: false, success: true, error: null };
     case USER_RESET_PASSWORD_FAIL:
-      return { loading: false, success: false, error: action.payload };
+      return { loading: false, success: false, error: action.error };
     default:
       return state;
   }

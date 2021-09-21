@@ -1,29 +1,36 @@
 .container {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .ldsDualRing {
   display: inline-block;
+
   width: 58px;
   height: 58px;
 }
-.ldsDualRing:after {
-  content: ' ';
+
+.ldsDualRing::after {
   display: block;
+
   width: 30px;
   height: 30px;
   margin: 8px;
-  border-radius: 50%;
+
+  content: ' ';
+  animation: ldsDualRing 1.2s linear infinite;
+
   border: 6px solid #fff;
   border-color: #fff transparent #fff transparent;
-  animation: ldsDualRing 1.2s linear infinite;
+  border-radius: 50%;
 }
+
 @keyframes ldsDualRing {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }

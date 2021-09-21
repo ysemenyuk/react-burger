@@ -15,7 +15,7 @@ function ResetPassword() {
   const dispatch = useDispatch();
 
   const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const resetPassword = useSelector((state) => state.userResetPassword);
+  const { loading, success, error } = useSelector((state) => state.userResetPassword);
 
   const passInput = usePassInput('');
   const tokenInput = useInput('');
@@ -35,7 +35,7 @@ function ResetPassword() {
     return <Redirect to={'/'} />;
   }
 
-  if (resetPassword.success) {
+  if (success) {
     return <Redirect to={'/login'} />;
   }
 
@@ -49,24 +49,33 @@ function ResetPassword() {
         <Input
           onChange={passInput.onChange}
           value={passInput.value}
+          ref={passInput.ref}
+          disabled={loading}
+          error={error}
           type={passInput.type}
           name='password'
           placeholder='Введите новый пароль'
           icon={passInput.icon}
           onIconClick={passInput.onIconClick}
-          error={false}
-          errorText={'Ошибка'}
         />
         <Input
           onChange={tokenInput.onChange}
           value={tokenInput.value}
+          ref={tokenInput.ref}
+          disabled={loading}
+          error={error}
           type='text'
           name='token'
           placeholder='Введите код из письма'
         />
-        <Button>Сохранить</Button>
+        <Button disabled={loading}>Сохранить</Button>
+
+        {loading && 'Loading...'}
+        {success && 'Success'}
+        {error && error.message}
       </form>
-      <span className={cn(styles.text, 'text_color_inactive', 'mb-4')}>
+
+      <span className={cn(styles.text, 'text_color_inactive')}>
         Вспомнили пароль?{' '}
         <Link className={styles.link} to='/login'>
           Войти

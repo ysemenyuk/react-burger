@@ -1,16 +1,20 @@
-// ingredients reducer
+// ingredients
 export const INGRIDIENTS_REQUEST = 'INGRIDIENTS_REQUEST';
 export const INGRIDIENTS_SUCCESS = 'INGRIDIENTS_SUCCESS';
 export const INGRIDIENTS_ERROR = 'INGRIDIENTS_ERROR';
 
-// orderItems reducer
+// currentIngredient
+export const SET_CURRENT_INGREDIENT = 'SET_CURRENT_INGREDIENT';
+export const RESET_CURRENT_INGREDIENT = 'RESET_CURRENT_INGREDIENT';
+
+// orderItems
 export const ADD_BUN = 'ADD_BUN';
 export const ADD_TOPPING = 'ADD_TOPPING';
 export const DELETE_TOPPING = 'DELETE_TOPPING';
 export const UPDATE_TOPPINGS_LIST = 'UPDATE_TOPPINGS_LIST';
 export const CLEAR_ORDER_ITEMS = 'CLEAR_ORDER_ITEMS';
 
-//OrderDetails reducer
+//OrderDetails
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const ORDER_SUCCESS = 'ORDER_SUCCESS';
 export const ORDER_ERROR = 'ORDER_ERROR';
@@ -18,7 +22,6 @@ export const ORDER_ERROR = 'ORDER_ERROR';
 export const CLOSE_ORDER_DETAILS = 'CLOSE_ORDER_DETAILS';
 
 //user
-
 export const USER_CHECK_AUTH_REQUEST = 'USER_CHECK_AUTH_REQUEST';
 export const USER_CHECK_AUTH_SUCCESS = 'USER_CHECK_AUTH_SUCCESS';
 export const USER_CHECK_AUTH_FAIL = 'USER_CHECK_AUTH_FAIL';

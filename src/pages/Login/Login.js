@@ -16,6 +16,7 @@ function Login() {
   const location = useLocation();
 
   const isAuth = useSelector((state) => state.userInfo.isAuth);
+  const { loading, success, error } = useSelector((state) => state.userLogin);
 
   const emailInput = useInput('');
   const passInput = usePasswordInput('');
@@ -28,6 +29,7 @@ function Login() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // todo: validate inputs
     dispatch(userLogin({ email: emailInput.value, password: passInput.value }));
   };
 
@@ -43,6 +45,8 @@ function Login() {
           value={emailInput.value}
           ref={emailInput.ref}
           type='email'
+          disabled={loading}
+          error={error}
           name='email'
           placeholder='E-mail'
         />
@@ -51,20 +55,27 @@ function Login() {
           value={passInput.value}
           ref={passInput.ref}
           type={passInput.type}
+          disabled={loading}
+          error={error}
           name='password'
           placeholder='Пароль'
           icon={passInput.icon}
           onIconClick={passInput.onIconClick}
         />
-        <Button>Войти</Button>
+        <Button disabled={loading}>Войти</Button>
+
+        {loading && 'Loading...'}
+        {success && 'Success'}
+        {error && error.message}
       </form>
-      <span className={cn(styles.text, 'text_color_inactive', 'mb-4')}>
+
+      <span className={cn(styles.text, 'text_color_inactive')}>
         Вы — новый пользователь?{' '}
         <Link className={styles.link} to='/register'>
           Зарегистрироваться
         </Link>
       </span>
-      <span className={cn(styles.text, 'text_color_inactive', 'mb-4')}>
+      <span className={cn(styles.text, 'text_color_inactive')}>
         Забыли пароль?{' '}
         <Link className={styles.link} to='/forgot-password'>
           Восстановить пароль

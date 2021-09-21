@@ -9,39 +9,41 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS,
-} from '../actions/types';
+} from '../../utils/types';
 
-export const orderItemsReducer = (state = { bun: null, toppings: [] }, action) => {
+const itemsInitState = { bun: null, toppings: [] };
+
+export const orderItemsReducer = (state = itemsInitState, action) => {
   switch (action.type) {
     case ADD_BUN: {
-      return { ...state, bun: { ...action.item } };
+      return { ...state, bun: { ...action.payload } };
     }
     case ADD_TOPPING: {
       return {
         ...state,
-        toppings: [...state.toppings, { ...action.item, uuid: uuidv4() }],
+        toppings: [...state.toppings, { ...action.payload, uuid: uuidv4() }],
       };
     }
     case DELETE_TOPPING: {
       return {
         ...state,
-        toppings: [...state.toppings.filter((el, i) => i !== action.index)],
+        toppings: [...state.toppings.filter((el) => el.uuid !== action.payload)],
       };
     }
     case UPDATE_TOPPINGS_LIST: {
-      return { ...state, toppings: [...action.list] };
+      return { ...state, toppings: [...action.payload] };
     }
     case CLEAR_ORDER_ITEMS: {
-      return { bun: null, toppings: [] };
+      return itemsInitState;
     }
     default:
       return state;
   }
 };
 
-const initialState = { visible: false, loading: false, error: null, currentOrder: {} };
+const orderInitState = { visible: false, loading: false, error: null, currentOrder: {} };
 
-export const orderDetailsReducer = (state = initialState, action) => {
+export const orderDetailsReducer = (state = orderInitState, action) => {
   switch (action.type) {
     case ORDER_REQUEST: {
       return { ...state, visible: true, loading: true, error: null };
@@ -52,7 +54,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
         visible: true,
         loading: false,
         error: null,
-        currentOrder: { ...action.data },
+        currentOrder: { ...action.payload },
       };
     }
     case ORDER_ERROR: {

@@ -12,7 +12,7 @@ function HeaderLink({ children, to, active, ...props }) {
 
   const type = !isHover && !active ? 'secondary' : 'primary';
 
-  const linkClass = cn(styles.link, 'm-4', {
+  const linkClass = cn(styles.link, {
     text_color_inactive: !isHover && !active,
   });
 

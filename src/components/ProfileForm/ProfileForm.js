@@ -18,6 +18,7 @@ function ProfileForm() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    // todo: validate inputs
     dispatch(
       updateUserInfo({
         name: userInput.value,
@@ -69,13 +70,15 @@ function ProfileForm() {
         icon={passInput.icon}
         onIconClick={passInput.onIconClick}
       />
+
       <div className={styles.buttons}>
         <Button type='secondary' onClick={resetHandler}>
           Отмена
         </Button>
         <Button type='primary'>Сохранить</Button>
       </div>
-      {loading && 'Loading'}
+
+      {loading && 'Loading...'}
       {success && 'Success'}
       {error && error.message}
     </form>

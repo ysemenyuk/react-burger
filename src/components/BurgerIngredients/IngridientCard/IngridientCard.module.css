@@ -1,23 +1,33 @@
 .itemCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   position: relative;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
   max-width: 272px;
   height: 208px;
+
   cursor: pointer;
+
   /* box-sizing: border-box;
   border: 1px solid #fff; */
 }
 
 .itemCard img {
-  height: 120px;
   width: 240px;
+  height: 120px;
+
+  margin-right: calc(var(--offset-base-size) * 4);
+  margin-bottom: calc(var(--offset-base-size) * 2);
+  margin-left: calc(var(--offset-base-size) * 4);
 }
 
 .itemCard .price {
   display: flex;
   align-items: center;
+
+  margin-bottom: calc(var(--offset-base-size) * 2);
 }
 
 .itemCard .price svg {

@@ -22,14 +22,14 @@ import { checkUserAuth } from '../../redux/actions/userActions';
 function App() {
   const dispatch = useDispatch();
 
-  const isCheckUserAuth = useSelector((state) => state.userInfo.isCheckUserAuth);
+  const isCheckAuth = useSelector((state) => state.userInfo.isCheckAuth);
   const isModalOpen = useSelector((state) => state.ingredientDetails.isModalOpen);
 
   useEffect(() => {
     dispatch(checkUserAuth());
   }, []);
 
-  if (isCheckUserAuth) {
+  if (isCheckAuth) {
     return <Loader height='100vh' />;
   }
 

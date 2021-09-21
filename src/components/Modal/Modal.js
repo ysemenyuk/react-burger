@@ -37,7 +37,7 @@ function Modal({ children, onClose, title }) {
 
   return ReactDOM.createPortal(
     <ModalOverlay handleClickOnOverlay={handleClickOnOverlay}>
-      <div className={cn(styles.modal, 'p-10')}>
+      <div className={cn(styles.modal)}>
         <span
           onClick={onClose}
           onMouseEnter={onMouseEnter}
@@ -47,9 +47,7 @@ function Modal({ children, onClose, title }) {
           <CloseIcon type={isHover ? 'primary' : 'secondary'} />
         </span>
         {title ? (
-          <h2 className={cn(styles.title, 'pt-3', 'pb-3', 'text text_type_main-large')}>
-            {title}
-          </h2>
+          <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>{title}</h2>
         ) : (
           <span className={styles.emptyTitle}> </span>
         )}

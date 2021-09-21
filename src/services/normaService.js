@@ -1,8 +1,18 @@
-import checkResponse from '../utils/checkResponse.js';
-import { getAccessToken, getRefreshToken } from '../utils/tokens.js';
-const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
+// import checkResponse from '../utils/checkResponse.js';
+import { getAccessToken, getRefreshToken } from '../utils/helpers.js';
 
+const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
 const headers = { 'Content-Type': 'application/json' };
+
+const checkResponse = (res) =>
+  res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+
+const updateRefreshToken = async () =>
+  await fetch(`${NORMA_BASE_URL}/auth/token`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({ token: getRefreshToken() }),
+  }).then(checkResponse);
 
 const fetchIngredients = async () =>
   await fetch(`${NORMA_BASE_URL}/ingredients`).then(checkResponse);
@@ -50,13 +60,6 @@ const resetPassword = async ({ password, token }) =>
     method: 'POST',
     headers,
     body: JSON.stringify({ password, token }),
-  }).then(checkResponse);
-
-const updateRefreshToken = async () =>
-  await fetch(`${NORMA_BASE_URL}/auth/token`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ token: getRefreshToken() }),
   }).then(checkResponse);
 
 const fetchUserInfo = async () =>

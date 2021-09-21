@@ -16,6 +16,7 @@ function Register() {
   const location = useLocation();
 
   const isAuth = useSelector((state) => state.userInfo.isAuth);
+  const { loading, success, error } = useSelector((state) => state.userRegister);
 
   const nameInput = useInput('');
   const emailInput = useInput('');
@@ -29,7 +30,7 @@ function Register() {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log('values', values);
+    // todo: validate inputs
     dispatch(
       userRegister({
         name: nameInput.value,
@@ -50,6 +51,8 @@ function Register() {
           onChange={nameInput.onChange}
           value={nameInput.value}
           ref={nameInput.ref}
+          disabled={loading}
+          error={error}
           type='text'
           name='name'
           placeholder='Имя'
@@ -58,6 +61,8 @@ function Register() {
           onChange={emailInput.onChange}
           value={emailInput.value}
           ref={emailInput.ref}
+          disabled={loading}
+          error={error}
           type='email'
           name='email'
           placeholder='E-mail'
@@ -66,15 +71,21 @@ function Register() {
           onChange={passInput.onChange}
           value={passInput.value}
           ref={passInput.ref}
+          disabled={loading}
+          error={error}
           type={passInput.type}
           name='password'
           placeholder='Пароль'
           icon={passInput.icon}
           onIconClick={passInput.onIconClick}
         />
-        <Button>Зарегистрироваться</Button>
+        <Button disabled={loading}>Зарегистрироваться</Button>
+        {loading && 'Loading...'}
+        {success && 'Success'}
+        {error && error.message}
       </form>
-      <span className={cn(styles.text, 'text_color_inactive', 'mb-4')}>
+
+      <span className={cn(styles.text, 'text_color_inactive')}>
         Уже зарегистрированы?{' '}
         <Link className={styles.link} to='/login'>
           Войти

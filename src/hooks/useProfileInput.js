@@ -10,27 +10,29 @@ function useProfileInput(initValue) {
     setValue(initValue);
   }, [initValue]);
 
+  const onKeyDown = (e) => {
+    if (e.code === 'Escape') {
+      setInput({ disabled: true, icon: 'EditIcon' });
+    }
+  };
+
+  const onClick = (e) => {
+    if (inputRef.current !== e.target) {
+      setInput({ disabled: true, icon: 'EditIcon' });
+    }
+  };
+
   useEffect(() => {
-    const onKeyDown = (e) => {
-      if (e.code === 'Escape') {
-        setInput({ disabled: true, icon: 'EditIcon' });
-      }
-    };
-
-    const onClick = (e) => {
-      if (inputRef.current !== e.target) {
-        setInput({ disabled: true, icon: 'EditIcon' });
-      }
-    };
-
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('click', onClick);
+    if (!input.disabled) {
+      document.addEventListener('keydown', onKeyDown);
+      document.addEventListener('click', onClick);
+    }
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.addEventListener('click', onClick);
+      document.removeEventListener('click', onClick);
     };
-  }, []);
+  }, [input.disabled]);
 
   const onChange = (e) => {
     const value = e.target.value;
@@ -46,7 +48,6 @@ function useProfileInput(initValue) {
       setInput({ disabled: false, icon: 'CloseIcon' });
       setTimeout(() => {
         if (inputRef && inputRef.current) {
-          // console.log('setTimeout');
           inputRef.current.focus();
         }
       }, 0);
