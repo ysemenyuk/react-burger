@@ -2,9 +2,11 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 
-import { ingridientsReducer } from './reducers/ingridientsReducer.js';
-import { orderItemsReducer } from './reducers/orderItemsReducer.js';
-import { orderDetailsReducer } from './reducers/orderDetailsReducer.js';
+import { orderItemsReducer, orderDetailsReducer } from './reducers/constructorReducer.js';
+import {
+  ingredientDetailsReducer,
+  ingredientsReducer,
+} from './reducers/ingredientsReducer.js';
 import {
   userInfoReducer,
   userLoginReducer,
@@ -16,7 +18,8 @@ import {
 } from './reducers/userReducer.js';
 
 const rootReducer = combineReducers({
-  ingridients: ingridientsReducer,
+  ingredients: ingredientsReducer,
+  ingredientDetails: ingredientDetailsReducer,
   orderItems: orderItemsReducer,
   orderDetails: orderDetailsReducer,
   userInfo: userInfoReducer,

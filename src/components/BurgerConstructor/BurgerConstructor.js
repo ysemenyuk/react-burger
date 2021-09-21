@@ -1,9 +1,10 @@
-import { useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useDrop } from 'react-dnd';
-
 import cn from 'classnames';
 import styles from './BurgerConstructor.module.css';
+
+import { useCallback, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useDrop } from 'react-dnd';
 
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
@@ -13,19 +14,24 @@ import BunCard from './BunCard/BunCard';
 import Loader from '../UI/Loader/Loader';
 import Message from '../UI/Message/Message';
 
-import { createOrder, closeOrderDetails } from '../../redux/actions/orderDetailsActions';
 import {
   addBun,
   addTopping,
   deleteTopping,
   updateToppingsList,
   clearOrderItems,
-} from '../../redux/actions/orderItemsActions';
+  createOrder,
+  closeOrderDetails,
+} from '../../redux/actions/constructorActions';
 
 import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+
+  const isAuth = useSelector((state) => state.userInfo.isAuth);
   const { bun, toppings } = useSelector((state) => state.orderItems);
   const { visible, loading, error, currentOrder } = useSelector((state) => state.orderDetails);
 
@@ -49,7 +55,9 @@ function BurgerConstructor() {
   });
 
   const handleCreateOrder = () => {
-    dispatch(createOrder(orderItemsIds));
+    isAuth
+      ? dispatch(createOrder(orderItemsIds))
+      : history.push({ pathname: `/login`, state: { from: location } });
   };
 
   const handleCloseModal = () => {
@@ -81,15 +89,14 @@ function BurgerConstructor() {
       {visible && (
         <Modal onClose={handleCloseModal}>
           {error ? (
-            <Message message='Network error' />
+            <Message message={error} />
           ) : loading ? (
-            <Loader height='500px' />
+            <Loader height={'500px'} />
           ) : (
             <OrderDetails order={currentOrder} />
           )}
         </Modal>
       )}
-
       <div className={cn(styles.header)}>
         <p>
           {!bun && !toppings.length && 'Перетащите ингридиенты в поле ниже'}
@@ -103,7 +110,6 @@ function BurgerConstructor() {
           </button>
         )}
       </div>
-
       <div
         ref={dropTarget}
         className={cn(styles.dropTarget, `${isHover && styles.dropTargetHover}`)}
@@ -124,18 +130,19 @@ function BurgerConstructor() {
 
         {bun && <BunCard item={bun} />}
       </div>
+
       <div className={cn(styles.total, 'm-4', 'mt-8', 'text_type_digits-medium')}>
         <span className={'mr-10'}>
           {orderTotalPrice}
           <CurrencyIcon type='primary' />
         </span>
         <Button
-          disabled={!bun || !toppings.length}
+          disabled={!bun || !toppings.length || loading}
           onClick={handleCreateOrder}
           type='primary'
           size='large'
         >
-          Оформить заказ
+          {loading ? 'Оформляем..' : 'Оформить заказ'}
         </Button>
       </div>
     </section>

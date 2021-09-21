@@ -1,9 +1,13 @@
-import PropTypes from 'prop-types';
-import { useDrag } from 'react-dnd';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import cn from 'classnames';
 import styles from './IngridientCard.module.css';
+
+import PropTypes from 'prop-types';
+import { useDrag } from 'react-dnd';
+
+import {
+  Counter,
+  CurrencyIcon,
+} from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { INGRIDIENTS } from '../../../utils/constants';
 

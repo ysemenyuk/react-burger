@@ -10,7 +10,10 @@ const fetchIngredients = async () =>
 const createOrder = async (data) =>
   await fetch(`${NORMA_BASE_URL}/orders`, {
     method: 'POST',
-    headers,
+    headers: {
+      ...headers,
+      Authorization: 'Bearer ' + getAccessToken(),
+    },
     body: JSON.stringify({ ingredients: data }),
   }).then(checkResponse);
 
@@ -49,7 +52,7 @@ const resetPassword = async ({ password, token }) =>
     body: JSON.stringify({ password, token }),
   }).then(checkResponse);
 
-const refreshToken = async () =>
+const updateRefreshToken = async () =>
   await fetch(`${NORMA_BASE_URL}/auth/token`, {
     method: 'POST',
     headers,
@@ -83,7 +86,7 @@ const normaService = {
   userLogout,
   forgotPassword,
   resetPassword,
-  refreshToken,
+  updateRefreshToken,
   fetchUserInfo,
   updateUserInfo,
 };

@@ -1,36 +1,46 @@
+import cn from 'classnames';
+import styles from './BurgerIngredients.module.css';
+
 import { useState, useRef, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
 import Modal from '../Modal/Modal';
-import IngredientDetails from './IngredientDetails/IngredientDetails';
-
-import cn from 'classnames';
-import styles from './BurgerIngredients.module.css';
+import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 import { useScroll } from '../../hooks/useScroll';
 import { ItemTypes } from '../../utils/constants';
 import { calculateQuantity } from '../../utils/calculateQuantity';
+import {
+  resetCurrentIngredient,
+  setCurrentIngredient,
+} from '../../redux/actions/ingredientsActions';
+import groupByType from '../../utils/groupByType';
 
-const ingridientsGroups = [
+const ingredientsGroups = [
   { type: ItemTypes.BUN, title: 'Булки' },
   { type: ItemTypes.SAUCE, title: 'Соусы' },
   { type: ItemTypes.MAIN, title: 'Начинки' },
 ];
 
 function BurgerIngredients() {
-  const { ingridientsByType } = useSelector((state) => state.ingridients);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const items = useSelector((state) => state.ingredients.items);
   const orderItems = useSelector((state) => state.orderItems);
+  const { isModalOpen, currentIngredient } = useSelector((state) => state.ingredientDetails);
 
   const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
-  const [currentItem, setCurrentItem] = useState({ visible: false, item: null });
 
   const containerRef = useRef(null);
   const targetsRefs = useRef({});
 
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
 
+  const ingredientsByType = useMemo(() => groupByType(items), [items]);
   const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const handleTabClick = (tab) => {
@@ -48,23 +58,25 @@ function BurgerIngredients() {
   };
 
   const handleCardClick = (item) => () => {
-    setCurrentItem({ visible: true, item: item });
+    dispatch(setCurrentIngredient(item));
+    history.replace({ pathname: `/ingredients/${item._id}` });
   };
 
   const handleCloseModal = () => {
-    setCurrentItem({ visible: false, item: null });
+    dispatch(resetCurrentIngredient());
+    history.replace({ pathname: `/` });
   };
 
   return (
     <section className={cn(styles.section, 'p-5')}>
-      {currentItem.visible && (
-        <Modal onClose={handleCloseModal}>
-          <IngredientDetails item={currentItem.item} />
+      {isModalOpen && (
+        <Modal onClose={handleCloseModal} title={'Детали ингредиента'}>
+          <IngredientDetails item={currentIngredient} />
         </Modal>
       )}
 
       <ul className={cn(styles.tabs, 'mb-10')}>
-        {ingridientsGroups.map(({ type, title }) => (
+        {ingredientsGroups.map(({ type, title }) => (
           <li key={type}>
             <Tab value={type} active={currentTab === type} onClick={handleTabClick}>
               {title}
@@ -73,8 +85,8 @@ function BurgerIngredients() {
         ))}
       </ul>
 
-      <ul ref={containerRef} className={cn(styles.ingridientsList)}>
-        {ingridientsGroups.map(({ type, title }) => (
+      <ul ref={containerRef} className={cn(styles.ingredientsList)}>
+        {ingredientsGroups.map(({ type, title }) => (
           <li key={type}>
             <h2
               ref={(el) => (targetsRefs.current[type] = el)}
@@ -83,8 +95,8 @@ function BurgerIngredients() {
             >
               {title}
             </h2>
-            <ul className={cn(styles.ingridientsGroup, 'mb-10')}>
-              {ingridientsByType[type].map((item) => {
+            <ul className={cn(styles.ingredientsGroup, 'mb-10')}>
+              {ingredientsByType[type].map((item) => {
                 return (
                   <IngridientCard
                     key={item._id}

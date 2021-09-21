@@ -6,8 +6,8 @@ import styles from './OrderDetails.module.css';
 
 function OrderDetails({ order }) {
   return (
-    <section className={cn(styles.container, 'text_type_main-default', 'mb-10', 'mt-10')}>
-      <span className={cn(styles.num, 'text_type_digits-large', 'mt-10')}>{order.number}</span>
+    <section className={cn(styles.container, 'text_type_main-default', 'mb-5', 'mt-5')}>
+      <span className={cn(styles.num, 'text_type_digits-large')}>{order.number}</span>
       <span className={cn('text_type_main-medium', 'mt-8')}>идентификатор заказа</span>
       <img className={cn('mt-15', 'mb-15')} src={done} alt={'done'} />
       <span className={cn('mb-2')}>Ваш заказ начали готовить</span>

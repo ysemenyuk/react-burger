@@ -7,8 +7,8 @@ import {
   setRefreshToken,
 } from '../../utils/tokens';
 import {
-  USER_CHECK_SUCCESS,
-  USER_CHECK_FAIL,
+  USER_CHECK_AUTH_SUCCESS,
+  USER_CHECK_AUTH_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
@@ -34,13 +34,13 @@ import {
 
 // actionCreators
 
-const checkUserSuccess = (user) => ({
-  type: USER_CHECK_SUCCESS,
+const checkUserAuthSuccess = (user) => ({
+  type: USER_CHECK_AUTH_SUCCESS,
   payload: user,
 });
 
-const checkUserFail = (error) => ({
-  type: USER_CHECK_FAIL,
+const checkUserAuthFail = (error) => ({
+  type: USER_CHECK_AUTH_FAIL,
   payload: error,
 });
 
@@ -144,26 +144,26 @@ const resetUserPasswordError = (error) => ({
 
 // thunks
 
-export const checkUser = () => async (dispatch) => {
+export const checkUserAuth = () => async (dispatch) => {
   if (!getRefreshToken()) {
-    dispatch(checkUserFail());
+    dispatch(checkUserAuthFail());
     return;
   }
 
   try {
-    const resp = await normaService.refreshToken();
+    const resp = await normaService.updateRefreshToken();
 
     setRefreshToken(resp);
     setAccessToken(resp);
 
     const { user } = await normaService.fetchUserInfo();
 
-    dispatch(checkUserSuccess(user));
+    dispatch(checkUserAuthSuccess(user));
   } catch (error) {
     removeRefreshToken();
     removeAccessToken();
 
-    dispatch(checkUserFail());
+    dispatch(checkUserAuthFail());
   }
 };
 

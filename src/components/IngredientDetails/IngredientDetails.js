@@ -1,14 +1,11 @@
 import cn from 'classnames';
 import styles from './IngredientDetails.module.css';
 
-import ingridientPropTypes from '../../../utils/ingridientPropTypes';
+import ingridientPropTypes from '../../utils/ingridientPropTypes';
 
 function IngredientDetails({ item }) {
   return (
     <section className={cn(styles.container)}>
-      <h2 className={cn(styles.title, 'pt-3', 'pb-3', 'text text_type_main-large')}>
-        Детали ингредиента
-      </h2>
       <img src={item.image_large} alt={item.name}></img>
       <span className={cn(styles.name, 'text_type_main-medium', 'pb-8')}>{item.name}</span>
       <ul className={cn(styles.props, 'text_type_main-default', 'text_color_inactive')}>

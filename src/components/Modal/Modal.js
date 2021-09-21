@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import styles from './Modal.module.css';
+
+import { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
@@ -6,15 +8,12 @@ import cn from 'classnames';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 
-import styles from './Modal.module.css';
+import useHover from '../../hooks/useHover';
 
 const modalRoot = document.getElementById('modals');
 
-function Modal({ children, onClose }) {
-  const [hover, setHover] = useState(false);
-
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
+function Modal({ children, onClose, title }) {
+  const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
   const handleClickOnOverlay = (e) => {
     if (e.target === e.currentTarget) onClose();
@@ -25,13 +24,13 @@ function Modal({ children, onClose }) {
       if (e.code === 'Escape') onClose();
     };
 
-    document.body.style.overflow = 'hidden';
     // document.body.style.paddingRight = '8px';
+    document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', onKeyDown);
 
     return () => {
-      document.body.style.overflow = 'unset';
       // document.body.style.paddingRight = '0px';
+      document.body.style.overflow = 'unset';
       document.removeEventListener('keydown', onKeyDown);
     };
   }, [onClose]);
@@ -41,12 +40,19 @@ function Modal({ children, onClose }) {
       <div className={cn(styles.modal, 'p-10')}>
         <span
           onClick={onClose}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           className={styles.closeIcon}
         >
-          <CloseIcon type={hover ? 'primary' : 'secondary'} />
+          <CloseIcon type={isHover ? 'primary' : 'secondary'} />
         </span>
+        {title ? (
+          <h2 className={cn(styles.title, 'pt-3', 'pb-3', 'text text_type_main-large')}>
+            {title}
+          </h2>
+        ) : (
+          <span className={styles.emptyTitle}> </span>
+        )}
         {children}
       </div>
     </ModalOverlay>,
@@ -55,8 +61,9 @@ function Modal({ children, onClose }) {
 }
 
 Modal.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.element.isRequired,
   onClose: PropTypes.func.isRequired,
+  title: PropTypes.string,
 };
 
 export default Modal;

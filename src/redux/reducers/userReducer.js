@@ -1,8 +1,8 @@
 // import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import {
-  USER_CHECK_SUCCESS,
-  USER_CHECK_FAIL,
+  USER_CHECK_AUTH_SUCCESS,
+  USER_CHECK_AUTH_FAIL,
   USER_LOGIN_REQUEST,
   USER_LOGIN_SUCCESS,
   USER_LOGIN_FAIL,
@@ -25,19 +25,19 @@ import {
 } from '../actions/types';
 
 export const userInfoReducer = (
-  state = { checkAuth: true, isAuth: false, userInfo: { email: '', name: '' } },
+  state = { isCheckUserAuth: true, isAuth: false, userInfo: { email: '', name: '' } },
   action
 ) => {
   switch (action.type) {
-    case USER_CHECK_SUCCESS:
+    case USER_CHECK_AUTH_SUCCESS:
     case USER_LOGIN_SUCCESS:
     case USER_REGISTER_SUCCESS:
-      return { checkAuth: false, isAuth: true, userInfo: action.payload };
+      return { isCheckUserAuth: false, isAuth: true, userInfo: action.payload };
     case USER_UPDATE_PROFILE_SUCCESS:
       return { ...state, userInfo: action.payload };
-    case USER_CHECK_FAIL:
+    case USER_CHECK_AUTH_FAIL:
     case USER_LOGOUT_SUCCESS:
-      return { checkAuth: false, isAuth: false, userInfo: { email: '', name: '' } };
+      return { isCheckUserAuth: false, isAuth: false, userInfo: { email: '', name: '' } };
     default:
       return state;
   }

@@ -1,29 +1,27 @@
 import cn from 'classnames';
 import styles from './HeaderLink.module.css';
 
-import { useState, Children, isValidElement, cloneElement } from 'react';
+import { Children, isValidElement, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
+import useHover from '../../../hooks/useHover';
 
 function HeaderLink({ children, to, active, ...props }) {
-  const [hover, setHover] = useState(false);
+  const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
-
-  const type = !hover && !active ? 'secondary' : 'primary';
+  const type = !isHover && !active ? 'secondary' : 'primary';
 
   const linkClass = cn(styles.link, 'm-4', {
-    text_color_inactive: !hover && !active,
+    text_color_inactive: !isHover && !active,
   });
 
   return (
     <Link
       to={to}
       className={linkClass}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       {...props}
     >
       {Children.map(children, (child) =>

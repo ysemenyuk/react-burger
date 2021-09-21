@@ -12,14 +12,14 @@ import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstruc
 import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
-import { getIngridients } from '../../redux/actions/ingridientsActions';
+import { getIngredients } from '../../redux/actions/ingredientsActions';
 
 function Home() {
   const dispatch = useDispatch();
-  const { loading, success, error } = useSelector((state) => state.ingridients);
+  const { loading, success, error } = useSelector((state) => state.ingredients);
 
   useEffect(() => {
-    !success && dispatch(getIngridients());
+    !success && dispatch(getIngredients());
   }, []);
 
   return (
@@ -28,7 +28,9 @@ function Home() {
       {error && <Message message='Network error' />}
       {success && (
         <>
-          <h1 className={cn('text', 'text_type_main-large', 'm-5', 'mt-10')}>Соберите бургер</h1>
+          <h1 className={cn('text', 'text_type_main-large', 'm-5', 'mt-10')}>
+            Соберите бургер
+          </h1>
           <div className={styles.constructor}>
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients />

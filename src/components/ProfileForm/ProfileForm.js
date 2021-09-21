@@ -22,7 +22,7 @@ function ProfileForm() {
       updateUserInfo({
         name: userInput.value,
         email: emailInput.value,
-        // password: passInput.value,
+        ...(passInput.value && { password: passInput.value }),
       })
     );
   };
@@ -77,7 +77,7 @@ function ProfileForm() {
       </div>
       {loading && 'Loading'}
       {success && 'Success'}
-      {error && 'Error'}
+      {error && error.message}
     </form>
   );
 }
