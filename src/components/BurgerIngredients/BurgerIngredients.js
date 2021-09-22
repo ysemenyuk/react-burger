@@ -3,20 +3,15 @@ import styles from './BurgerIngredients.module.css';
 
 import { useState, useRef, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
 
 import { useScroll } from '../../hooks/useScroll';
 import { ItemTypes } from '../../utils/constants';
 import { calculateQuantity, groupByType } from '../../utils/helpers';
-import {
-  resetCurrentIngredient,
-  setCurrentIngredient,
-} from '../../redux/actions/ingredientsActions';
+import { setCurrentIngredient } from '../../redux/actions/ingredientsActions';
 
 const ingredientsGroups = [
   { type: ItemTypes.BUN, title: 'Булки' },
@@ -26,11 +21,15 @@ const ingredientsGroups = [
 
 function BurgerIngredients() {
   const dispatch = useDispatch();
+
   const history = useHistory();
+  const location = useLocation();
 
   const ingredients = useSelector((state) => state.ingredients.items);
   const orderItems = useSelector((state) => state.orderItems);
-  const { isModalOpen, currentIngredient } = useSelector((state) => state.ingredientDetails);
+
+  const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
+  const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
 
@@ -38,9 +37,6 @@ function BurgerIngredients() {
   const targetsRefs = useRef({});
 
   useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
-
-  const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
-  const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
   const handleTabClick = (tab) => {
     setCurrentTab(tab);
@@ -58,22 +54,15 @@ function BurgerIngredients() {
 
   const handleCardClick = (item) => () => {
     dispatch(setCurrentIngredient(item));
-    history.replace({ pathname: `/ingredients/${item._id}` });
-  };
 
-  const handleCloseModal = () => {
-    dispatch(resetCurrentIngredient());
-    history.replace({ pathname: `/` });
+    history.push({
+      pathname: `/ingredients/${item._id}`,
+      state: { background: location },
+    });
   };
 
   return (
     <section className={cn(styles.section)}>
-      {isModalOpen && (
-        <Modal onClose={handleCloseModal} title={'Детали ингредиента'}>
-          <IngredientDetails item={currentIngredient} />
-        </Modal>
-      )}
-
       <ul className={cn(styles.tabs)}>
         {ingredientsGroups.map(({ type, title }) => (
           <li key={type}>

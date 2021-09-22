@@ -59,7 +59,7 @@ function BurgerConstructor() {
 
   const handleCloseModal = () => {
     dispatch(closeOrderDetails());
-    dispatch(clearOrderItems());
+    !error && dispatch(clearOrderItems());
   };
 
   const handleClearOrderItems = () => {
@@ -79,16 +79,10 @@ function BurgerConstructor() {
   );
 
   return (
-    <section className={cn(styles.section, 'p-5')}>
+    <section className={cn(styles.section)}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          {error ? (
-            <Message message={error} />
-          ) : loading ? (
-            <Loader height={'400px'} />
-          ) : (
-            <OrderDetails order={currentOrder} />
-          )}
+          {error ? <Message message={error.message} /> : <OrderDetails order={currentOrder} />}
         </Modal>
       )}
 
@@ -100,11 +94,21 @@ function BurgerConstructor() {
           {bun && !!toppings.length && 'Добавьте еще начинки или Оформите заказ'}
         </p>
         {(bun || !!toppings.length) && (
-          <button className={cn(styles.clearBtn)} onClick={handleClearOrderItems}>
+          <button
+            disabled={loading}
+            className={cn(styles.clearBtn)}
+            onClick={handleClearOrderItems}
+          >
             Очистить
           </button>
         )}
       </div>
+
+      {loading && (
+        <div className={styles.loader}>
+          <Loader />
+        </div>
+      )}
 
       <div
         ref={dropTarget}

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './AppHeader.module.css';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 import {
   Logo,
@@ -25,7 +25,9 @@ function AppHeader() {
           <ListIcon /> Лента заказов
         </HeaderLink>
 
-        <Logo />
+        <Link to={'/'} className={styles.logo}>
+          <Logo />
+        </Link>
 
         <HeaderLink
           to={'/profile'}

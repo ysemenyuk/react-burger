@@ -25,7 +25,7 @@
 }
 
 .textWait {
-  margin-bottom: calc(var(--offset-base-size) * 10);
+  margin-bottom: calc(var(--offset-base-size) * 2);
 }
 
 .container img {

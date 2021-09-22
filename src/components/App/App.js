@@ -3,7 +3,7 @@ import styles from './App.module.css';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 
 import AppHeader from '../AppHeader/AppHeader';
 import HomePage from '../../pages/Home/Home';
@@ -16,14 +16,17 @@ import IngridientPage from '../../pages/Ingredient/Ingredient';
 import NotFoundPage from '../../pages/404/NotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Loader from '../UI/Loader/Loader';
+import ModalWithIngredient from '../ModalWithIngridient/ModalWithIngredient';
 
 import { checkUserAuth } from '../../redux/actions/userActions';
 
 function App() {
   const dispatch = useDispatch();
 
+  const history = useHistory();
+  const location = useLocation();
+
   const isCheckAuth = useSelector((state) => state.userInfo.isCheckAuth);
-  const isModalOpen = useSelector((state) => state.ingredientDetails.isModalOpen);
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -33,20 +36,26 @@ function App() {
     return <Loader height='100vh' />;
   }
 
+  const background = history.action === 'PUSH' && location.state && location.state.background;
+
   return (
     <div className={styles.wrapper}>
       <AppHeader />
       <div className={styles.main}>
-        <Switch>
-          <Route exact={!isModalOpen} path='/' children={<HomePage />} />
+        <Switch location={background || location}>
+          <Route exact path='/' children={<HomePage />} />
           <Route exact path='/login' children={<LoginPage />} />
           <Route exact path='/register' children={<RegisterPage />} />
           <Route exact path='/forgot-password' children={<ForgotPasswordPage />} />
           <Route exact path='/reset-password' children={<ResetPasswordPage />} />
+          <Route exact path='/ingredients/:id' children={<IngridientPage />} />
           <ProtectedRoute path='/profile' children={<ProfilePage />} />
-          <Route path='/ingredients/:id' children={<IngridientPage />} />
           <Route children={<NotFoundPage />} />
         </Switch>
+
+        {background && (
+          <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />
+        )}
       </div>
     </div>
   );
