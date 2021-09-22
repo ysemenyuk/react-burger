@@ -35,7 +35,7 @@ export const ingredientsReducer = (state = initState, action) => {
 };
 
 export const ingredientDetailsReducer = (
-  state = { isModalOpen: false, currentIngredient: {} },
+  state = { isModalOpen: false, currentIngredient: null },
   action
 ) => {
   switch (action.type) {
@@ -43,7 +43,7 @@ export const ingredientDetailsReducer = (
       return { isModalOpen: true, currentIngredient: action.payload };
     }
     case RESET_CURRENT_INGREDIENT: {
-      return { isModalOpen: false, currentIngridient: {} };
+      return { isModalOpen: false, currentIngridient: null };
     }
     default:
       return state;

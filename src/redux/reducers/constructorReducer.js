@@ -46,7 +46,7 @@ const orderInitState = { visible: false, loading: false, error: null, currentOrd
 export const orderDetailsReducer = (state = orderInitState, action) => {
   switch (action.type) {
     case ORDER_REQUEST: {
-      return { ...state, visible: true, loading: true, error: null };
+      return { ...state, visible: false, loading: true, error: null };
     }
     case ORDER_SUCCESS: {
       return {

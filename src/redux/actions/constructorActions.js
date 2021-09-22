@@ -60,6 +60,7 @@ export const createOrder = (itemsIds) => async (dispatch) => {
     const resp = await normaService.createOrder(itemsIds);
     dispatch(createOrderSucces(resp.order));
   } catch (error) {
+    console.log(2, error);
     dispatch(createOrderError(error));
   }
 };

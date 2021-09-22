@@ -1,5 +1,10 @@
 // import checkResponse from '../utils/checkResponse.js';
-import { getAccessToken, getRefreshToken } from '../utils/helpers.js';
+import {
+  getAccessToken,
+  getRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from '../utils/helpers.js';
 
 const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
 const headers = { 'Content-Type': 'application/json' };
@@ -7,79 +12,85 @@ const headers = { 'Content-Type': 'application/json' };
 const checkResponse = (res) =>
   res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
 
-const updateRefreshToken = async () =>
-  await fetch(`${NORMA_BASE_URL}/auth/token`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ token: getRefreshToken() }),
-  }).then(checkResponse);
+const baseFetch = async (url, options = { headers: {} }) => {
+  options.headers = { ...options.headers, ...headers };
+  return await fetch(`${NORMA_BASE_URL}${url}`, options).then(checkResponse);
+};
 
-const fetchIngredients = async () =>
-  await fetch(`${NORMA_BASE_URL}/ingredients`).then(checkResponse);
+const updateRefreshToken = async () =>
+  await baseFetch(`/auth/token`, {
+    method: 'POST',
+    body: JSON.stringify({ token: getRefreshToken() }),
+  });
+
+const authFetch = async (url, options = { headers: {} }) => {
+  try {
+    options.headers = { Authorization: `Bearer ${getAccessToken()}` };
+    console.log(333, options);
+    return await baseFetch(url, options);
+  } catch (error) {
+    console.log('authFetch error', error);
+
+    if (error.message === 'jwt expired') {
+      console.log(111);
+      const updatedTokens = await updateRefreshToken();
+
+      setRefreshToken(updatedTokens);
+      setAccessToken(updatedTokens);
+
+      options.headers = { Authorization: `Bearer ${getAccessToken()}` };
+      return await baseFetch(url, options);
+    } else {
+      return Promise.reject(error);
+    }
+  }
+};
+
+const fetchIngredients = async () => await baseFetch(`/ingredients`, { method: 'GET' });
+
+const fetchUserInfo = async () => await authFetch(`/auth/user`, { method: 'GET' });
 
 const createOrder = async (data) =>
-  await fetch(`${NORMA_BASE_URL}/orders`, {
+  await authFetch(`/orders`, {
     method: 'POST',
-    headers: {
-      ...headers,
-      Authorization: 'Bearer ' + getAccessToken(),
-    },
     body: JSON.stringify({ ingredients: data }),
-  }).then(checkResponse);
+  });
 
 const userRegister = async ({ name, email, password }) =>
-  await fetch(`${NORMA_BASE_URL}/auth/register`, {
+  await baseFetch(`/auth/register`, {
     method: 'POST',
-    headers,
     body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
+  });
 
 const userLogin = async ({ email, password }) =>
-  await fetch(`${NORMA_BASE_URL}/auth/login`, {
+  await baseFetch(`/auth/login`, {
     method: 'POST',
-    headers,
     body: JSON.stringify({ email, password }),
-  }).then(checkResponse);
+  });
 
 const userLogout = async () =>
-  await fetch(`${NORMA_BASE_URL}/auth/logout`, {
+  await baseFetch(`/auth/logout`, {
     method: 'POST',
-    headers,
     body: JSON.stringify({ token: getRefreshToken() }),
-  }).then(checkResponse);
+  });
 
 const forgotPassword = async ({ email }) =>
-  await fetch(`${NORMA_BASE_URL}/password-reset`, {
+  await baseFetch(`/password-reset`, {
     method: 'POST',
-    headers,
     body: JSON.stringify({ email }),
-  }).then(checkResponse);
+  });
 
 const resetPassword = async ({ password, token }) =>
-  await fetch(`${NORMA_BASE_URL}/password-reset/reset`, {
+  await baseFetch(`/password-reset/reset`, {
     method: 'POST',
-    headers,
     body: JSON.stringify({ password, token }),
-  }).then(checkResponse);
-
-const fetchUserInfo = async () =>
-  await fetch(`${NORMA_BASE_URL}/auth/user`, {
-    method: 'GET',
-    headers: {
-      ...headers,
-      Authorization: 'Bearer ' + getAccessToken(),
-    },
-  }).then(checkResponse);
+  });
 
 const updateUserInfo = async ({ name, email, password }) =>
-  await fetch(`${NORMA_BASE_URL}/auth/user`, {
+  await authFetch(`/auth/user`, {
     method: 'PATCH',
-    headers: {
-      ...headers,
-      Authorization: 'Bearer ' + getAccessToken(),
-    },
     body: JSON.stringify({ name, email, password }),
-  }).then(checkResponse);
+  });
 
 const normaService = {
   fetchIngredients,

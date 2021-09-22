@@ -153,13 +153,7 @@ export const checkUserAuth = () => async (dispatch) => {
   }
 
   try {
-    const resp = await normaService.updateRefreshToken();
-
-    setRefreshToken(resp);
-    setAccessToken(resp);
-
     const { user } = await normaService.fetchUserInfo();
-
     dispatch(checkUserAuthSuccess(user));
   } catch (error) {
     removeRefreshToken();
