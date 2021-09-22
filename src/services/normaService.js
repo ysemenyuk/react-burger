@@ -26,13 +26,11 @@ const updateRefreshToken = async () =>
 const authFetch = async (url, options = { headers: {} }) => {
   try {
     options.headers = { Authorization: `Bearer ${getAccessToken()}` };
-    console.log(333, options);
     return await baseFetch(url, options);
   } catch (error) {
     console.log('authFetch error', error);
 
     if (error.message === 'jwt expired') {
-      console.log(111);
       const updatedTokens = await updateRefreshToken();
 
       setRefreshToken(updatedTokens);

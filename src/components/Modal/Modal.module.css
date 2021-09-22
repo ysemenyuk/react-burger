@@ -8,10 +8,8 @@
   box-sizing: border-box;
   width: 720px;
 
-  /* min-height: 200px; */
-
   padding: calc(var(--offset-base-size) * 10);
-  padding-bottom: calc(var(--offset-base-size) * 26);
+  padding-bottom: calc(var(--offset-base-size) * 20);
 
   border-radius: 40px;
   background: #1c1c21;
