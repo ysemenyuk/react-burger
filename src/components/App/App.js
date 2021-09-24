@@ -53,9 +53,7 @@ function App() {
           <Route children={<NotFoundPage />} />
         </Switch>
 
-        {background && (
-          <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />
-        )}
+        {background && <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />}
       </div>
     </div>
   );

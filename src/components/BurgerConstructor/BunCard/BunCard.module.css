@@ -8,3 +8,7 @@
   /* box-sizing: border-box;
   border: 1px solid #fff; */
 }
+
+.bun > div {
+  margin-left: 32px;
+}

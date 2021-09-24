@@ -168,7 +168,7 @@ export const userLogin = (form) => async (dispatch) => {
 
   try {
     const response = await normaService.userLogin(form);
-    // console.log('userLogin response', response);
+
     setRefreshToken(response);
     setAccessToken(response);
 

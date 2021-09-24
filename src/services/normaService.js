@@ -1,4 +1,3 @@
-// import checkResponse from '../utils/checkResponse.js';
 import {
   getAccessToken,
   getRefreshToken,
