@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.name {
+  margin-bottom: calc(var(--offset-base-size) * 8);
+}
+
+.container img {
+  width: 520px;
+  height: 240px;
+
+  margin-bottom: calc(var(--offset-base-size) * 8);
+}
+
+.props {
+  display: flex;
+  justify-content: space-between;
+
+  width: 520px;
+}
+
+.props li {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.props li span {
+  margin-top: calc(var(--offset-base-size) * 4);
+}

@@ -1,38 +1,38 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import cn from 'classnames';
-
 import styles from './HeaderLink.module.css';
 
-function HeaderLink({ children, href, active, ...props }) {
-  const [hover, setHover] = React.useState(false);
+import { Children, isValidElement, cloneElement } from 'react';
+import PropTypes from 'prop-types';
 
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
+import { Link } from 'react-router-dom';
+import useHover from '../../../hooks/useHover';
 
-  const type = !hover && !active ? 'secondary' : 'primary';
+function HeaderLink({ children, to, active, ...props }) {
+  const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
-  const linkClass = cn(styles.link, 'm-4', {
-    text_color_inactive: !hover && !active,
+  const type = !isHover && !active ? 'secondary' : 'primary';
+
+  const linkClass = cn(styles.link, {
+    text_color_inactive: !isHover && !active,
   });
 
   return (
-    <a
-      href={href}
+    <Link
+      to={to}
       className={linkClass}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       {...props}
     >
-      {React.Children.map(children, (child) =>
-        React.isValidElement(child) ? React.cloneElement(child, { type }) : child
+      {Children.map(children, (child) =>
+        isValidElement(child) ? cloneElement(child, { type }) : child
       )}
-    </a>
+    </Link>
   );
 }
 
 HeaderLink.propTypes = {
-  href: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
   active: PropTypes.bool,
 };
 

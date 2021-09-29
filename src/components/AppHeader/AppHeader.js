@@ -1,4 +1,7 @@
 import cn from 'classnames';
+import styles from './AppHeader.module.css';
+
+import { useLocation, Link } from 'react-router-dom';
 
 import {
   Logo,
@@ -6,26 +9,31 @@ import {
   ListIcon,
   ProfileIcon,
 } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import HeaderLink from './HeaderLink/HeaderLink';
 
-import styles from './AppHeader.module.css';
-
 function AppHeader() {
+  const { pathname } = useLocation();
+
   return (
     <header className={styles.header}>
-      <nav className={cn(styles.container, 'pt-4', 'pb-4')}>
-        <HeaderLink href={'/'} active={true}>
+      <nav className={cn(styles.container)}>
+        <HeaderLink to={'/'} active={pathname === '/'}>
           <BurgerIcon /> Конструктор
         </HeaderLink>
 
-        <HeaderLink href={'/'} active={false}>
+        <HeaderLink to={'/'} active={false}>
           <ListIcon /> Лента заказов
         </HeaderLink>
 
-        <Logo />
+        <Link to={'/'} className={styles.logo}>
+          <Logo />
+        </Link>
 
-        <HeaderLink href={'/'} active={false} style={{ marginLeft: 'auto' }}>
+        <HeaderLink
+          to={'/profile'}
+          active={pathname === '/profile'}
+          style={{ marginLeft: 'auto' }}
+        >
           <ProfileIcon /> Личный кабинет
         </HeaderLink>
       </nav>

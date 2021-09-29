@@ -1,18 +1,38 @@
 .modal {
-  display: flex;
-  flex-direction: column;
   position: relative;
   z-index: 1160;
-  background: #1C1C21;
-  width: 720px;
-  border-radius: 40px;
+
+  display: flex;
+  flex-direction: column;
+
   box-sizing: border-box;
-  box-shadow: 0px 24px 32px rgb(0 0 0 / 4%), 0px 16px 24px rgb(0 0 0 / 4%), 0px 4px 8px rgb(0 0 0 / 4%), 0px 0px 1px rgb(0 0 0 / 4%);
+  width: 720px;
+
+  padding: calc(var(--offset-base-size) * 10);
+  padding-bottom: calc(var(--offset-base-size) * 20);
+
+  border-radius: 40px;
+  background: #1c1c21;
+  box-shadow:
+    0 24px 32px rgb(0 0 0 / 4%),
+    0 16px 24px rgb(0 0 0 / 4%),
+    0 4px 8px rgb(0 0 0 / 4%),
+    0 0 1px rgb(0 0 0 / 4%);
+}
+
+.title {
+  margin-top: calc(var(--offset-base-size) * 3);
+  margin-bottom: calc(var(--offset-base-size) * 3);
+}
+
+.emptyTitle {
+  margin-bottom: calc(var(--offset-base-size) * 16);
 }
 
 .closeIcon {
   position: absolute;
-  right: 40px;
   top: 60px;
+  right: 40px;
+
   cursor: pointer;
 }

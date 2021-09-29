@@ -1,12 +1,30 @@
+.wrapper {
+  height: 100vh;
+}
+
 .main {
   display: flex;
   justify-content: center;
-  max-height: 90vh;
+
+  height: 100%;
+  max-height: calc(100vh - 88px);
 }
 
 .container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
+  /* justify-content: space-between; */
   width: 100%;
   max-width: 1280px;
+  height: 100%;
+}
+
+.constructor {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  /* max-width: 1280px; */
 }

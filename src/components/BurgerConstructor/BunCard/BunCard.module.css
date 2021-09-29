@@ -2,6 +2,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+
+  margin: calc(var(--offset-base-size) * 4);
+
   /* box-sizing: border-box;
   border: 1px solid #fff; */
+}
+
+.bun > div {
+  margin-left: 32px;
 }

@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  /* margin-top: calc(var(--offset-base-size) * 50); */
+}
+
+.title {
+  margin-bottom: calc(var(--offset-base-size) * 6);
+}
