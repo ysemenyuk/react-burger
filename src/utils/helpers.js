@@ -32,14 +32,23 @@ export const calculateTotalPrice = (orderItems) => {
   return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
 };
 
-export const setRefreshToken = (resp) => localStorage.setItem('refreshToken', resp.refreshToken);
+export const setRefreshToken = (resp) => {
+  const refreshToken = resp.refreshToken;
+  localStorage.setItem('refreshToken', refreshToken);
+};
 
 export const getRefreshToken = () => localStorage.getItem('refreshToken');
 
-// export const setAccessToken = (resp) =>
-//   localStorage.setItem('accessToken', resp.accessToken.split(' ')[1]);
+export const removeRefreshToken = () => localStorage.removeItem('refreshToken');
+
+// export const setAccessToken = (resp) => {
+//   const accessToken = resp.accessToken.split('Bearer ')[1];
+//   localStorage.setItem('accessToken', accessToken);
+// }
 
 // export const getAccessToken = () => localStorage.getItem('accessToken');
+
+// export const removeAccessToken = () => localStorage.removeItem('accessToken');
 
 export const setAccessToken = (resp) => {
   const accessToken = resp.accessToken.split('Bearer ')[1];
@@ -48,9 +57,7 @@ export const setAccessToken = (resp) => {
 
 export const getAccessToken = () => getCookie('accessToken');
 
-export const removeRefreshToken = () => localStorage.removeItem('refreshToken');
-
-export const removeAccessToken = () => localStorage.removeItem('accessToken');
+export const removeAccessToken = () => setCookie('accessToken', null, { expires: -1 });
 
 export function setCookie(name, value, props) {
   props = props || {};

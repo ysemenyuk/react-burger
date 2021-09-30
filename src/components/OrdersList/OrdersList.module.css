@@ -1,0 +1,16 @@
+.section {
+  display: flex;
+  flex-direction: column;
+
+  width: 50%;
+
+  padding: calc(var(--offset-base-size) * 5);
+}
+
+.ordersList {
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+
+  max-height: 633px;
+}

@@ -9,7 +9,7 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS,
-} from '../../utils/types';
+} from '../types/types';
 
 export const addBun = (item) => ({
   type: ADD_BUN,

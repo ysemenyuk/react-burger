@@ -9,7 +9,7 @@ import {
   ORDER_SUCCESS,
   ORDER_ERROR,
   CLOSE_ORDER_DETAILS,
-} from '../../utils/types';
+} from '../types/types';
 
 const itemsInitState = { bun: null, toppings: [] };
 

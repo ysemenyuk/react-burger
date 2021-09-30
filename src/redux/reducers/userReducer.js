@@ -22,7 +22,7 @@ import {
   USER_RESET_PASSWORD_REQUEST,
   USER_RESET_PASSWORD_SUCCESS,
   USER_RESET_PASSWORD_FAIL,
-} from '../../utils/types';
+} from '../types/types';
 
 const initState = { isCheckAuth: true, isAuth: false, userInfo: { email: '', name: '' } };
 

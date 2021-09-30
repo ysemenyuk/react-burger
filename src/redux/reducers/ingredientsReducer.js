@@ -4,7 +4,7 @@ import {
   INGRIDIENTS_ERROR,
   RESET_CURRENT_INGREDIENT,
   SET_CURRENT_INGREDIENT,
-} from '../../utils/types';
+} from '../types/types';
 
 const initState = {
   loading: false,

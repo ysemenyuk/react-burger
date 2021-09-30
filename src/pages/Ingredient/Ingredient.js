@@ -16,13 +16,13 @@ function Ingredient() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  useEffect(() => {
-    !success && dispatch(getIngredients());
-  }, []);
-
   const { loading, success, error } = useSelector((state) => state.ingredients);
   const items = useSelector((state) => state.ingredients.items);
   const currentItem = items.find((i) => i._id === id);
+
+  useEffect(() => {
+    !success && dispatch(getIngredients());
+  }, []);
 
   return (
     <div className={styles.container}>

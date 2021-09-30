@@ -17,6 +17,7 @@ import NotFoundPage from '../../pages/404/NotFound';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Loader from '../UI/Loader/Loader';
 import ModalWithIngredient from '../ModalWithIngridient/ModalWithIngredient';
+import FeedPage from '../../pages/Feed/Feed';
 
 import { checkUserAuth } from '../../redux/actions/userActions';
 
@@ -49,11 +50,15 @@ function App() {
           <Route exact path='/forgot-password' children={<ForgotPasswordPage />} />
           <Route exact path='/reset-password' children={<ResetPasswordPage />} />
           <Route exact path='/ingredients/:id' children={<IngridientPage />} />
+          <Route exact path='/feed' children={<FeedPage />} />
+
           <ProtectedRoute path='/profile' children={<ProfilePage />} />
           <Route children={<NotFoundPage />} />
         </Switch>
 
-        {background && <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />}
+        {background && (
+          <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />
+        )}
       </div>
     </div>
   );
