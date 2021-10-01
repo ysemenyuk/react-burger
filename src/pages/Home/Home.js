@@ -13,10 +13,11 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
+import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 function Home() {
   const dispatch = useDispatch();
-  const { loading, success, error } = useSelector((state) => state.ingredients);
+  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());

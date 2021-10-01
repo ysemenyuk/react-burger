@@ -11,6 +11,7 @@ const initState = {
   success: false,
   error: null,
   items: [],
+  itemDetails: null,
 };
 
 export const ingredientsReducer = (state = initState, action) => {
@@ -20,6 +21,7 @@ export const ingredientsReducer = (state = initState, action) => {
     }
     case INGRIDIENTS_SUCCESS: {
       return {
+        ...state,
         loading: false,
         success: true,
         error: null,
@@ -29,23 +31,29 @@ export const ingredientsReducer = (state = initState, action) => {
     case INGRIDIENTS_ERROR: {
       return { ...state, loading: false, error: action.error };
     }
+    case SET_CURRENT_INGREDIENT: {
+      return { ...state, itemDetails: action.payload };
+    }
+    case RESET_CURRENT_INGREDIENT: {
+      return { ...state, itemDetails: null };
+    }
     default:
       return state;
   }
 };
 
-export const ingredientDetailsReducer = (
-  state = { isModalOpen: false, currentIngredient: null },
-  action
-) => {
-  switch (action.type) {
-    case SET_CURRENT_INGREDIENT: {
-      return { isModalOpen: true, currentIngredient: action.payload };
-    }
-    case RESET_CURRENT_INGREDIENT: {
-      return { isModalOpen: false, currentIngridient: null };
-    }
-    default:
-      return state;
-  }
-};
+// export const ingredientDetailsReducer = (
+//   state = { isModalOpen: false, currentIngredient: null },
+//   action
+// ) => {
+//   switch (action.type) {
+//     case SET_CURRENT_INGREDIENT: {
+//       return { isModalOpen: true, currentIngredient: action.payload };
+//     }
+//     case RESET_CURRENT_INGREDIENT: {
+//       return { isModalOpen: false, currentIngridient: null };
+//     }
+//     default:
+//       return state;
+//   }
+// };

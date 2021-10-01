@@ -21,17 +21,6 @@ const ingredientsError = (error) => ({
   error: error,
 });
 
-export const getIngredients = () => async (dispatch) => {
-  dispatch(ingredientsRequest());
-
-  try {
-    const { data } = await normaService.fetchIngredients();
-    dispatch(ingredientsSucces(data));
-  } catch (error) {
-    dispatch(ingredientsError(error));
-  }
-};
-
 export const setCurrentIngredient = (data) => ({
   type: SET_CURRENT_INGREDIENT,
   payload: data,
@@ -40,3 +29,15 @@ export const setCurrentIngredient = (data) => ({
 export const resetCurrentIngredient = () => ({
   type: RESET_CURRENT_INGREDIENT,
 });
+
+export const getIngredients = () => async (dispatch) => {
+  dispatch(ingredientsRequest());
+
+  try {
+    const { data } = await normaService.fetchIngredients();
+    dispatch(ingredientsSucces(data));
+  } catch (error) {
+    console.log(1, error);
+    dispatch(ingredientsError(error));
+  }
+};

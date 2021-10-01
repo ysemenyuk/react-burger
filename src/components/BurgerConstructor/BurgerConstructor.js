@@ -8,7 +8,7 @@ import { useDrop } from 'react-dnd';
 
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
-import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderCreateDetails from './OrderCreateDetails/OrderCreateDetails';
 import ToppingCard from './ToppingCard/ToppingCard';
 import BunCard from './BunCard/BunCard';
 import Loader from '../UI/Loader/Loader';
@@ -24,6 +24,9 @@ import {
   closeOrderDetails,
 } from '../../redux/actions/constructorActions';
 
+import userSelectors from '../../redux/selectors/userSelectors';
+import constructorSelectors from '../../redux/selectors/constructorSelectors';
+
 import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
 import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
 
@@ -32,10 +35,9 @@ function BurgerConstructor() {
   const history = useHistory();
   const location = useLocation();
 
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const orderItems = useSelector((state) => state.orderItems);
-  const { visible, loading, error, currentOrder } = useSelector((state) => state.orderDetails);
-
+  const isAuth = useSelector(userSelectors.isAuth);
+  const orderItems = useSelector(constructorSelectors.orderItems);
+  const { visible, loading, error, order } = useSelector(constructorSelectors.orderCreate);
   const { bun, toppings } = orderItems;
 
   const orderItemsIds = useMemo(() => getOrderItemsIds(orderItems), [orderItems]);
@@ -82,7 +84,7 @@ function BurgerConstructor() {
     <section className={cn(styles.section)}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          {error ? <Message message={error.message} /> : <OrderDetails order={currentOrder} />}
+          {error ? <Message message={error.message} /> : <OrderCreateDetails order={order} />}
         </Modal>
       )}
 

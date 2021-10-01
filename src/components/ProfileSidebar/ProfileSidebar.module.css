@@ -12,7 +12,7 @@
   align-items: flex-start;
   flex-direction: column;
 
-  width: 320px;
+  width: 25%;
   margin-right: calc(var(--offset-base-size) * 15);
 }
 

@@ -11,13 +11,14 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
+import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 function Ingredient() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const { loading, success, error } = useSelector((state) => state.ingredients);
-  const items = useSelector((state) => state.ingredients.items);
+  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const items = useSelector(ingredientsSelectors.items);
   const currentItem = items.find((i) => i._id === id);
 
   useEffect(() => {

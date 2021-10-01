@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+
+  min-height: 500px;
+
+  margin: calc(var(--offset-base-size) * 5) 0;
+}
+
+.number {
+  text-shadow:
+    0 0 16px rgba(51, 51, 255, 0.25),
+    0 0 8px rgba(51, 51, 255, 0.25),
+    0 4px 32px rgba(51, 51, 255, 0.5);
+}
+
+.textNumber {
+  margin-top: calc(var(--offset-base-size) * 8);
+}
+
+.textStart {
+  margin-bottom: calc(var(--offset-base-size) * 2);
+}
+
+.textWait {
+  margin-bottom: calc(var(--offset-base-size) * 2);
+}
+
+.container img {
+  width: 157.6px;
+  height: 120px;
+  margin-top: calc(var(--offset-base-size) * 15);
+  margin-bottom: calc(var(--offset-base-size) * 15);
+}

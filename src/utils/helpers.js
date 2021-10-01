@@ -1,3 +1,6 @@
+import 'moment/locale/ru';
+import moment from 'moment-timezone';
+
 export const groupByType = (items) =>
   items.reduce((acc, item) => {
     if (!acc[item.type]) acc[item.type] = [];
@@ -88,3 +91,19 @@ export function getCookie(name) {
   );
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
+
+export const getOrderStatus = (status) => {
+  switch (status) {
+    case 'created':
+      return 'Создан';
+    case 'pending':
+      return 'Готовится';
+    case 'done':
+      return 'Выполнен';
+    default:
+      return 'Статус неизвестен';
+  }
+};
+
+export const getFormattedDate = (date) =>
+  `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;

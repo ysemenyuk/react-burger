@@ -12,6 +12,8 @@ import { useScroll } from '../../hooks/useScroll';
 import { ItemTypes } from '../../utils/constants';
 import { calculateQuantity, groupByType } from '../../utils/helpers';
 import { setCurrentIngredient } from '../../redux/actions/ingredientsActions';
+import constructorSelectors from '../../redux/selectors/constructorSelectors';
+import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 const ingredientsGroups = [
   { type: ItemTypes.BUN, title: 'Булки' },
@@ -25,8 +27,8 @@ function BurgerIngredients() {
   const history = useHistory();
   const location = useLocation();
 
-  const ingredients = useSelector((state) => state.ingredients.items);
-  const orderItems = useSelector((state) => state.orderItems);
+  const ingredients = useSelector(ingredientsSelectors.items);
+  const orderItems = useSelector(constructorSelectors.orderItems);
 
   const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
   const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);

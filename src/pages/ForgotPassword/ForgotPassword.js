@@ -10,12 +10,13 @@ import FormContainer from '../../components/FormContainer/FormContainer';
 import useInput from '../../hooks/useInput';
 
 import { forgotUserPassword } from '../../redux/actions/userActions';
+import userSelectors from '../../redux/selectors/userSelectors';
 
 function ForgotPassword() {
   const dispatch = useDispatch();
 
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const { loading, success, error } = useSelector((state) => state.userForgotPassword);
+  const isAuth = useSelector(userSelectors.isAuth);
+  const { loading, success, error } = useSelector(userSelectors.forgotPassword);
 
   const emailInput = useInput('');
 

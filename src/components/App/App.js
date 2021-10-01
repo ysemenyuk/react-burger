@@ -18,8 +18,13 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Loader from '../UI/Loader/Loader';
 import ModalWithIngredient from '../ModalWithIngridient/ModalWithIngredient';
 import FeedPage from '../../pages/Feed/Feed';
+import OrderPage from '../../pages/Order/Order';
 
 import { checkUserAuth } from '../../redux/actions/userActions';
+import userSelectors from '../../redux/selectors/userSelectors';
+import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
+import ModalWithOrder from '../ModalWithOrder/ModalWithOrder';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +32,15 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
-  const isCheckAuth = useSelector((state) => state.userInfo.isCheckAuth);
+  const isCheckAuth = useSelector(userSelectors.isCheckAuth);
+  const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
+  const orderDetails = useSelector(allOrdersSelectors.orderDetails);
+
+  const wsAllOrders = useSelector((state) => state.wsAllOrders);
+  const { connected, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
+
+  // console.log('socket connected', connected);
+  console.log('socket', { connected, allOrders, ordersTotal, ordersTotalToday });
 
   useEffect(() => {
     dispatch(checkUserAuth());
@@ -51,13 +64,22 @@ function App() {
           <Route exact path='/reset-password' children={<ResetPasswordPage />} />
           <Route exact path='/ingredients/:id' children={<IngridientPage />} />
           <Route exact path='/feed' children={<FeedPage />} />
-
+          <Route exact path='/feed/:id' children={<OrderPage />} />
+          <ProtectedRoute exact path='/profile/orders/:id' children={<OrderPage />} />
           <ProtectedRoute path='/profile' children={<ProfilePage />} />
           <Route children={<NotFoundPage />} />
         </Switch>
 
-        {background && (
+        {background && ingredientDetails && (
           <Route exact path='/ingredients/:id' children={<ModalWithIngredient />} />
+        )}
+
+        {background && orderDetails && (
+          <Route
+            exact
+            path={['/feed/:id', '/profile/orders/:id']}
+            children={<ModalWithOrder orderDetails={orderDetails} />}
+          />
         )}
       </div>
     </div>

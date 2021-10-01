@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+
 import {
   ADD_BUN,
   ADD_TOPPING,
@@ -11,9 +12,16 @@ import {
   CLOSE_ORDER_DETAILS,
 } from '../types/types';
 
-const itemsInitState = { bun: null, toppings: [] };
+const initState = {
+  bun: null,
+  toppings: [],
+  visible: false,
+  loading: false,
+  error: null,
+  order: {},
+};
 
-export const orderItemsReducer = (state = itemsInitState, action) => {
+export const constructorReducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_BUN: {
       return { ...state, bun: { ...action.payload } };
@@ -34,17 +42,8 @@ export const orderItemsReducer = (state = itemsInitState, action) => {
       return { ...state, toppings: [...action.payload] };
     }
     case CLEAR_ORDER_ITEMS: {
-      return itemsInitState;
+      return { ...state, bun: null, toppings: [] };
     }
-    default:
-      return state;
-  }
-};
-
-const orderInitState = { visible: false, loading: false, error: null, currentOrder: {} };
-
-export const orderDetailsReducer = (state = orderInitState, action) => {
-  switch (action.type) {
     case ORDER_REQUEST: {
       return { ...state, visible: false, loading: true, error: null };
     }
@@ -54,7 +53,7 @@ export const orderDetailsReducer = (state = orderInitState, action) => {
         visible: true,
         loading: false,
         error: null,
-        currentOrder: { ...action.payload },
+        order: { ...action.payload },
       };
     }
     case ORDER_ERROR: {
@@ -67,3 +66,30 @@ export const orderDetailsReducer = (state = orderInitState, action) => {
       return state;
   }
 };
+
+// const orderInitState = { visible: false, loading: false, error: null, currentOrder: {} };
+
+// export const orderDetailsReducer = (state = orderInitState, action) => {
+//   switch (action.type) {
+//     case ORDER_REQUEST: {
+//       return { ...state, visible: false, loading: true, error: null };
+//     }
+//     case ORDER_SUCCESS: {
+//       return {
+//         ...state,
+//         visible: true,
+//         loading: false,
+//         error: null,
+//         currentOrder: { ...action.payload },
+//       };
+//     }
+//     case ORDER_ERROR: {
+//       return { ...state, visible: true, loading: false, error: action.error };
+//     }
+//     case CLOSE_ORDER_DETAILS: {
+//       return { ...state, visible: false };
+//     }
+//     default:
+//       return state;
+//   }
+// };

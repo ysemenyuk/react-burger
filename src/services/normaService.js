@@ -43,6 +43,10 @@ const authFetch = async (url, options = { headers: {} }) => {
   }
 };
 
+const fetchAllOrders = async () => await baseFetch(`/orders/all`, { method: 'GET' });
+
+const fetchUserOrders = async () => await authFetch(`/orders`, { method: 'GET' });
+
 const fetchIngredients = async () => await baseFetch(`/ingredients`, { method: 'GET' });
 
 const fetchUserInfo = async () => await authFetch(`/auth/user`, { method: 'GET' });
@@ -90,6 +94,8 @@ const updateUserInfo = async ({ name, email, password }) =>
   });
 
 const normaService = {
+  fetchAllOrders,
+  fetchUserOrders,
   fetchIngredients,
   createOrder,
   userRegister,

@@ -1,4 +1,4 @@
-// import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { combineReducers } from 'redux';
 
 import {
   USER_CHECK_AUTH_SUCCESS,
@@ -140,12 +140,12 @@ export const userResetPasswordReducer = (
   }
 };
 
-// export const userReducer = combineReducers({
-//   userInfo: userInfoReducer,
-//   userLogin: userLoginReducer,
-//   userRegister: userRegisterReducer,
-//   userProfile: userProfileReducer,
-//   userUpdateProfile: userUpdateProfileReducer,
-//   userForgotPassword: userForgotPasswordReducer,
-//   userResetPassword: userResetPasswordReducer,
-// });
+export const userReducer = combineReducers({
+  userInfo: userInfoReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
+  userProfile: userProfileReducer,
+  userUpdateProfile: userUpdateProfileReducer,
+  userForgotPassword: userForgotPasswordReducer,
+  userResetPassword: userResetPasswordReducer,
+});

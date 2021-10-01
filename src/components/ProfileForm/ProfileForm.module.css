@@ -3,7 +3,8 @@
   align-items: center;
   flex-direction: column;
 
-  width: 480px;
+  max-width: 480px;
+  width: 50%;
 }
 
 .form > div {

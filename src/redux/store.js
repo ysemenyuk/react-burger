@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
 import { socketAllOrdersMiddleware } from './middleware/socketAllOrdersMiddleware.js';
 import { socketUserOrdersMiddleware } from './middleware/socketUserOrdersMiddleware.js';
-import { rootReducer } from './reducers/rootReducer.js';
+import { rootReducer } from './reducers/index.js';
 import { wsAllOrdersActions, wsUserOrdersActions } from './types/types.js';
 
 const wsUrl = 'wss://norma.nomoreparties.space/orders';

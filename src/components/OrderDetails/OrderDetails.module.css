@@ -2,35 +2,97 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: center;
 
-  min-height: 500px;
-
-  margin: calc(var(--offset-base-size) * 5) 0;
+  max-width: 640px;
 }
 
 .number {
-  text-shadow:
-    0 0 16px rgba(51, 51, 255, 0.25),
-    0 0 8px rgba(51, 51, 255, 0.25),
-    0 4px 32px rgba(51, 51, 255, 0.5);
+  margin-bottom: calc(var(--offset-base-size) * 10);
 }
 
-.textNumber {
-  margin-top: calc(var(--offset-base-size) * 8);
+.name {
+  align-self: flex-start;
+
+  margin-bottom: calc(var(--offset-base-size) * 3);
 }
 
-.textStart {
-  margin-bottom: calc(var(--offset-base-size) * 2);
-}
+.status {
+  align-self: flex-start;
 
-.textWait {
-  margin-bottom: calc(var(--offset-base-size) * 2);
-}
-
-.container img {
-  width: 157.6px;
-  height: 120px;
-  margin-top: calc(var(--offset-base-size) * 15);
   margin-bottom: calc(var(--offset-base-size) * 15);
+
+  color: #0cc;
+}
+
+.title {
+  align-self: flex-start;
+
+  margin-bottom: calc(var(--offset-base-size) * 6);
+}
+
+.ingredientsList {
+  overflow: auto;
+
+  max-height: 312px;
+  margin-bottom: calc(var(--offset-base-size) * 10);
+  padding-right: calc(var(--offset-base-size) * 6);
+}
+
+.ingredient {
+  display: flex;
+  align-items: center;
+
+  height: 64px;
+  margin-bottom: calc(var(--offset-base-size) * 4);
+}
+
+.ingredientInfo {
+  display: flex;
+  align-items: center;
+  flex-grow: 2;
+  justify-content: space-between;
+
+  margin-left: calc(var(--offset-base-size) * 4);
+}
+
+.ingredientIcon {
+  position: relative;
+
+  box-sizing: border-box;
+  width: 64px;
+  height: 64px;
+
+  border: 2px solid transparent;
+  border-radius: 50px;
+  background-image: linear-gradient(black, black), linear-gradient(to right, #801ab2, #4c4cff);
+  background-clip: content-box, border-box;
+}
+
+.ingredientIcon > img {
+  position: absolute;
+  bottom: 2px;
+  left: -25px;
+
+  width: 112px;
+  height: 56px;
+}
+
+.ingredientPrice {
+  display: flex;
+  align-items: center;
+
+  margin-left: calc(var(--offset-base-size) * 4);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.orderPrice {
+  display: flex;
+  align-items: center;
 }

@@ -9,20 +9,22 @@
   width: 720px;
 
   padding: calc(var(--offset-base-size) * 10);
-  padding-bottom: calc(var(--offset-base-size) * 20);
+  padding-bottom: calc(var(--offset-base-size) * 15);
 
   border-radius: 40px;
   background: #1c1c21;
-  box-shadow:
-    0 24px 32px rgb(0 0 0 / 4%),
-    0 16px 24px rgb(0 0 0 / 4%),
-    0 4px 8px rgb(0 0 0 / 4%),
-    0 0 1px rgb(0 0 0 / 4%);
+  box-shadow: 0 24px 32px rgb(0 0 0 / 4%), 0 16px 24px rgb(0 0 0 / 4%),
+    0 4px 8px rgb(0 0 0 / 4%), 0 0 1px rgb(0 0 0 / 4%);
 }
 
 .title {
   margin-top: calc(var(--offset-base-size) * 3);
   margin-bottom: calc(var(--offset-base-size) * 3);
+}
+
+.smallTitle {
+  margin-top: calc(var(--offset-base-size) * 5);
+  margin-bottom: calc(var(--offset-base-size) * 10);
 }
 
 .emptyTitle {

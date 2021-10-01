@@ -30,7 +30,7 @@ export const wsUserOrdersReducer = (state = initialState, action) => {
     case WS_GET_USER_ORDERS:
       return {
         ...state,
-        userOrders: action.payload.orders || [],
+        userOrders: action.payload.orders.reverse() || [],
       };
     default:
       return state;
