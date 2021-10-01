@@ -1,11 +1,10 @@
 import cn from 'classnames';
 import styles from './OrdersList.module.css';
 
-import { useState, useRef, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
-import { showOrderDetails } from '../../redux/actions/wsAllOrdersActions';
+import { setOrderDetails } from '../../redux/actions/allOrdersActions';
 
 function OrdersList({ ordersList }) {
   const dispatch = useDispatch();
@@ -14,7 +13,7 @@ function OrdersList({ ordersList }) {
   const location = useLocation();
 
   const handleCardClick = (item) => () => {
-    dispatch(showOrderDetails(item));
+    dispatch(setOrderDetails(item));
 
     history.push({
       pathname: `/feed/${item._id}`,

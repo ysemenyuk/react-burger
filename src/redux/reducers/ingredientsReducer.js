@@ -2,8 +2,8 @@ import {
   INGRIDIENTS_REQUEST,
   INGRIDIENTS_SUCCESS,
   INGRIDIENTS_ERROR,
-  RESET_CURRENT_INGREDIENT,
-  SET_CURRENT_INGREDIENT,
+  SET_INGREDIENT_DETAILS,
+  RESET_INGREDIENT_DETAILS,
 } from '../types/types';
 
 const initState = {
@@ -31,29 +31,13 @@ export const ingredientsReducer = (state = initState, action) => {
     case INGRIDIENTS_ERROR: {
       return { ...state, loading: false, error: action.error };
     }
-    case SET_CURRENT_INGREDIENT: {
+    case SET_INGREDIENT_DETAILS: {
       return { ...state, itemDetails: action.payload };
     }
-    case RESET_CURRENT_INGREDIENT: {
+    case RESET_INGREDIENT_DETAILS: {
       return { ...state, itemDetails: null };
     }
     default:
       return state;
   }
 };
-
-// export const ingredientDetailsReducer = (
-//   state = { isModalOpen: false, currentIngredient: null },
-//   action
-// ) => {
-//   switch (action.type) {
-//     case SET_CURRENT_INGREDIENT: {
-//       return { isModalOpen: true, currentIngredient: action.payload };
-//     }
-//     case RESET_CURRENT_INGREDIENT: {
-//       return { isModalOpen: false, currentIngridient: null };
-//     }
-//     default:
-//       return state;
-//   }
-// };

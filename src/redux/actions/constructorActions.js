@@ -8,7 +8,7 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_ERROR,
-  CLOSE_ORDER_DETAILS,
+  CLOSE_ORDER_CREATE_DETAILS,
 } from '../types/types';
 
 export const addBun = (item) => ({
@@ -49,8 +49,8 @@ export const createOrderError = (error) => ({
   error: error,
 });
 
-export const closeOrderDetails = () => ({
-  type: CLOSE_ORDER_DETAILS,
+export const closeCreateOrderDetails = () => ({
+  type: CLOSE_ORDER_CREATE_DETAILS,
 });
 
 export const createOrder = (itemsIds) => async (dispatch) => {

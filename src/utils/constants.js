@@ -1,4 +1,4 @@
-export const ItemTypes = {
+export const itemsTypes = {
   BUN: 'bun',
   SAUCE: 'sauce',
   MAIN: 'main',

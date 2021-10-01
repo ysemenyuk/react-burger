@@ -9,16 +9,16 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
 
 import { useScroll } from '../../hooks/useScroll';
-import { ItemTypes } from '../../utils/constants';
+import { itemsTypes } from '../../utils/constants';
 import { calculateQuantity, groupByType } from '../../utils/helpers';
-import { setCurrentIngredient } from '../../redux/actions/ingredientsActions';
+import { setIngredientDetails } from '../../redux/actions/ingredientsActions';
 import constructorSelectors from '../../redux/selectors/constructorSelectors';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 const ingredientsGroups = [
-  { type: ItemTypes.BUN, title: 'Булки' },
-  { type: ItemTypes.SAUCE, title: 'Соусы' },
-  { type: ItemTypes.MAIN, title: 'Начинки' },
+  { type: itemsTypes.BUN, title: 'Булки' },
+  { type: itemsTypes.SAUCE, title: 'Соусы' },
+  { type: itemsTypes.MAIN, title: 'Начинки' },
 ];
 
 function BurgerIngredients() {
@@ -33,7 +33,7 @@ function BurgerIngredients() {
   const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
   const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
 
-  const [currentTab, setCurrentTab] = useState(ItemTypes.BUN);
+  const [currentTab, setCurrentTab] = useState(itemsTypes.BUN);
 
   const containerRef = useRef(null);
   const targetsRefs = useRef({});
@@ -55,7 +55,7 @@ function BurgerIngredients() {
   };
 
   const handleCardClick = (item) => () => {
-    dispatch(setCurrentIngredient(item));
+    dispatch(setIngredientDetails(item));
 
     history.push({
       pathname: `/ingredients/${item._id}`,

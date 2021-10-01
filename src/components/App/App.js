@@ -36,12 +36,6 @@ function App() {
   const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
   const orderDetails = useSelector(allOrdersSelectors.orderDetails);
 
-  const wsAllOrders = useSelector((state) => state.wsAllOrders);
-  const { connected, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
-
-  // console.log('socket connected', connected);
-  console.log('socket', { connected, allOrders, ordersTotal, ordersTotalToday });
-
   useEffect(() => {
     dispatch(checkUserAuth());
   }, []);

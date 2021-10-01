@@ -10,10 +10,7 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import {
-  fetchAllOrders,
-  wsAllOrdersConnectionStart,
-} from '../../redux/actions/wsAllOrdersActions';
+import { wsAllOrdersConnectionStart } from '../../redux/actions/allOrdersActions';
 
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
@@ -22,35 +19,24 @@ function Order() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  // const getItems = useSelector(ingredientsSelectors.getItems);
-  // const getAllOrders = useSelector(allOrdersSelectors.getAllOrders);
-
-  // const loading = getItems.loading || getAllOrders.loading;
-  // const error = getItems.error || getAllOrders.error;
-  // const success = getItems.success && getAllOrders.success;
-
-  // useEffect(() => {
-  //   !getItems.success && dispatch(getIngredients());
-  //   !getAllOrders.success && dispatch(fetchAllOrders());
-  // }, []);
-
-  const { connected, allOrders } = useSelector(allOrdersSelectors.getAllOrders);
+  const { wsConnected, wsError, allOrders } = useSelector(allOrdersSelectors.wsAllOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());
-    !connected && dispatch(wsAllOrdersConnectionStart());
-  }, [dispatch, success, connected]);
+  }, [dispatch, success]);
 
-  useEffect(() => {}, [dispatch]);
+  useEffect(() => {
+    !wsConnected && dispatch(wsAllOrdersConnectionStart());
+  }, [dispatch, wsConnected]);
 
   const currentOrder = allOrders.find((i) => i._id === id);
 
   return (
     <div className={styles.container}>
-      {loading && <Loader height='300px' />}
-      {error && <Message message={'error'} />}
-      {success && currentOrder && (
+      {(!wsConnected || loading) && <Loader height='300px' />}
+      {(wsError || error) && <Message message={'Network error'} />}
+      {wsConnected && success && currentOrder && (
         <>
           <span className={cn(styles.title, 'text_type_digits-default')}>
             # {currentOrder.number}

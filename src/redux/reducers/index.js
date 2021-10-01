@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-import { wsAllOrdersReducer } from './wsAllOrdersReducer';
-import { wsUserOrdersReducer } from './wsUserOrdersReducer';
+import { allOrdersReducer } from './allOrdersReducer';
+import { userOrdersReducer } from './userOrdersReducer';
 
 import { ingredientsReducer } from './ingredientsReducer.js';
 import { userReducer } from './userReducer.js';
@@ -11,6 +11,6 @@ export const rootReducer = combineReducers({
   burgerIngredients: ingredientsReducer,
   burgerConstructor: constructorReducer,
   user: userReducer,
-  wsAllOrders: wsAllOrdersReducer,
-  wsUserOrders: wsUserOrdersReducer,
+  allOrders: allOrdersReducer,
+  userOrders: userOrdersReducer,
 });

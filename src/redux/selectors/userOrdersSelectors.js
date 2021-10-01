@@ -1,9 +1,7 @@
-export const orders = (state) => state.wsUserOrders.userOrders;
+export const userOrders = (state) => state.userOrders.userOrders;
 
-export const getUserOrders = (state) => state.wsUserOrders;
+export const wsUserOrders = (state) => state.userOrders;
 
-// export const orderDetails = (state) => state.wsAllOrders.orderDetails;
-
-const userOrdersSelectors = { orders, getUserOrders };
+const userOrdersSelectors = { userOrders, wsUserOrders };
 
 export default userOrdersSelectors;

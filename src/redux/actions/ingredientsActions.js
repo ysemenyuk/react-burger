@@ -3,8 +3,8 @@ import {
   INGRIDIENTS_REQUEST,
   INGRIDIENTS_SUCCESS,
   INGRIDIENTS_ERROR,
-  RESET_CURRENT_INGREDIENT,
-  SET_CURRENT_INGREDIENT,
+  SET_INGREDIENT_DETAILS,
+  RESET_INGREDIENT_DETAILS,
 } from '../types/types';
 
 const ingredientsRequest = () => ({
@@ -21,13 +21,13 @@ const ingredientsError = (error) => ({
   error: error,
 });
 
-export const setCurrentIngredient = (data) => ({
-  type: SET_CURRENT_INGREDIENT,
+export const setIngredientDetails = (data) => ({
+  type: SET_INGREDIENT_DETAILS,
   payload: data,
 });
 
-export const resetCurrentIngredient = () => ({
-  type: RESET_CURRENT_INGREDIENT,
+export const resetIngredientDetails = () => ({
+  type: RESET_INGREDIENT_DETAILS,
 });
 
 export const getIngredients = () => async (dispatch) => {
@@ -37,7 +37,6 @@ export const getIngredients = () => async (dispatch) => {
     const { data } = await normaService.fetchIngredients();
     dispatch(ingredientsSucces(data));
   } catch (error) {
-    console.log(1, error);
     dispatch(ingredientsError(error));
   }
 };

@@ -9,11 +9,12 @@ import OrderCard from '../OrderCard/OrderCard';
 import Loader from '../UI/Loader/Loader';
 import Message from '../UI/Message/Message';
 
-import { showOrderDetails } from '../../redux/actions/wsAllOrdersActions';
 import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
-import { wsUserOrdersConnectionStart } from '../../redux/actions/wsUserOrdersActions';
-import { getIngredients } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+
+import { wsUserOrdersConnectionStart } from '../../redux/actions/userOrdersActions';
+import { getIngredients } from '../../redux/actions/ingredientsActions';
+import { setOrderDetails } from '../../redux/actions/allOrdersActions';
 
 function UserOrdersList() {
   const dispatch = useDispatch();
@@ -21,16 +22,19 @@ function UserOrdersList() {
   const history = useHistory();
   const location = useLocation();
 
-  const { connected, userOrders } = useSelector(userOrdersSelectors.getUserOrders);
+  const { wsConnected, wsError, userOrders } = useSelector(userOrdersSelectors.wsUserOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());
-    !connected && dispatch(wsUserOrdersConnectionStart());
-  }, [dispatch, success, connected]);
+  }, [dispatch, success]);
+
+  useEffect(() => {
+    !wsConnected && dispatch(wsUserOrdersConnectionStart());
+  }, [dispatch, wsConnected]);
 
   const handleCardClick = (item) => () => {
-    dispatch(showOrderDetails(item));
+    dispatch(setOrderDetails(item));
 
     history.push({
       pathname: `/profile/orders/${item._id}`,
@@ -40,13 +44,15 @@ function UserOrdersList() {
 
   return (
     <section className={cn(styles.section)}>
-      {(!connected || loading) && <Loader height='300px' />}
-      {error && <Message message={error.message} />}
-      <ul className={cn(styles.ordersList)}>
-        {userOrders.map((item) => (
-          <OrderCard key={item._id} order={item} onCardClick={handleCardClick} userCard />
-        ))}
-      </ul>
+      {(!wsConnected || loading) && <Loader height='300px' />}
+      {(wsError || error) && <Message message={'Network error'} />}
+      {wsConnected && success && !!userOrders.length && (
+        <ul className={cn(styles.ordersList)}>
+          {userOrders.map((item) => (
+            <OrderCard key={item._id} order={item} onCardClick={handleCardClick} userCard />
+          ))}
+        </ul>
+      )}
     </section>
   );
 }

@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 
-import { resetCurrentIngredient } from '../../redux/actions/ingredientsActions';
+import { resetIngredientDetails } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 function ModalWithIngredient() {
@@ -15,7 +15,7 @@ function ModalWithIngredient() {
 
   const handleCloseModal = () => {
     history.goBack();
-    dispatch(resetCurrentIngredient());
+    dispatch(resetIngredientDetails());
   };
 
   if (!ingredientDetails) {

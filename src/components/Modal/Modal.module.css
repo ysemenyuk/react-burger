@@ -13,8 +13,11 @@
 
   border-radius: 40px;
   background: #1c1c21;
-  box-shadow: 0 24px 32px rgb(0 0 0 / 4%), 0 16px 24px rgb(0 0 0 / 4%),
-    0 4px 8px rgb(0 0 0 / 4%), 0 0 1px rgb(0 0 0 / 4%);
+  box-shadow:
+    0 24px 32px rgb(0 0 0 / 4%),
+    0 16px 24px rgb(0 0 0 / 4%),
+    0 4px 8px rgb(0 0 0 / 4%),
+    0 0 1px rgb(0 0 0 / 4%);
 }
 
 .title {

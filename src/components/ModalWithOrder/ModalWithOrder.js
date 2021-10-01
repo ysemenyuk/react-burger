@@ -5,7 +5,7 @@ import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
-import { clearOrderDetails } from '../../redux/actions/wsAllOrdersActions';
+import { resetOrderDetails } from '../../redux/actions/allOrdersActions';
 
 function ModalWithOrder() {
   const dispatch = useDispatch();
@@ -15,10 +15,8 @@ function ModalWithOrder() {
 
   const handleCloseModal = () => {
     history.goBack();
-    dispatch(clearOrderDetails());
+    dispatch(resetOrderDetails());
   };
-
-  console.log(11, orderDetails);
 
   if (!orderDetails) {
     return null;

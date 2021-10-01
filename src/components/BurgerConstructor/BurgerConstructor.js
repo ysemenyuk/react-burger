@@ -21,13 +21,13 @@ import {
   updateToppingsList,
   clearOrderItems,
   createOrder,
-  closeOrderDetails,
+  closeCreateOrderDetails,
 } from '../../redux/actions/constructorActions';
 
 import userSelectors from '../../redux/selectors/userSelectors';
 import constructorSelectors from '../../redux/selectors/constructorSelectors';
 
-import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
+import { INGRIDIENTS, itemsTypes } from '../../utils/constants';
 import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
 
 function BurgerConstructor() {
@@ -49,7 +49,7 @@ function BurgerConstructor() {
       isHover: monitor.isOver(),
     }),
     drop(item) {
-      item.type === ItemTypes.BUN ? dispatch(addBun(item)) : dispatch(addTopping(item));
+      item.type === itemsTypes.BUN ? dispatch(addBun(item)) : dispatch(addTopping(item));
     },
   });
 
@@ -60,7 +60,7 @@ function BurgerConstructor() {
   };
 
   const handleCloseModal = () => {
-    dispatch(closeOrderDetails());
+    dispatch(closeCreateOrderDetails());
     !error && dispatch(clearOrderItems());
   };
 

@@ -9,7 +9,7 @@ import {
   ORDER_REQUEST,
   ORDER_SUCCESS,
   ORDER_ERROR,
-  CLOSE_ORDER_DETAILS,
+  CLOSE_ORDER_CREATE_DETAILS,
 } from '../types/types';
 
 const initState = {
@@ -18,7 +18,7 @@ const initState = {
   visible: false,
   loading: false,
   error: null,
-  order: {},
+  order: null,
 };
 
 export const constructorReducer = (state = initState, action) => {
@@ -59,37 +59,10 @@ export const constructorReducer = (state = initState, action) => {
     case ORDER_ERROR: {
       return { ...state, visible: true, loading: false, error: action.error };
     }
-    case CLOSE_ORDER_DETAILS: {
-      return { ...state, visible: false };
+    case CLOSE_ORDER_CREATE_DETAILS: {
+      return { ...state, visible: false, order: null };
     }
     default:
       return state;
   }
 };
-
-// const orderInitState = { visible: false, loading: false, error: null, currentOrder: {} };
-
-// export const orderDetailsReducer = (state = orderInitState, action) => {
-//   switch (action.type) {
-//     case ORDER_REQUEST: {
-//       return { ...state, visible: false, loading: true, error: null };
-//     }
-//     case ORDER_SUCCESS: {
-//       return {
-//         ...state,
-//         visible: true,
-//         loading: false,
-//         error: null,
-//         currentOrder: { ...action.payload },
-//       };
-//     }
-//     case ORDER_ERROR: {
-//       return { ...state, visible: true, loading: false, error: action.error };
-//     }
-//     case CLOSE_ORDER_DETAILS: {
-//       return { ...state, visible: false };
-//     }
-//     default:
-//       return state;
-//   }
-// };

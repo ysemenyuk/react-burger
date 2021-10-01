@@ -9,7 +9,7 @@ import OrdersList from '../../components/OrdersList/OrdersList';
 import OrdersStatistic from '../../components/OrdersStatistic/OrdersStatistic';
 import Message from '../../components/UI/Message/Message';
 
-import { wsAllOrdersConnectionStart } from '../../redux/actions/wsAllOrdersActions';
+import { wsAllOrdersConnectionStart } from '../../redux/actions/allOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
@@ -17,24 +17,28 @@ import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
 function Feed() {
   const dispatch = useDispatch();
 
-  const getAllOrders = useSelector(allOrdersSelectors.getAllOrders);
+  const wsAllOrders = useSelector(allOrdersSelectors.wsAllOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
-  const { connected, allOrders, ordersTotal, ordersTotalToday } = getAllOrders;
+
+  const { wsConnected, wsError, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
 
   const completedOrders = allOrders.filter((i) => i.status === 'done').slice(0, 10);
   const inProgressOrders = allOrders.filter((i) => i.status !== 'done').slice(0, 10);
 
   useEffect(() => {
     !success && dispatch(getIngredients());
-    !connected && dispatch(wsAllOrdersConnectionStart());
-  }, [dispatch, success, connected]);
+  }, [dispatch, success]);
+
+  useEffect(() => {
+    !wsConnected && dispatch(wsAllOrdersConnectionStart());
+  }, [dispatch, wsConnected]);
 
   return (
     <div className={styles.container}>
       <h1 className={cn(styles.title, 'text', 'text_type_main-large')}>Лента заказов</h1>
-      {(!connected || loading) && <Loader height='300px' />}
-      {error && <Message message={error.message} />}
-      {connected && !loading && !!allOrders.length && (
+      {(!wsConnected || loading) && <Loader height='300px' />}
+      {(wsError || error) && <Message message={'Network error'} />}
+      {wsConnected && success && !!allOrders.length && (
         <div className={styles.feed}>
           <OrdersList ordersList={allOrders} />
           <OrdersStatistic

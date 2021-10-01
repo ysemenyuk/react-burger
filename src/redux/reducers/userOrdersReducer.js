@@ -6,26 +6,29 @@ import {
 } from '../types/types';
 
 const initialState = {
-  connected: false,
+  wsConnected: false,
+  wsError: null,
   userOrders: [],
 };
 
-export const wsUserOrdersReducer = (state = initialState, action) => {
+export const userOrdersReducer = (state = initialState, action) => {
   switch (action.type) {
     case WS_USER_ORDERS_CONNECTION_SUCCESS:
       return {
         ...state,
-        connected: true,
+        wsConnected: true,
+        wsError: null,
       };
     case WS_USER_ORDERS_CONNECTION_ERROR:
       return {
         ...state,
-        connected: false,
+        wsConnected: false,
+        wsError: action.payload,
       };
     case WS_USER_ORDERS_CONNECTION_CLOSED:
       return {
         ...state,
-        connected: false,
+        wsConnected: false,
       };
     case WS_GET_USER_ORDERS:
       return {

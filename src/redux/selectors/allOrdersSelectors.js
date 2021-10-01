@@ -1,18 +1,9 @@
-export const orders = (state) => state.wsAllOrders.allOrders;
+export const allOrders = (state) => state.allOrders.allOrders;
 
-export const getAllOrders = (state) => state.wsAllOrders;
+export const wsAllOrders = (state) => state.allOrders;
 
-export const orderDetails = (state) => state.wsAllOrders.orderDetails;
+export const orderDetails = (state) => state.allOrders.orderDetails;
 
-const allOrdersSelectors = { orders, getAllOrders, orderDetails };
+const allOrdersSelectors = { allOrders, wsAllOrders, orderDetails };
 
 export default allOrdersSelectors;
-
-// loading: false,
-// success: false,
-// error: null,
-// connected: false,
-// allOrders: [],
-// ordersTotal: 0,
-// ordersTotalToday: 0,
-// orderDetails: {},
