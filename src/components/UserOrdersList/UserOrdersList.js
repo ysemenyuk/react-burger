@@ -12,7 +12,10 @@ import Message from '../UI/Message/Message';
 import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
-import { wsUserOrdersConnectionStart } from '../../redux/actions/userOrdersActions';
+import {
+  wsUserOrdersConnectionClose,
+  wsUserOrdersConnectionStart,
+} from '../../redux/actions/userOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import { setOrderDetails } from '../../redux/actions/allOrdersActions';
 
@@ -30,8 +33,11 @@ function UserOrdersList() {
   }, [dispatch, success]);
 
   useEffect(() => {
-    !wsConnected && dispatch(wsUserOrdersConnectionStart());
-  }, [dispatch, wsConnected]);
+    dispatch(wsUserOrdersConnectionStart());
+    return () => {
+      dispatch(wsUserOrdersConnectionClose());
+    };
+  }, [dispatch]);
 
   const handleCardClick = (item) => () => {
     dispatch(setOrderDetails(item));

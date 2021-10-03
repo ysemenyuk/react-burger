@@ -19,12 +19,13 @@ import Loader from '../UI/Loader/Loader';
 import ModalWithIngredient from '../ModalWithIngridient/ModalWithIngredient';
 import FeedPage from '../../pages/Feed/Feed';
 import OrderPage from '../../pages/Order/Order';
+import UserOrderPage from '../../pages/UserOrder/UserOrder';
+import ModalWithOrder from '../ModalWithOrder/ModalWithOrder';
 
 import { checkUserAuth } from '../../redux/actions/userActions';
 import userSelectors from '../../redux/selectors/userSelectors';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
-import ModalWithOrder from '../ModalWithOrder/ModalWithOrder';
 
 function App() {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ function App() {
           <Route exact path='/ingredients/:id' children={<IngridientPage />} />
           <Route exact path='/feed' children={<FeedPage />} />
           <Route exact path='/feed/:id' children={<OrderPage />} />
-          <ProtectedRoute exact path='/profile/orders/:id' children={<OrderPage />} />
+          <ProtectedRoute exact path='/profile/orders/:id' children={<UserOrderPage />} />
           <ProtectedRoute path='/profile' children={<ProfilePage />} />
           <Route children={<NotFoundPage />} />
         </Switch>

@@ -9,7 +9,10 @@ import OrdersList from '../../components/OrdersList/OrdersList';
 import OrdersStatistic from '../../components/OrdersStatistic/OrdersStatistic';
 import Message from '../../components/UI/Message/Message';
 
-import { wsAllOrdersConnectionStart } from '../../redux/actions/allOrdersActions';
+import {
+  wsAllOrdersConnectionClose,
+  wsAllOrdersConnectionStart,
+} from '../../redux/actions/allOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
@@ -31,6 +34,9 @@ function Feed() {
 
   useEffect(() => {
     !wsConnected && dispatch(wsAllOrdersConnectionStart());
+    return () => {
+      wsConnected && dispatch(wsAllOrdersConnectionClose());
+    };
   }, [dispatch, wsConnected]);
 
   return (

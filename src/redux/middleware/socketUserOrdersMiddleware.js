@@ -9,6 +9,7 @@ export const socketUserOrdersMiddleware = (wsUrl, wsUserOrdersActions) => {
       const { type } = action;
       const {
         wsUserOrdersInit,
+        wsUserOrdersClose,
         onOpenUserOrders,
         onErrorUserOrders,
         onCloseUserOrders,
@@ -41,6 +42,10 @@ export const socketUserOrdersMiddleware = (wsUrl, wsUserOrdersActions) => {
 
           dispatch({ type: getUserOrders, payload: restParsedData });
         };
+
+        if (type === wsUserOrdersClose) {
+          socket.close();
+        }
       }
 
       next(action);

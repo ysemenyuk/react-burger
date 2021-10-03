@@ -38,7 +38,9 @@ export const allOrdersReducer = (state = initialState, action) => {
     case WS_GET_ALL_ORDERS:
       return {
         ...state,
-        allOrders: action.payload.orders,
+        allOrders: action.payload.orders.filter(
+          (order) => order.ingredients && !!order.ingredients.length
+        ),
         ordersTotal: action.payload.total,
         ordersTotalToday: action.payload.totalToday,
       };

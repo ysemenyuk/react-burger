@@ -5,10 +5,15 @@ import {
   WS_ALL_ORDERS_CONNECTION_SUCCESS,
   SET_ORDER_DETAILS,
   RESET_ORDER_DETAILS,
+  WS_ALL_ORDERS_CONNECTION_FINISH,
 } from '../types/types';
 
 export const wsAllOrdersConnectionStart = () => {
   return { type: WS_ALL_ORDERS_CONNECTION_START };
+};
+
+export const wsAllOrdersConnectionClose = () => {
+  return { type: WS_ALL_ORDERS_CONNECTION_FINISH };
 };
 
 export const wsAllOrdersConnectionSuccess = () => {

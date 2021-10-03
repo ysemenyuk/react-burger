@@ -33,7 +33,10 @@ export const userOrdersReducer = (state = initialState, action) => {
     case WS_GET_USER_ORDERS:
       return {
         ...state,
-        userOrders: action.payload.orders.reverse() || [],
+        userOrders:
+          action.payload.orders
+            .filter((order) => order.ingredients && !!order.ingredients.length)
+            .reverse() || [],
       };
     default:
       return state;

@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 1280px;
+  padding-top: 100px;
+}
+
+.title {
+  margin-bottom: calc(var(--offset-base-size) * 10);
+}

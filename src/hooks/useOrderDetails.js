@@ -2,7 +2,8 @@ import { useSelector } from 'react-redux';
 import ingredientsSelectors from '../redux/selectors/ingredientsSelectors';
 
 function useOrderDetails(order) {
-  const { ingredients } = order;
+  // const { ingredients } = order;
+  const ingredients = order.ingredients.filter((id) => id);
 
   const allIngredients = useSelector(ingredientsSelectors.items);
 

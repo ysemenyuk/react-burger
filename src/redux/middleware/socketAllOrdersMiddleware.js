@@ -7,6 +7,7 @@ export const socketAllOrdersMiddleware = (wsUrl, wsAllOrdersActions) => {
       const { type } = action;
       const {
         wsAllOrdersInit,
+        wsAllOrdersClose,
         onOpenAllOrders,
         onErrorAllOrders,
         onCloseAllOrders,
@@ -37,6 +38,11 @@ export const socketAllOrdersMiddleware = (wsUrl, wsAllOrdersActions) => {
 
           dispatch({ type: getAllOrders, payload: restParsedData });
         };
+
+        if (type === wsAllOrdersClose) {
+          console.log('close ws all');
+          socket.close();
+        }
       }
 
       next(action);
