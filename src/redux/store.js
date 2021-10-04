@@ -1,41 +1,19 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
+import { socketAllOrdersMiddleware } from './middleware/socketAllOrdersMiddleware.js';
+import { socketUserOrdersMiddleware } from './middleware/socketUserOrdersMiddleware.js';
+import { rootReducer } from './reducers/index.js';
+import { wsAllOrdersActions, wsUserOrdersActions } from './types/types.js';
 
-import { orderItemsReducer, orderDetailsReducer } from './reducers/constructorReducer.js';
-import {
-  ingredientDetailsReducer,
-  ingredientsReducer,
-} from './reducers/ingredientsReducer.js';
-import {
-  userInfoReducer,
-  userLoginReducer,
-  userRegisterReducer,
-  userProfileReducer,
-  userUpdateProfileReducer,
-  userForgotPasswordReducer,
-  userResetPasswordReducer,
-} from './reducers/userReducer.js';
+const wsUrl = 'wss://norma.nomoreparties.space/orders';
 
-const rootReducer = combineReducers({
-  ingredients: ingredientsReducer,
-  ingredientDetails: ingredientDetailsReducer,
-  orderItems: orderItemsReducer,
-  orderDetails: orderDetailsReducer,
-  userInfo: userInfoReducer,
-  userLogin: userLoginReducer,
-  userRegister: userRegisterReducer,
-  userProfile: userProfileReducer,
-  userUpdateProfile: userUpdateProfileReducer,
-  userForgotPassword: userForgotPasswordReducer,
-  userResetPassword: userResetPasswordReducer,
-});
+const middleware = [
+  thunk,
+  socketAllOrdersMiddleware(wsUrl, wsAllOrdersActions),
+  socketUserOrdersMiddleware(wsUrl, wsUserOrdersActions),
+];
 
-const middleware = [thunk];
-
-const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(...middleware))
-);
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(...middleware)));
 
 export default store;

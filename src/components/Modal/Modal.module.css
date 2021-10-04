@@ -9,7 +9,7 @@
   width: 720px;
 
   padding: calc(var(--offset-base-size) * 10);
-  padding-bottom: calc(var(--offset-base-size) * 20);
+  padding-bottom: calc(var(--offset-base-size) * 15);
 
   border-radius: 40px;
   background: #1c1c21;
@@ -23,6 +23,11 @@
 .title {
   margin-top: calc(var(--offset-base-size) * 3);
   margin-bottom: calc(var(--offset-base-size) * 3);
+}
+
+.smallTitle {
+  margin-top: calc(var(--offset-base-size) * 5);
+  margin-bottom: calc(var(--offset-base-size) * 10);
 }
 
 .emptyTitle {

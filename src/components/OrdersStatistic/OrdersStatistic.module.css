@@ -1,0 +1,53 @@
+.section {
+  display: flex;
+  flex-direction: column;
+
+  width: 50%;
+  padding: calc(var(--offset-base-size) * 5);
+}
+
+.orders {
+  display: flex;
+
+  margin-bottom: calc(var(--offset-base-size) * 15);
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+
+  width: 50%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+
+  flex-wrap: wrap;
+
+  height: 160px;
+  margin-top: calc(var(--offset-base-size) * 6);
+}
+
+.completed {
+  height: 24px;
+  margin-bottom: calc(var(--offset-base-size) * 2);
+
+  color: #0cc;
+}
+
+.inProgress {
+  height: 24px;
+  margin-bottom: calc(var(--offset-base-size) * 2);
+}
+
+.total {
+  margin-bottom: calc(var(--offset-base-size) * 15);
+}
+
+.count {
+  text-shadow:
+    0 0 16px rgba(51, 51, 255, 0.25),
+    0 0 8px rgba(51, 51, 255, 0.25),
+    0 4px 32px rgba(51, 51, 255, 0.5);
+}

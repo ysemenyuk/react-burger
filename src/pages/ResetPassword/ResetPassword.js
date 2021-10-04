@@ -10,12 +10,13 @@ import useInput from '../../hooks/useInput';
 import FormContainer from '../../components/FormContainer/FormContainer';
 import usePassInput from '../../hooks/usePasswordInput';
 import { resetUserPassword } from '../../redux/actions/userActions';
+import userSelectors from '../../redux/selectors/userSelectors';
 
 function ResetPassword() {
   const dispatch = useDispatch();
 
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const { loading, success, error } = useSelector((state) => state.userResetPassword);
+  const isAuth = useSelector(userSelectors.isAuth);
+  const { loading, success, error } = useSelector(userSelectors.resetPassword);
 
   const passInput = usePassInput('');
   const tokenInput = useInput('');

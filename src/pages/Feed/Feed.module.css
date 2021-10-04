@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 1280px;
+  height: 100%;
+}
+
+.title {
+  margin: calc(var(--offset-base-size) * 5);
+  margin-top: calc(var(--offset-base-size) * 10);
+}
+
+.feed {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}

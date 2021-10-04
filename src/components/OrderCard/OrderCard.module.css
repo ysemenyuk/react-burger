@@ -1,0 +1,78 @@
+.itemCard {
+  display: flex;
+  flex-direction: column;
+
+  margin-right: calc(var(--offset-base-size) * 2);
+  margin-bottom: calc(var(--offset-base-size) * 4);
+
+  padding: calc(var(--offset-base-size) * 6);
+
+  border-radius: 40px;
+
+  background: #1c1c21;
+}
+
+.itemCard:hover {
+  cursor: pointer;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: calc(var(--offset-base-size) * 4);
+}
+
+.name {
+  margin-bottom: calc(var(--offset-base-size) * 4);
+}
+
+.status {
+  align-self: flex-start;
+
+  margin-bottom: calc(var(--offset-base-size) * 6);
+
+  color: #0cc;
+}
+
+.orderInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ingredients {
+  display: flex;
+}
+
+.ingredientIcon {
+  position: relative;
+
+  width: 64px;
+  height: 64px;
+  margin-right: -16px;
+
+  border-radius: 200px;
+  background: linear-gradient(to right, #801ab2, #4c4cff);
+}
+
+.ingredientIcon > img {
+  position: absolute;
+  top: 2px;
+  left: -24px;
+
+  box-sizing: border-box;
+  height: 60px;
+  padding: 4px;
+
+  background: #1c1c21;
+  clip-path: circle(30px at center);
+}
+
+.text {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+}

@@ -12,7 +12,7 @@ import useHover from '../../hooks/useHover';
 
 const modalRoot = document.getElementById('modals');
 
-function Modal({ children, onClose, title }) {
+function Modal({ children, onClose, title, titleSize }) {
   const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
   const handleClickOnOverlay = (e) => {
@@ -35,6 +35,11 @@ function Modal({ children, onClose, title }) {
     };
   }, [onClose]);
 
+  const titleStyle =
+    titleSize === 'small'
+      ? cn(styles.smallTitle, 'text', 'text_type_digits-default')
+      : cn(styles.title, 'text', 'text_type_main-large');
+
   return ReactDOM.createPortal(
     <ModalOverlay handleClickOnOverlay={handleClickOnOverlay}>
       <div className={cn(styles.modal)}>
@@ -47,7 +52,7 @@ function Modal({ children, onClose, title }) {
           <CloseIcon type={isHover ? 'primary' : 'secondary'} />
         </span>
         {title ? (
-          <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>{title}</h2>
+          <span className={titleStyle}>{title}</span>
         ) : (
           <span className={styles.emptyTitle}> </span>
         )}

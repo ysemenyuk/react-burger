@@ -10,13 +10,14 @@ import FormContainer from '../../components/FormContainer/FormContainer';
 import useInput from '../../hooks/useInput';
 import usePasswordInput from '../../hooks/usePasswordInput';
 import { userLogin } from '../../redux/actions/userActions';
+import userSelectors from '../../redux/selectors/userSelectors';
 
 function Login() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const { loading, success, error } = useSelector((state) => state.userLogin);
+  const isAuth = useSelector(userSelectors.isAuth);
+  const { loading, success, error } = useSelector(userSelectors.login);
 
   const emailInput = useInput('');
   const passInput = usePasswordInput('');

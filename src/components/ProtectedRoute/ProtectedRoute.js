@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+import userSelectors from '../../redux/selectors/userSelectors';
 
 function ProtectedRoute({ children, ...rest }) {
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
+  const isAuth = useSelector(userSelectors.isAuth);
 
   return (
     <Route

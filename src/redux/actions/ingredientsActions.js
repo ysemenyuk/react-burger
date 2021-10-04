@@ -3,9 +3,9 @@ import {
   INGRIDIENTS_REQUEST,
   INGRIDIENTS_SUCCESS,
   INGRIDIENTS_ERROR,
-  RESET_CURRENT_INGREDIENT,
-  SET_CURRENT_INGREDIENT,
-} from '../../utils/types';
+  SET_INGREDIENT_DETAILS,
+  RESET_INGREDIENT_DETAILS,
+} from '../types/types';
 
 const ingredientsRequest = () => ({
   type: INGRIDIENTS_REQUEST,
@@ -21,6 +21,15 @@ const ingredientsError = (error) => ({
   error: error,
 });
 
+export const setIngredientDetails = (data) => ({
+  type: SET_INGREDIENT_DETAILS,
+  payload: data,
+});
+
+export const resetIngredientDetails = () => ({
+  type: RESET_INGREDIENT_DETAILS,
+});
+
 export const getIngredients = () => async (dispatch) => {
   dispatch(ingredientsRequest());
 
@@ -31,12 +40,3 @@ export const getIngredients = () => async (dispatch) => {
     dispatch(ingredientsError(error));
   }
 };
-
-export const setCurrentIngredient = (data) => ({
-  type: SET_CURRENT_INGREDIENT,
-  payload: data,
-});
-
-export const resetCurrentIngredient = () => ({
-  type: RESET_CURRENT_INGREDIENT,
-});

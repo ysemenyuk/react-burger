@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import styles from './BurgerConstructor.module.css';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +9,7 @@ import { useDrop } from 'react-dnd';
 
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
-import OrderDetails from '../OrderDetails/OrderDetails';
+import OrderCreateDetails from './OrderCreateDetails/OrderCreateDetails';
 import ToppingCard from './ToppingCard/ToppingCard';
 import BunCard from './BunCard/BunCard';
 import Loader from '../UI/Loader/Loader';
@@ -21,10 +22,13 @@ import {
   updateToppingsList,
   clearOrderItems,
   createOrder,
-  closeOrderDetails,
+  closeCreateOrderDetails,
 } from '../../redux/actions/constructorActions';
 
-import { INGRIDIENTS, ItemTypes } from '../../utils/constants';
+import userSelectors from '../../redux/selectors/userSelectors';
+import constructorSelectors from '../../redux/selectors/constructorSelectors';
+
+import { INGRIDIENTS, itemsTypes } from '../../utils/constants';
 import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
 
 function BurgerConstructor() {
@@ -32,10 +36,9 @@ function BurgerConstructor() {
   const history = useHistory();
   const location = useLocation();
 
-  const isAuth = useSelector((state) => state.userInfo.isAuth);
-  const orderItems = useSelector((state) => state.orderItems);
-  const { visible, loading, error, currentOrder } = useSelector((state) => state.orderDetails);
-
+  const isAuth = useSelector(userSelectors.isAuth);
+  const orderItems = useSelector(constructorSelectors.orderItems);
+  const { visible, loading, error, order } = useSelector(constructorSelectors.orderCreate);
   const { bun, toppings } = orderItems;
 
   const orderItemsIds = useMemo(() => getOrderItemsIds(orderItems), [orderItems]);
@@ -47,7 +50,9 @@ function BurgerConstructor() {
       isHover: monitor.isOver(),
     }),
     drop(item) {
-      item.type === ItemTypes.BUN ? dispatch(addBun(item)) : dispatch(addTopping(item));
+      item.type === itemsTypes.BUN
+        ? dispatch(addBun(item))
+        : dispatch(addTopping({ ...item, uuid: uuidv4() }));
     },
   });
 
@@ -58,7 +63,7 @@ function BurgerConstructor() {
   };
 
   const handleCloseModal = () => {
-    dispatch(closeOrderDetails());
+    dispatch(closeCreateOrderDetails());
     !error && dispatch(clearOrderItems());
   };
 
@@ -82,7 +87,7 @@ function BurgerConstructor() {
     <section className={cn(styles.section)}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          {error ? <Message message={error.message} /> : <OrderDetails order={currentOrder} />}
+          {error ? <Message message={error.message} /> : <OrderCreateDetails order={order} />}
         </Modal>
       )}
 

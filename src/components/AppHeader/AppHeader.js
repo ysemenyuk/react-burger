@@ -21,7 +21,7 @@ function AppHeader() {
           <BurgerIcon /> Конструктор
         </HeaderLink>
 
-        <HeaderLink to={'/'} active={false}>
+        <HeaderLink to={'/feed'} active={pathname === '/feed'}>
           <ListIcon /> Лента заказов
         </HeaderLink>
 
