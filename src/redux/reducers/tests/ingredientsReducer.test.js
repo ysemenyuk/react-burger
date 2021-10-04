@@ -1,9 +1,9 @@
 import { ingredientsReducer } from '../ingredientsReducer';
 import * as types from '../../types/types';
 
-import data from '../../../utils/data';
+import data from './data';
 
-const initState = {
+const state = {
   loading: false,
   success: false,
   error: null,
@@ -12,25 +12,21 @@ const initState = {
 };
 
 describe('ingredientsReducer', () => {
-  it('ingredientsReducer initState', () => {
-    expect(ingredientsReducer(initState, {})).toEqual(initState);
+  it('ingredientsReducer state', () => {
+    expect(ingredientsReducer(state, {})).toEqual(state);
   });
 
   it('ingredientsReducer INGRIDIENTS_REQUEST', () => {
     const action = {
       type: types.INGRIDIENTS_REQUEST,
-      payload: data,
     };
 
     const expectedState = {
+      ...state,
       loading: true,
-      success: false,
-      error: null,
-      items: [],
-      itemDetails: null,
     };
 
-    expect(ingredientsReducer(initState, action)).toEqual(expectedState);
+    expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
   it('ingredientsReducer INGRIDIENTS_SUCCESS', () => {
@@ -40,14 +36,14 @@ describe('ingredientsReducer', () => {
     };
 
     const expectedState = {
+      ...state,
       loading: false,
       success: true,
       error: null,
       items: data,
-      itemDetails: null,
     };
 
-    expect(ingredientsReducer(initState, action)).toEqual(expectedState);
+    expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
   it('ingredientsReducer INGRIDIENTS_ERROR', () => {
@@ -57,14 +53,12 @@ describe('ingredientsReducer', () => {
     };
 
     const expectedState = {
+      ...state,
       loading: false,
-      success: false,
       error: { message: 'error' },
-      items: [],
-      itemDetails: null,
     };
 
-    expect(ingredientsReducer(initState, action)).toEqual(expectedState);
+    expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
   it('ingredientsReducer SET_INGREDIENT_DETAILS', () => {
@@ -74,14 +68,11 @@ describe('ingredientsReducer', () => {
     };
 
     const expectedState = {
-      loading: false,
-      success: false,
-      error: null,
-      items: [],
+      ...state,
       itemDetails: data[0],
     };
 
-    expect(ingredientsReducer(initState, action)).toEqual(expectedState);
+    expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
   it('ingredientsReducer RESET_INGREDIENT_DETAILS', () => {
@@ -90,21 +81,10 @@ describe('ingredientsReducer', () => {
     };
 
     const initialState = {
-      loading: false,
-      success: false,
-      error: null,
-      items: [],
+      ...state,
       itemDetails: data[0],
     };
 
-    const expectedState = {
-      loading: false,
-      success: false,
-      error: null,
-      items: [],
-      itemDetails: null,
-    };
-
-    expect(ingredientsReducer(initialState, action)).toEqual(expectedState);
+    expect(ingredientsReducer(initialState, action)).toEqual(state);
   });
 });

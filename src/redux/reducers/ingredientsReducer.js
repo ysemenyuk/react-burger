@@ -1,10 +1,4 @@
-import {
-  INGRIDIENTS_REQUEST,
-  INGRIDIENTS_SUCCESS,
-  INGRIDIENTS_ERROR,
-  SET_INGREDIENT_DETAILS,
-  RESET_INGREDIENT_DETAILS,
-} from '../types/types';
+import * as types from '../types/types';
 
 const initState = {
   loading: false,
@@ -16,10 +10,10 @@ const initState = {
 
 export const ingredientsReducer = (state = initState, action) => {
   switch (action.type) {
-    case INGRIDIENTS_REQUEST: {
+    case types.INGRIDIENTS_REQUEST: {
       return { ...state, loading: true, success: false, error: null };
     }
-    case INGRIDIENTS_SUCCESS: {
+    case types.INGRIDIENTS_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -28,13 +22,13 @@ export const ingredientsReducer = (state = initState, action) => {
         items: [...action.payload],
       };
     }
-    case INGRIDIENTS_ERROR: {
+    case types.INGRIDIENTS_ERROR: {
       return { ...state, loading: false, error: action.error };
     }
-    case SET_INGREDIENT_DETAILS: {
+    case types.SET_INGREDIENT_DETAILS: {
       return { ...state, itemDetails: action.payload };
     }
-    case RESET_INGREDIENT_DETAILS: {
+    case types.RESET_INGREDIENT_DETAILS: {
       return { ...state, itemDetails: null };
     }
     default:

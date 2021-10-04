@@ -1,16 +1,4 @@
-import { v4 as uuidv4 } from 'uuid';
-
-import {
-  ADD_BUN,
-  ADD_TOPPING,
-  DELETE_TOPPING,
-  UPDATE_TOPPINGS_LIST,
-  CLEAR_ORDER_ITEMS,
-  ORDER_REQUEST,
-  ORDER_SUCCESS,
-  ORDER_ERROR,
-  CLOSE_ORDER_CREATE_DETAILS,
-} from '../types/types';
+import * as types from '../types/types';
 
 const initState = {
   bun: null,
@@ -23,31 +11,31 @@ const initState = {
 
 export const constructorReducer = (state = initState, action) => {
   switch (action.type) {
-    case ADD_BUN: {
+    case types.ADD_BUN: {
       return { ...state, bun: { ...action.payload } };
     }
-    case ADD_TOPPING: {
+    case types.ADD_TOPPING: {
       return {
         ...state,
-        toppings: [...state.toppings, { ...action.payload, uuid: uuidv4() }],
+        toppings: [...state.toppings, { ...action.payload }],
       };
     }
-    case DELETE_TOPPING: {
+    case types.DELETE_TOPPING: {
       return {
         ...state,
         toppings: [...state.toppings.filter((el) => el.uuid !== action.payload)],
       };
     }
-    case UPDATE_TOPPINGS_LIST: {
+    case types.UPDATE_TOPPINGS_LIST: {
       return { ...state, toppings: [...action.payload] };
     }
-    case CLEAR_ORDER_ITEMS: {
+    case types.CLEAR_ORDER_ITEMS: {
       return { ...state, bun: null, toppings: [] };
     }
-    case ORDER_REQUEST: {
+    case types.ORDER_REQUEST: {
       return { ...state, visible: false, loading: true, error: null };
     }
-    case ORDER_SUCCESS: {
+    case types.ORDER_SUCCESS: {
       return {
         ...state,
         visible: true,
@@ -56,10 +44,10 @@ export const constructorReducer = (state = initState, action) => {
         order: { ...action.payload },
       };
     }
-    case ORDER_ERROR: {
+    case types.ORDER_ERROR: {
       return { ...state, visible: true, loading: false, error: action.error };
     }
-    case CLOSE_ORDER_CREATE_DETAILS: {
+    case types.CLOSE_ORDER_CREATE_DETAILS: {
       return { ...state, visible: false, order: null };
     }
     default:

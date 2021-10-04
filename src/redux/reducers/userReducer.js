@@ -1,43 +1,20 @@
 import { combineReducers } from 'redux';
-
-import {
-  USER_CHECK_AUTH_SUCCESS,
-  USER_CHECK_AUTH_FAIL,
-  USER_LOGIN_REQUEST,
-  USER_LOGIN_SUCCESS,
-  USER_LOGIN_FAIL,
-  USER_LOGOUT_SUCCESS,
-  USER_REGISTER_REQUEST,
-  USER_REGISTER_SUCCESS,
-  USER_REGISTER_FAIL,
-  USER_PROFILE_REQUEST,
-  USER_PROFILE_SUCCESS,
-  USER_PROFILE_FAIL,
-  USER_UPDATE_PROFILE_REQUEST,
-  USER_UPDATE_PROFILE_SUCCESS,
-  USER_UPDATE_PROFILE_FAIL,
-  USER_FORGOT_PASSWORD_REQUEST,
-  USER_FORGOT_PASSWORD_SUCCESS,
-  USER_FORGOT_PASSWORD_FAIL,
-  USER_RESET_PASSWORD_REQUEST,
-  USER_RESET_PASSWORD_SUCCESS,
-  USER_RESET_PASSWORD_FAIL,
-} from '../types/types';
+import * as types from '../types/types';
 
 const initState = { isCheckAuth: true, isAuth: false, userInfo: { email: '', name: '' } };
 
 export const userInfoReducer = (state = initState, action) => {
   switch (action.type) {
-    case USER_CHECK_AUTH_SUCCESS:
+    case types.USER_CHECK_AUTH_SUCCESS:
       return { isCheckAuth: false, isAuth: true, userInfo: action.payload };
-    case USER_CHECK_AUTH_FAIL:
+    case types.USER_CHECK_AUTH_FAIL:
       return { ...state, isCheckAuth: false };
-    case USER_LOGIN_SUCCESS:
-    case USER_REGISTER_SUCCESS:
+    case types.USER_LOGIN_SUCCESS:
+    case types.USER_REGISTER_SUCCESS:
       return { ...state, isAuth: true, userInfo: action.payload };
-    case USER_UPDATE_PROFILE_SUCCESS:
+    case types.USER_UPDATE_PROFILE_SUCCESS:
       return { ...state, userInfo: action.payload };
-    case USER_LOGOUT_SUCCESS:
+    case types.USER_LOGOUT_SUCCESS:
       return { ...initState, isCheckAuth: false };
     default:
       return state;
@@ -49,11 +26,11 @@ export const userLoginReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_LOGIN_REQUEST:
+    case types.USER_LOGIN_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_LOGIN_SUCCESS:
+    case types.USER_LOGIN_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_LOGIN_FAIL:
+    case types.USER_LOGIN_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;
@@ -65,11 +42,11 @@ export const userRegisterReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_REGISTER_REQUEST:
+    case types.USER_REGISTER_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_REGISTER_SUCCESS:
+    case types.USER_REGISTER_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_REGISTER_FAIL:
+    case types.USER_REGISTER_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;
@@ -81,11 +58,11 @@ export const userProfileReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_PROFILE_REQUEST:
+    case types.USER_PROFILE_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_PROFILE_SUCCESS:
+    case types.USER_PROFILE_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_PROFILE_FAIL:
+    case types.USER_PROFILE_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;
@@ -97,11 +74,11 @@ export const userUpdateProfileReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_UPDATE_PROFILE_REQUEST:
+    case types.USER_UPDATE_PROFILE_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_UPDATE_PROFILE_SUCCESS:
+    case types.USER_UPDATE_PROFILE_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_UPDATE_PROFILE_FAIL:
+    case types.USER_UPDATE_PROFILE_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;
@@ -113,11 +90,11 @@ export const userForgotPasswordReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_FORGOT_PASSWORD_REQUEST:
+    case types.USER_FORGOT_PASSWORD_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_FORGOT_PASSWORD_SUCCESS:
+    case types.USER_FORGOT_PASSWORD_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_FORGOT_PASSWORD_FAIL:
+    case types.USER_FORGOT_PASSWORD_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;
@@ -129,11 +106,11 @@ export const userResetPasswordReducer = (
   action
 ) => {
   switch (action.type) {
-    case USER_RESET_PASSWORD_REQUEST:
+    case types.USER_RESET_PASSWORD_REQUEST:
       return { loading: true, success: false, error: null };
-    case USER_RESET_PASSWORD_SUCCESS:
+    case types.USER_RESET_PASSWORD_SUCCESS:
       return { loading: false, success: true, error: null };
-    case USER_RESET_PASSWORD_FAIL:
+    case types.USER_RESET_PASSWORD_FAIL:
       return { loading: false, success: false, error: action.error };
     default:
       return state;

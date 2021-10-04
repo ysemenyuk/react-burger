@@ -1,11 +1,4 @@
-import {
-  WS_ALL_ORDERS_CONNECTION_SUCCESS,
-  WS_ALL_ORDERS_CONNECTION_ERROR,
-  WS_ALL_ORDERS_CONNECTION_CLOSED,
-  WS_GET_ALL_ORDERS,
-  SET_ORDER_DETAILS,
-  RESET_ORDER_DETAILS,
-} from '../types/types';
+import * as types from '../types/types';
 
 const initialState = {
   wsConnected: false,
@@ -18,24 +11,24 @@ const initialState = {
 
 export const allOrdersReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_ALL_ORDERS_CONNECTION_SUCCESS:
+    case types.WS_ALL_ORDERS_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnected: true,
         wsError: null,
       };
-    case WS_ALL_ORDERS_CONNECTION_ERROR:
+    case types.WS_ALL_ORDERS_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false,
         wsError: action.payload,
       };
-    case WS_ALL_ORDERS_CONNECTION_CLOSED:
+    case types.WS_ALL_ORDERS_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false,
       };
-    case WS_GET_ALL_ORDERS:
+    case types.WS_GET_ALL_ORDERS:
       return {
         ...state,
         allOrders: action.payload.orders.filter(
@@ -44,12 +37,12 @@ export const allOrdersReducer = (state = initialState, action) => {
         ordersTotal: action.payload.total,
         ordersTotalToday: action.payload.totalToday,
       };
-    case SET_ORDER_DETAILS:
+    case types.SET_ORDER_DETAILS:
       return {
         ...state,
         orderDetails: action.payload,
       };
-    case RESET_ORDER_DETAILS:
+    case types.RESET_ORDER_DETAILS:
       return {
         ...state,
         orderDetails: null,

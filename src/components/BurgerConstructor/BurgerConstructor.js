@@ -1,5 +1,6 @@
 import cn from 'classnames';
 import styles from './BurgerConstructor.module.css';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -49,7 +50,9 @@ function BurgerConstructor() {
       isHover: monitor.isOver(),
     }),
     drop(item) {
-      item.type === itemsTypes.BUN ? dispatch(addBun(item)) : dispatch(addTopping(item));
+      item.type === itemsTypes.BUN
+        ? dispatch(addBun(item))
+        : dispatch(addTopping({ ...item, uuid: uuidv4() }));
     },
   });
 

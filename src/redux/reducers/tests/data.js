@@ -1,4 +1,102 @@
-const data = [
+export const uuid = '60666c42cc7b410027a1a9b1';
+
+export const userInfo = {
+  email: 'test@test.ru',
+  name: 'name',
+};
+
+export const updatedUserInfo = {
+  email: 'test@test.ru',
+  name: 'updatedName',
+};
+
+export const order = {
+  number: '60666c42cc7b410027a1a9b1',
+};
+
+export const orderDetails = {
+  _id: '615b60327deb54001ba5f3f1',
+  ingredients: [
+    '60d3b41abdacab0026a733c9',
+    '60d3b41abdacab0026a733cb',
+    '60d3b41abdacab0026a733cb',
+    '60d3b41abdacab0026a733c7',
+    '60d3b41abdacab0026a733c7',
+  ],
+  status: 'done',
+  name: 'Флюоресцентный био-марсианский бессмертный бургер',
+  createdAt: '2021-10-04T20:12:34.974Z',
+  updatedAt: '2021-10-04T20:12:35.077Z',
+  number: 4226,
+};
+
+export const orders = {
+  success: true,
+  orders: [
+    {
+      _id: '615b60327deb54001ba5f3f1',
+      ingredients: [
+        '60d3b41abdacab0026a733c9',
+        '60d3b41abdacab0026a733cb',
+        '60d3b41abdacab0026a733cb',
+        '60d3b41abdacab0026a733c7',
+        '60d3b41abdacab0026a733c7',
+      ],
+      status: 'done',
+      name: 'Флюоресцентный био-марсианский бессмертный бургер',
+      createdAt: '2021-10-04T20:12:34.974Z',
+      updatedAt: '2021-10-04T20:12:35.077Z',
+      number: 4226,
+    },
+    {
+      _id: '615b5f637deb54001ba5f3ef',
+      ingredients: [
+        '60d3b41abdacab0026a733cd',
+        '60d3b41abdacab0026a733c7',
+        '60d3b41abdacab0026a733c7',
+      ],
+      status: 'done',
+      name: 'Флюоресцентный space бургер',
+      createdAt: '2021-10-04T20:09:07.566Z',
+      updatedAt: '2021-10-04T20:09:07.646Z',
+      number: 4225,
+    },
+  ],
+  total: 4139,
+  totalToday: 24,
+};
+
+export const bun = {
+  _id: '60666c42cc7b410027a1a9b1',
+  name: 'Краторная булка N-200i',
+  type: 'bun',
+  proteins: 80,
+  fat: 24,
+  carbohydrates: 53,
+  calories: 420,
+  price: 1255,
+  image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+  __v: 0,
+};
+
+export const topping = {
+  _id: '60666c42cc7b410027a1a9b5',
+  name: 'Говяжий метеорит (отбивная)',
+  type: 'main',
+  proteins: 800,
+  fat: 800,
+  carbohydrates: 300,
+  calories: 2674,
+  price: 3000,
+  image: 'https://code.s3.yandex.net/react/code/meat-04.png',
+  image_mobile: 'https://code.s3.yandex.net/react/code/meat-04-mobile.png',
+  image_large: 'https://code.s3.yandex.net/react/code/meat-04-large.png',
+  __v: 0,
+};
+
+export const data = [
   {
     _id: '60666c42cc7b410027a1a9b1',
     name: 'Краторная булка N-200i',
