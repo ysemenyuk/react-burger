@@ -105,5 +105,20 @@ export const getOrderStatus = (status) => {
   }
 };
 
-export const getFormattedDate = (date) =>
-  `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;
+export const getFormattedDate = (date) => `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;
+
+export const createRequestReducer = (types) => {
+  const initState = { loading: false, success: false, error: null };
+  return (state = initState, action) => {
+    switch (action.type) {
+      case types.request:
+        return { loading: true, success: false, error: null };
+      case types.success:
+        return { loading: false, success: true, error: null };
+      case types.fail:
+        return { loading: false, success: false, error: action.error };
+      default:
+        return state;
+    }
+  };
+};

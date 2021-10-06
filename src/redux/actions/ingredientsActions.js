@@ -1,23 +1,23 @@
 import normaService from '../../services/normaService.js';
 import {
-  INGRIDIENTS_REQUEST,
-  INGRIDIENTS_SUCCESS,
-  INGRIDIENTS_ERROR,
+  INGREDIENTS_REQUEST,
+  INGREDIENTS_SUCCESS,
+  INGREDIENTS_ERROR,
   SET_INGREDIENT_DETAILS,
   RESET_INGREDIENT_DETAILS,
 } from '../types/types';
 
 const ingredientsRequest = () => ({
-  type: INGRIDIENTS_REQUEST,
+  type: INGREDIENTS_REQUEST,
 });
 
 const ingredientsSucces = (data) => ({
-  type: INGRIDIENTS_SUCCESS,
+  type: INGREDIENTS_SUCCESS,
   payload: data,
 });
 
 const ingredientsError = (error) => ({
-  type: INGRIDIENTS_ERROR,
+  type: INGREDIENTS_ERROR,
   error: error,
 });
 

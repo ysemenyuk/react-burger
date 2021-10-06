@@ -16,9 +16,9 @@ describe('ingredientsReducer', () => {
     expect(ingredientsReducer(state, {})).toEqual(state);
   });
 
-  it('ingredientsReducer INGRIDIENTS_REQUEST', () => {
+  it('ingredientsReducer INGREDIENTS_REQUEST', () => {
     const action = {
-      type: types.INGRIDIENTS_REQUEST,
+      type: types.INGREDIENTS_REQUEST,
     };
 
     const expectedState = {
@@ -29,9 +29,9 @@ describe('ingredientsReducer', () => {
     expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
-  it('ingredientsReducer INGRIDIENTS_SUCCESS', () => {
+  it('ingredientsReducer INGREDIENTS_SUCCESS', () => {
     const action = {
-      type: types.INGRIDIENTS_SUCCESS,
+      type: types.INGREDIENTS_SUCCESS,
       payload: data,
     };
 
@@ -46,9 +46,9 @@ describe('ingredientsReducer', () => {
     expect(ingredientsReducer(state, action)).toEqual(expectedState);
   });
 
-  it('ingredientsReducer INGRIDIENTS_ERROR', () => {
+  it('ingredientsReducer INGREDIENTS_ERROR', () => {
     const action = {
-      type: types.INGRIDIENTS_ERROR,
+      type: types.INGREDIENTS_ERROR,
       error: { message: 'error' },
     };
 
