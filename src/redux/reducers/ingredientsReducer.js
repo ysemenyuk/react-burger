@@ -10,10 +10,10 @@ const initState = {
 
 export const ingredientsReducer = (state = initState, action) => {
   switch (action.type) {
-    case types.INGRIDIENTS_REQUEST: {
+    case types.INGREDIENTS_REQUEST: {
       return { ...state, loading: true, success: false, error: null };
     }
-    case types.INGRIDIENTS_SUCCESS: {
+    case types.INGREDIENTS_SUCCESS: {
       return {
         ...state,
         loading: false,
@@ -22,7 +22,7 @@ export const ingredientsReducer = (state = initState, action) => {
         items: [...action.payload],
       };
     }
-    case types.INGRIDIENTS_ERROR: {
+    case types.INGREDIENTS_ERROR: {
       return { ...state, loading: false, error: action.error };
     }
     case types.SET_INGREDIENT_DETAILS: {
