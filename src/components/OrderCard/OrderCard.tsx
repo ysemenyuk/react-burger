@@ -1,12 +1,20 @@
 import cn from 'classnames';
 import styles from './OrderCard.module.css';
+import { FC } from 'react';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import useOrderDetails from '../../hooks/useOrderDetails';
-import { getFormattedDate, getOrderStatus } from '../../utils/helpers';
 
-function OrderCard({ order, onCardClick, userCard }) {
+import { getFormattedDate, getOrderStatus } from '../../utils/helpers';
+import { TOrder } from '../../types/types';
+
+interface IProps {
+  order: TOrder;
+  onCardClick: () => void;
+  userCard?: boolean;
+}
+
+const OrderCard: FC<IProps> = ({ order, onCardClick, userCard }) => {
   const { name, number, status, createdAt } = order;
   const { orderIngredients, orderPrice } = useOrderDetails(order);
 
@@ -33,7 +41,7 @@ function OrderCard({ order, onCardClick, userCard }) {
   };
 
   return (
-    <li className={cn(styles.itemCard)} onClick={onCardClick(order)}>
+    <li className={cn(styles.itemCard)} onClick={onCardClick}>
       <header className={styles.header}>
         <span className={cn(styles.orderId, 'text', 'text_type_digits-default')}>
           {`#${number}`}
@@ -59,6 +67,6 @@ function OrderCard({ order, onCardClick, userCard }) {
       </div>
     </li>
   );
-}
+};
 
 export default OrderCard;

@@ -1,18 +1,25 @@
 import cn from 'classnames';
 import styles from './OrdersList.module.css';
 
+import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
-import { setOrderDetails } from '../../redux/actions/allOrdersActions';
 
-function OrdersList({ ordersList }) {
+import { setOrderDetails } from '../../redux/actions/allOrdersActions';
+import { TOrder, TOrdersList } from '../../types/types';
+
+interface IProps {
+  ordersList: TOrdersList;
+}
+
+const OrdersList: FC<IProps> = ({ ordersList }) => {
   const dispatch = useDispatch();
 
   const history = useHistory();
   const location = useLocation();
 
-  const handleCardClick = (item) => () => {
+  const handleCardClick = (item: TOrder) => () => {
     dispatch(setOrderDetails(item));
 
     history.push({
@@ -24,12 +31,12 @@ function OrdersList({ ordersList }) {
   return (
     <section className={cn(styles.section)}>
       <ul className={cn(styles.ordersList)}>
-        {ordersList.map((item) => (
-          <OrderCard key={item._id} order={item} onCardClick={handleCardClick} />
+        {ordersList.map((order: TOrder) => (
+          <OrderCard key={order._id} order={order} onCardClick={handleCardClick(order)} />
         ))}
       </ul>
     </section>
   );
-}
+};
 
 export default OrdersList;

@@ -1,20 +1,27 @@
 import cn from 'classnames';
 import styles from './HeaderLink.module.css';
 
-import { Children, isValidElement, cloneElement } from 'react';
-import PropTypes from 'prop-types';
-
+import { Children, isValidElement, cloneElement, FC } from 'react';
 import { Link } from 'react-router-dom';
+
 import useHover from '../../../hooks/useHover';
 
-function HeaderLink({ children, to, active, ...props }) {
+type THeadeLinkProps = {
+  to: string;
+  active: boolean;
+  last?: boolean;
+};
+
+const HeaderLink: FC<THeadeLinkProps> = ({ children, to, active, last, ...props }) => {
   const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
   const type = !isHover && !active ? 'secondary' : 'primary';
 
-  const linkClass = cn(styles.link, {
-    text_color_inactive: !isHover && !active,
-  });
+  const linkClass = cn(
+    styles.link,
+    { text_color_inactive: !isHover && !active },
+    { [styles.last]: last }
+  );
 
   return (
     <Link
@@ -29,11 +36,6 @@ function HeaderLink({ children, to, active, ...props }) {
       )}
     </Link>
   );
-}
-
-HeaderLink.propTypes = {
-  to: PropTypes.string.isRequired,
-  active: PropTypes.bool,
 };
 
 export default HeaderLink;

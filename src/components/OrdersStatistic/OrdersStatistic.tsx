@@ -1,8 +1,17 @@
 import cn from 'classnames';
+import { FC } from 'react';
+import { TOrdersList } from '../../types/types';
 import styles from './OrdersStatistic.module.css';
 
-function OrderStatistic(props) {
-  const { completedOrders, inProgressOrders, ordersTotal, ordersTotalToday } = props;
+interface IProps {
+  ordersList: TOrdersList;
+  ordersTotal: string;
+  ordersTotalToday: string;
+}
+
+const OrderStatistic: FC<IProps> = ({ ordersList, ordersTotal, ordersTotalToday }) => {
+  const completedOrders = ordersList.filter(({ status }) => status === 'done').slice(0, 10);
+  const inProgressOrders = ordersList.filter(({ status }) => status !== 'done').slice(0, 10);
 
   return (
     <section className={cn(styles.section)}>
@@ -46,6 +55,6 @@ function OrderStatistic(props) {
       </div>
     </section>
   );
-}
+};
 
 export default OrderStatistic;

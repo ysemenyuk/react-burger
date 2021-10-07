@@ -1,8 +1,11 @@
-import React from 'react';
-
 import styles from './Loader.module.css';
+import { FC } from 'react';
 
-function Loader({ height }) {
+type TLoaderProps = {
+  height: string;
+};
+
+const Loader: FC<TLoaderProps> = ({ height }) => {
   return (
     <div style={{ height }} className={styles.container}>
       <div className={styles.ldsDualRing}></div>

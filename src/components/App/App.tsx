@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import styles from './App.module.css';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 
@@ -27,11 +27,21 @@ import userSelectors from '../../redux/selectors/userSelectors';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
 
-function App() {
+interface IAppLocation {
+  background?: {
+    key: string;
+    pathname: string;
+    search: string;
+    hash: string;
+    state: unknown;
+  };
+}
+
+const App: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
-  const location = useLocation();
+  const location = useLocation<IAppLocation>();
 
   const isCheckAuth = useSelector(userSelectors.isCheckAuth);
   const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
@@ -70,15 +80,11 @@ function App() {
         )}
 
         {background && orderDetails && (
-          <Route
-            exact
-            path={['/feed/:id', '/profile/orders/:id']}
-            children={<ModalWithOrder orderDetails={orderDetails} />}
-          />
+          <Route exact path={['/feed/:id', '/profile/orders/:id']} children={<ModalWithOrder />} />
         )}
       </div>
     </div>
   );
-}
+};
 
 export default App;

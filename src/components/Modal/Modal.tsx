@@ -1,26 +1,32 @@
 import styles from './Modal.module.css';
-
-import { useEffect } from 'react';
-import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 import cn from 'classnames';
+
+import { FC, SyntheticEvent, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import ModalOverlay from './ModalOverlay/ModalOverlay';
 
 import useHover from '../../hooks/useHover';
 
-const modalRoot = document.getElementById('modals');
+interface IModalProps {
+  children: React.ReactNode;
+  title?: string;
+  largeTitle?: boolean;
+  onClose: () => void;
+}
 
-function Modal({ children, onClose, title, titleSize }) {
+const Modal: FC<IModalProps> = ({ children, onClose, title, largeTitle }) => {
+  const modalRoot = document.getElementById('modals') as HTMLElement;
+
   const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
-  const handleClickOnOverlay = (e) => {
+  const handleClickOnOverlay = (e: SyntheticEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
 
   useEffect(() => {
-    const onKeyDown = (e) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Escape') onClose();
     };
 
@@ -35,13 +41,12 @@ function Modal({ children, onClose, title, titleSize }) {
     };
   }, [onClose]);
 
-  const titleStyle =
-    titleSize === 'small'
-      ? cn(styles.smallTitle, 'text', 'text_type_digits-default')
-      : cn(styles.title, 'text', 'text_type_main-large');
+  const titleStyle = largeTitle
+    ? cn(styles.largeTitle, 'text', 'text_type_main-large')
+    : cn(styles.title, 'text', 'text_type_digits-default');
 
   return ReactDOM.createPortal(
-    <ModalOverlay handleClickOnOverlay={handleClickOnOverlay}>
+    <ModalOverlay onClick={handleClickOnOverlay}>
       <div className={cn(styles.modal)}>
         <span
           onClick={onClose}
@@ -61,12 +66,6 @@ function Modal({ children, onClose, title, titleSize }) {
     </ModalOverlay>,
     modalRoot
   );
-}
-
-Modal.propTypes = {
-  children: PropTypes.element.isRequired,
-  onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
 };
 
 export default Modal;

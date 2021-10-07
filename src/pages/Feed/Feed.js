@@ -25,9 +25,6 @@ function Feed() {
 
   const { wsConnected, wsError, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
 
-  const completedOrders = allOrders.filter((i) => i.status === 'done').slice(0, 10);
-  const inProgressOrders = allOrders.filter((i) => i.status !== 'done').slice(0, 10);
-
   useEffect(() => {
     !success && dispatch(getIngredients());
   }, [dispatch, success]);
@@ -48,8 +45,7 @@ function Feed() {
         <div className={styles.feed}>
           <OrdersList ordersList={allOrders} />
           <OrdersStatistic
-            completedOrders={completedOrders}
-            inProgressOrders={inProgressOrders}
+            ordersList={allOrders}
             ordersTotal={ordersTotal}
             ordersTotalToday={ordersTotalToday}
           />

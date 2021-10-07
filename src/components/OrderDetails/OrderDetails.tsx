@@ -1,12 +1,17 @@
-import PropTypes from 'prop-types';
 import cn from 'classnames';
 import styles from './OrderDetails.module.css';
 
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { getFormattedDate, getOrderStatus } from '../../utils/helpers';
 import useOrderDetails from '../../hooks/useOrderDetails';
+import { FC } from 'react';
+import { TOrder } from '../../types/types';
 
-function OrderDetails({ order }) {
+interface IProps {
+  order: TOrder;
+}
+
+const OrderDetails: FC<IProps> = ({ order }) => {
   const { name, status, createdAt } = order;
   const { orderIngredients, orderPrice } = useOrderDetails(order);
 
@@ -49,12 +54,6 @@ function OrderDetails({ order }) {
       </div>
     </section>
   );
-}
-
-OrderDetails.propTypes = {
-  order: PropTypes.shape({
-    name: PropTypes.string,
-  }),
 };
 
 export default OrderDetails;

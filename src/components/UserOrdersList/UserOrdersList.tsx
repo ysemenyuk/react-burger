@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './UserOrdersList.module.css';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -18,8 +18,9 @@ import {
 } from '../../redux/actions/userOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import { setOrderDetails } from '../../redux/actions/allOrdersActions';
+import { TOrder } from '../../types/types';
 
-function UserOrdersList() {
+const UserOrdersList: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -39,7 +40,7 @@ function UserOrdersList() {
     };
   }, [dispatch]);
 
-  const handleCardClick = (item) => () => {
+  const handleCardClick = (item: TOrder) => () => {
     dispatch(setOrderDetails(item));
 
     history.push({
@@ -54,13 +55,18 @@ function UserOrdersList() {
       {(wsError || error) && <Message message={'Network error'} />}
       {wsConnected && success && !!userOrders.length && (
         <ul className={cn(styles.ordersList)}>
-          {userOrders.map((item) => (
-            <OrderCard key={item._id} order={item} onCardClick={handleCardClick} userCard />
+          {userOrders.map((order: TOrder) => (
+            <OrderCard
+              key={order._id}
+              order={order}
+              onCardClick={handleCardClick(order)}
+              userCard
+            />
           ))}
         </ul>
       )}
     </section>
   );
-}
+};
 
 export default UserOrdersList;

@@ -9,7 +9,7 @@ import { useDrop } from 'react-dnd';
 
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from '../Modal/Modal';
-import OrderCreateDetails from './OrderCreateDetails/OrderCreateDetails';
+import OrderCreateDetails from '../OrderCreateDetails/OrderCreateDetails';
 import ToppingCard from './ToppingCard/ToppingCard';
 import BunCard from './BunCard/BunCard';
 import Loader from '../UI/Loader/Loader';
@@ -87,7 +87,11 @@ function BurgerConstructor() {
     <section className={cn(styles.section)}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          {error ? <Message message={error.message} /> : <OrderCreateDetails order={order} />}
+          {error ? (
+            <Message message={error.message} />
+          ) : (
+            <OrderCreateDetails orderNumber={order.number} />
+          )}
         </Modal>
       )}
 
