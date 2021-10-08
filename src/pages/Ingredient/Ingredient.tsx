@@ -1,23 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import styles from './Ingredient.module.css';
 import cn from 'classnames';
-import styles from './Home.module.css';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
+import { useParams } from 'react-router-dom';
 
-import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
-import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
+import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
 import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+import { TIngredient, TPageParams } from '../../types/types';
 
-function Home() {
+const Ingredient: FC = () => {
   const dispatch = useDispatch();
+  const { id } = useParams<TPageParams>();
+
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const items = useSelector(ingredientsSelectors.items);
+  const currentItem = items.find((item: TIngredient) => item._id === id);
 
   useEffect(() => {
     !success && dispatch(getIngredients());
@@ -29,17 +32,12 @@ function Home() {
       {error && <Message message={error.message} />}
       {success && (
         <>
-          <h1 className={cn(styles.title, 'text', 'text_type_main-large')}>Соберите бургер</h1>
-          <div className={styles.constructor}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </DndProvider>
-          </div>
+          <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>Детали ингредиента</h2>
+          <IngredientDetails ingredient={currentItem} />
         </>
       )}
     </div>
   );
-}
+};
 
-export default Home;
+export default Ingredient;

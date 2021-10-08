@@ -1,10 +1,16 @@
-import PropTypes from 'prop-types';
-import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import cn from 'classnames';
 import styles from './BunCard.module.css';
 
-function BunCard({ item, top }) {
+import { FC } from 'react';
+import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
+import { TIngredient } from '../../../types/types';
+
+interface IProps {
+  item: TIngredient;
+  top?: boolean;
+}
+
+const BunCard: FC<IProps> = ({ item, top }) => {
   const { name, price, image } = item;
   return (
     <div className={cn(styles.bun)}>
@@ -17,15 +23,6 @@ function BunCard({ item, top }) {
       />
     </div>
   );
-}
-
-BunCard.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
-  top: PropTypes.bool,
 };
 
 export default BunCard;

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './Register.module.css';
 
-import { useEffect } from 'react';
+import { FC, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
@@ -12,9 +12,13 @@ import usePasswordInput from '../../hooks/usePasswordInput';
 import { userRegister } from '../../redux/actions/userActions';
 import userSelectors from '../../redux/selectors/userSelectors';
 
-function Register() {
+interface ILocationState {
+  from: { pathname: string };
+}
+
+const Register: FC = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const { state } = useLocation<ILocationState>();
 
   const isAuth = useSelector(userSelectors.isAuth);
   const { loading, success, error } = useSelector(userSelectors.register);
@@ -29,7 +33,7 @@ function Register() {
     }
   }, [nameInput.ref]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // todo: validate inputs
     dispatch(
@@ -42,7 +46,7 @@ function Register() {
   };
 
   if (isAuth) {
-    return <Redirect to={location.state?.from || '/'} />;
+    return <Redirect to={state?.from || '/'} />;
   }
 
   return (
@@ -74,13 +78,13 @@ function Register() {
           ref={passInput.ref}
           disabled={loading}
           error={error}
-          type={passInput.type}
+          type={passInput.showText ? 'text' : 'password'}
           name='password'
           placeholder='Пароль'
-          icon={passInput.icon}
+          icon={passInput.showText ? 'HideIcon' : 'ShowIcon'}
           onIconClick={passInput.onIconClick}
         />
-        <Button disabled={loading}>Зарегистрироваться</Button>
+        <Button>Зарегистрироваться</Button>
         {loading && 'Loading...'}
         {success && 'Success'}
         {error && error.message}
@@ -94,6 +98,6 @@ function Register() {
       </span>
     </FormContainer>
   );
-}
+};
 
 export default Register;

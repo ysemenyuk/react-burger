@@ -1,27 +1,23 @@
 // import cn from 'classnames';
 import styles from './ProfileSidebar.module.css';
 
+import { FC } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { userLogout } from '../../redux/actions/userActions';
 
-function ProfileSidebar() {
+const ProfileSidebar: FC = () => {
   const dispatch = useDispatch();
 
-  const logoutHandler = (e) => {
+  const logoutHandler = () => {
     dispatch(userLogout());
   };
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.menu}>
-        <NavLink
-          exact
-          to='/profile'
-          activeClassName={styles.active}
-          className={styles.menuLink}
-        >
+        <NavLink exact to='/profile' activeClassName={styles.active} className={styles.menuLink}>
           Профиль
         </NavLink>
         <NavLink
@@ -41,6 +37,6 @@ function ProfileSidebar() {
       </span>
     </div>
   );
-}
+};
 
 export default ProfileSidebar;

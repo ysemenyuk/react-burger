@@ -1,14 +1,19 @@
 import cn from 'classnames';
 import styles from './IngredientDetails.module.css';
 
-import ingridientPropTypes from '../../utils/ingridientPropTypes';
+import { FC } from 'react';
+import { TIngredient } from '../../types/types';
 
-function IngredientDetails({ item }) {
-  const { image_large, name, calories, proteins, fat, carbohydrates } = item;
+interface IProps {
+  ingredient: TIngredient;
+}
+
+const IngredientDetails: FC<IProps> = ({ ingredient }) => {
+  const { image_large, name, calories, proteins, fat, carbohydrates } = ingredient;
 
   return (
     <section className={cn(styles.container)}>
-      <img src={image_large} alt={item.name}></img>
+      <img src={image_large} alt={name}></img>
       <span className={cn(styles.name, 'text_type_main-medium')}>{name}</span>
       <ul className={cn(styles.props, 'text_type_main-default', 'text_color_inactive')}>
         <li>
@@ -27,8 +32,6 @@ function IngredientDetails({ item }) {
       </ul>
     </section>
   );
-}
-
-IngredientDetails.propTypes = { item: ingridientPropTypes.isRequired };
+};
 
 export default IngredientDetails;

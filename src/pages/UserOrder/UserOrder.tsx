@@ -1,4 +1,4 @@
-import styles from './Order.module.css';
+import styles from './UserOrder.module.css';
 import cn from 'classnames';
 
 import { useEffect } from 'react';
@@ -10,19 +10,19 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import {
-  wsAllOrdersConnectionClose,
-  wsAllOrdersConnectionStart,
-} from '../../redux/actions/allOrdersActions';
-
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
+import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
+import {
+  wsUserOrdersConnectionClose,
+  wsUserOrdersConnectionStart,
+} from '../../redux/actions/userOrdersActions';
+import { TOrder, TPageParams } from '../../types/types';
 
-function Order() {
+function UserOrder() {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id } = useParams<TPageParams>();
 
-  const { wsConnected, wsError, allOrders } = useSelector(allOrdersSelectors.wsAllOrders);
+  const { wsConnected, wsError, userOrders } = useSelector(userOrdersSelectors.wsUserOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
@@ -30,14 +30,13 @@ function Order() {
   }, [dispatch, success]);
 
   useEffect(() => {
-    !wsConnected && dispatch(wsAllOrdersConnectionStart());
+    !wsConnected && dispatch(wsUserOrdersConnectionStart());
     return () => {
-      wsConnected && dispatch(wsAllOrdersConnectionClose());
+      wsConnected && dispatch(wsUserOrdersConnectionClose());
     };
   }, [dispatch, wsConnected]);
 
-  const currentOrder = allOrders.find((i) => i._id === id);
-  console.log(1, currentOrder);
+  const currentOrder = userOrders.find((order: TOrder) => order._id === id);
 
   return (
     <div className={styles.container}>
@@ -55,4 +54,4 @@ function Order() {
   );
 }
 
-export default Order;
+export default UserOrder;

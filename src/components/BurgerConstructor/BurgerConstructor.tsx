@@ -2,7 +2,7 @@ import cn from 'classnames';
 import styles from './BurgerConstructor.module.css';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useCallback, useMemo } from 'react';
+import { FC, useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
@@ -30,8 +30,9 @@ import constructorSelectors from '../../redux/selectors/constructorSelectors';
 
 import { INGRIDIENTS, itemsTypes } from '../../utils/constants';
 import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
+import { TTopping } from '../../types/types';
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -49,7 +50,7 @@ function BurgerConstructor() {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item: { type: string }) {
       item.type === itemsTypes.BUN
         ? dispatch(addBun(item))
         : dispatch(addTopping({ ...item, uuid: uuidv4() }));
@@ -57,6 +58,7 @@ function BurgerConstructor() {
   });
 
   const handleCreateOrder = () => {
+    if (!bun || !toppings.length || loading) return;
     isAuth
       ? dispatch(createOrder(orderItemsIds))
       : history.push({ pathname: `/login`, state: { from: location } });
@@ -71,12 +73,12 @@ function BurgerConstructor() {
     dispatch(clearOrderItems());
   };
 
-  const handleDeleteCard = (index) => {
-    dispatch(deleteTopping(index));
+  const handleDeleteCard = (uuid: string) => {
+    dispatch(deleteTopping(uuid));
   };
 
   const handleMoveCard = useCallback(
-    (dragIndex, hoverIndex) => {
+    (dragIndex: number, hoverIndex: number) => {
       const updatedToppings = swapItems(dragIndex, hoverIndex, toppings);
       dispatch(updateToppingsList(updatedToppings));
     },
@@ -126,7 +128,7 @@ function BurgerConstructor() {
         {bun && <BunCard item={bun} top />}
 
         <ul className={cn(styles.itemsBox)}>
-          {toppings.map((item, index) => (
+          {toppings.map((item: TTopping, index: number) => (
             <ToppingCard
               key={item.uuid}
               item={item}
@@ -145,17 +147,12 @@ function BurgerConstructor() {
           {orderTotalPrice}
           <CurrencyIcon type='primary' />
         </span>
-        <Button
-          disabled={!bun || !toppings.length || loading}
-          onClick={handleCreateOrder}
-          type='primary'
-          size='large'
-        >
+        <Button onClick={handleCreateOrder} type='primary' size='large'>
           {loading ? 'Оформляем..' : 'Оформить заказ'}
         </Button>
       </div>
     </section>
   );
-}
+};
 
 export default BurgerConstructor;

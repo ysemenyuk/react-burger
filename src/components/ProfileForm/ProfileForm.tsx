@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import styles from './ProfileForm.module.css';
 
+import { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,7 +9,7 @@ import useProfileInput from '../../hooks/useProfileInput';
 import { updateUserInfo } from '../../redux/actions/userActions';
 import user from '../../redux/selectors/userSelectors';
 
-function ProfileForm() {
+const ProfileForm: FC = () => {
   const dispatch = useDispatch();
   const { email, name } = useSelector(user.userInfo);
   const { loading, success, error } = useSelector(user.updateProfile);
@@ -17,8 +18,7 @@ function ProfileForm() {
   const emailInput = useProfileInput(email);
   const passInput = useProfileInput('');
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = () => {
     // todo: validate inputs
     dispatch(
       updateUserInfo({
@@ -29,8 +29,7 @@ function ProfileForm() {
     );
   };
 
-  const resetHandler = (e) => {
-    e.preventDefault();
+  const resetHandler = () => {
     userInput.onReset();
     emailInput.onReset();
     passInput.onReset();
@@ -46,7 +45,7 @@ function ProfileForm() {
         name='username'
         placeholder='Имя'
         disabled={userInput.disabled}
-        icon={userInput.icon}
+        icon={userInput.disabled ? 'EditIcon' : 'CloseIcon'}
         onIconClick={userInput.onIconClick}
       />
       <Input
@@ -57,7 +56,7 @@ function ProfileForm() {
         name='email'
         placeholder='E-mail'
         disabled={emailInput.disabled}
-        icon={emailInput.icon}
+        icon={emailInput.disabled ? 'EditIcon' : 'CloseIcon'}
         onIconClick={emailInput.onIconClick}
       />
       <Input
@@ -68,7 +67,7 @@ function ProfileForm() {
         name='password'
         placeholder='Пароль'
         disabled={passInput.disabled}
-        icon={passInput.icon}
+        icon={passInput.disabled ? 'EditIcon' : 'CloseIcon'}
         onIconClick={passInput.onIconClick}
       />
 
@@ -84,6 +83,6 @@ function ProfileForm() {
       {error && error.message}
     </form>
   );
-}
+};
 
 export default ProfileForm;

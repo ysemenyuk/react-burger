@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './Login.module.css';
 
-import { useEffect } from 'react';
+import { FC, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
@@ -12,9 +12,13 @@ import usePasswordInput from '../../hooks/usePasswordInput';
 import { userLogin } from '../../redux/actions/userActions';
 import userSelectors from '../../redux/selectors/userSelectors';
 
-function Login() {
+interface ILocationState {
+  from: { pathname: string };
+}
+
+const Login: FC = () => {
   const dispatch = useDispatch();
-  const location = useLocation();
+  const { state } = useLocation<ILocationState>();
 
   const isAuth = useSelector(userSelectors.isAuth);
   const { loading, success, error } = useSelector(userSelectors.login);
@@ -28,14 +32,14 @@ function Login() {
     }
   }, [emailInput.ref]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // todo: validate inputs
     dispatch(userLogin({ email: emailInput.value, password: passInput.value }));
   };
 
   if (isAuth) {
-    return <Redirect to={location.state?.from || '/'} />;
+    return <Redirect to={state?.from || '/'} />;
   }
 
   return (
@@ -55,15 +59,15 @@ function Login() {
           onChange={passInput.onChange}
           value={passInput.value}
           ref={passInput.ref}
-          type={passInput.type}
+          type={passInput.showText ? 'text' : 'password'}
           disabled={loading}
           error={error}
           name='password'
           placeholder='Пароль'
-          icon={passInput.icon}
+          icon={passInput.showText ? 'HideIcon' : 'ShowIcon'}
           onIconClick={passInput.onIconClick}
         />
-        <Button disabled={loading}>Войти</Button>
+        <Button>Войти</Button>
 
         {loading && 'Loading...'}
         {success && 'Success'}
@@ -84,6 +88,6 @@ function Login() {
       </span>
     </FormContainer>
   );
-}
+};
 
 export default Login;

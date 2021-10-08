@@ -1,26 +1,30 @@
 import cn from 'classnames';
 import styles from './ToppingCard.module.css';
 
-import PropTypes from 'prop-types';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
-import {
-  ConstructorElement,
-  DragIcon,
-} from '@ya.praktikum/react-developer-burger-ui-components';
+import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { TOPPINGS } from '../../../utils/constants';
+import { TTopping } from '../../../types/types';
 
-function ToppingCard({ item, index, handleMoveCard, handleDeleteCard }) {
-  const ref = useRef(null);
+interface IProps {
+  item: TTopping;
+  index: number;
+  handleMoveCard: (dragIndex: number, hoverIndex: number) => void;
+  handleDeleteCard: (uuid: string) => void;
+}
+
+const ToppingCard: FC<IProps> = ({ item, index, handleMoveCard, handleDeleteCard }) => {
+  const ref = useRef<HTMLLIElement>(null);
 
   const [{ opacity }, drop] = useDrop({
     accept: TOPPINGS,
     collect: (monitor) => ({
       opacity: monitor.isOver() ? 0 : 1,
     }),
-    hover(item) {
+    hover(item: { id: string; index: number }) {
       if (!ref.current) {
         return;
       }
@@ -52,17 +56,6 @@ function ToppingCard({ item, index, handleMoveCard, handleDeleteCard }) {
       />
     </li>
   );
-}
-
-ToppingCard.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
-  index: PropTypes.number.isRequired,
-  handleMoveCard: PropTypes.func.isRequired,
-  handleDeleteCard: PropTypes.func.isRequired,
 };
 
 export default ToppingCard;

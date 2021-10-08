@@ -1,4 +1,4 @@
-import normaService from '../../services/normaService.js';
+import normaService from '../../services/normaService';
 import {
   INGREDIENTS_REQUEST,
   INGREDIENTS_SUCCESS,

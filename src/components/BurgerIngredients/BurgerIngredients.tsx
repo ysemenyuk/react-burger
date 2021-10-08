@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
 
-import { useState, useRef, useMemo } from 'react';
+import { useState, useRef, useMemo, FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -14,14 +14,19 @@ import { calculateQuantity, groupByType } from '../../utils/helpers';
 import { setIngredientDetails } from '../../redux/actions/ingredientsActions';
 import constructorSelectors from '../../redux/selectors/constructorSelectors';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+import { TIngredient } from '../../types/types';
 
 const ingredientsGroups = [
-  { type: itemsTypes.BUN, title: 'Булки' },
-  { type: itemsTypes.SAUCE, title: 'Соусы' },
-  { type: itemsTypes.MAIN, title: 'Начинки' },
+  { type: 'bun', title: 'Булки' },
+  { type: 'sauce', title: 'Соусы' },
+  { type: 'main', title: 'Начинки' },
 ];
 
-function BurgerIngredients() {
+type TTargets = {
+  [name: string]: HTMLElement | null;
+};
+
+const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
@@ -35,16 +40,18 @@ function BurgerIngredients() {
 
   const [currentTab, setCurrentTab] = useState(itemsTypes.BUN);
 
-  const containerRef = useRef(null);
-  const targetsRefs = useRef({});
+  const containerRef = useRef<HTMLUListElement>(null);
+  const targetsRefs = useRef<TTargets>({});
 
-  useScroll(containerRef, targetsRefs, (entry) => setCurrentTab(entry.target.dataset.type));
+  useScroll(containerRef.current, targetsRefs.current, (entry: any) =>
+    setCurrentTab(entry.target.dataset.type)
+  );
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     setCurrentTab(tab);
 
-    const target = targetsRefs.current[tab];
     const container = containerRef.current;
+    const target = targetsRefs.current[tab];
 
     if (target && container) {
       container.scrollTo({
@@ -54,7 +61,7 @@ function BurgerIngredients() {
     }
   };
 
-  const handleCardClick = (item) => () => {
+  const handleCardClick = (item: TIngredient) => () => {
     dispatch(setIngredientDetails(item));
 
     history.push({
@@ -86,13 +93,13 @@ function BurgerIngredients() {
               {title}
             </h2>
             <ul className={cn(styles.ingredientsGroup)}>
-              {ingredientsByType[type].map((item) => {
+              {ingredientsByType[type].map((item: TIngredient) => {
                 return (
                   <IngridientCard
                     key={item._id}
                     count={quantity[item._id]}
                     item={item}
-                    onCardClick={handleCardClick}
+                    onCardClick={handleCardClick(item)}
                   />
                 );
               })}
@@ -102,6 +109,6 @@ function BurgerIngredients() {
       </ul>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

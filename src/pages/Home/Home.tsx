@@ -1,25 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import styles from './Ingredient.module.css';
 import cn from 'classnames';
+import styles from './Home.module.css';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
 
-import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
+import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients';
+import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor';
 import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
-function Ingredient() {
+const Home: FC = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
-
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
-  const items = useSelector(ingredientsSelectors.items);
-  const currentItem = items.find((i) => i._id === id);
 
   useEffect(() => {
     !success && dispatch(getIngredients());
@@ -31,14 +29,17 @@ function Ingredient() {
       {error && <Message message={error.message} />}
       {success && (
         <>
-          <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>
-            Детали ингредиента
-          </h2>
-          <IngredientDetails item={currentItem} />
+          <h1 className={cn(styles.title, 'text', 'text_type_main-large')}>Соберите бургер</h1>
+          <div className={cn(styles.constructor)}>
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </DndProvider>
+          </div>
         </>
       )}
     </div>
   );
-}
+};
 
-export default Ingredient;
+export default Home;

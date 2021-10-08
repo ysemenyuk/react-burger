@@ -1,7 +1,7 @@
 import styles from './Modal.module.css';
 import cn from 'classnames';
 
-import { FC, SyntheticEvent, useEffect } from 'react';
+import { FC, MouseEvent, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -21,7 +21,7 @@ const Modal: FC<IModalProps> = ({ children, onClose, title, largeTitle }) => {
 
   const { isHover, onMouseEnter, onMouseLeave } = useHover();
 
-  const handleClickOnOverlay = (e: SyntheticEvent) => {
+  const handleClickOnOverlay = (e: MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
 

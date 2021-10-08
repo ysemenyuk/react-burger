@@ -1,4 +1,4 @@
-import normaService from '../../services/normaService.js';
+import normaService from '../../services/normaService';
 import {
   ADD_BUN,
   ADD_TOPPING,

@@ -1,9 +1,9 @@
-import { FC, SyntheticEvent } from 'react';
+import { FC, MouseEvent } from 'react';
 
 import styles from './ModalOverlay.module.css';
 
 interface IProps {
-  onClick: (e: SyntheticEvent) => void;
+  onClick: (e: MouseEvent) => void;
 }
 
 const ModalOverlay: FC<IProps> = ({ children, onClick }) => {

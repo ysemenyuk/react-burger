@@ -1,14 +1,19 @@
 import cn from 'classnames';
 import styles from './IngridientCard.module.css';
 
-import PropTypes from 'prop-types';
+import { FC } from 'react';
 import { useDrag } from 'react-dnd';
-
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-
 import { INGRIDIENTS } from '../../../utils/constants';
+import { TIngredient } from '../../../types/types';
 
-function IngridientCard({ item, count = 0, onCardClick }) {
+interface IProps {
+  item: TIngredient;
+  count: number;
+  onCardClick: () => void;
+}
+
+const IngridientCard: FC<IProps> = ({ item, count = 0, onCardClick }) => {
   const [{ opacity }, drag] = useDrag({
     type: INGRIDIENTS,
     item: { ...item },
@@ -22,7 +27,7 @@ function IngridientCard({ item, count = 0, onCardClick }) {
       style={{ opacity }}
       ref={drag}
       className={cn(styles.itemCard, 'm-4', 'mr-2')}
-      onClick={onCardClick(item)}
+      onClick={onCardClick}
     >
       <Counter count={count} size='default' />
       <img src={item.image} alt={item.name}></img>
@@ -33,16 +38,6 @@ function IngridientCard({ item, count = 0, onCardClick }) {
       <span className={cn(styles.name, 'text_type_main-default')}>{item.name}</span>
     </li>
   );
-}
-
-IngridientCard.propTypes = {
-  item: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-  }),
-  onCardClick: PropTypes.func.isRequired,
-  count: PropTypes.number,
 };
 
 export default IngridientCard;

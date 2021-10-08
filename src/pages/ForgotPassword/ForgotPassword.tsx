@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './ForgotPassword.module.css';
 
-import { useEffect } from 'react';
+import { FC, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import useInput from '../../hooks/useInput';
 import { forgotUserPassword } from '../../redux/actions/userActions';
 import userSelectors from '../../redux/selectors/userSelectors';
 
-function ForgotPassword() {
+const ForgotPassword: FC = () => {
   const dispatch = useDispatch();
 
   const isAuth = useSelector(userSelectors.isAuth);
@@ -26,7 +26,7 @@ function ForgotPassword() {
     }
   }, [emailInput.ref]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // todo: validate input
     dispatch(forgotUserPassword({ email: emailInput.value }));
@@ -53,7 +53,7 @@ function ForgotPassword() {
           name='email'
           placeholder='E-mail'
         />
-        <Button disabled={loading}>Восстановить</Button>
+        <Button>Восстановить</Button>
 
         {loading && 'Loading...'}
         {success && 'Success'}
@@ -68,6 +68,6 @@ function ForgotPassword() {
       </span>
     </FormContainer>
   );
-}
+};
 
 export default ForgotPassword;

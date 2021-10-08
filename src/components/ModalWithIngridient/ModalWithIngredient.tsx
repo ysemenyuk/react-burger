@@ -25,7 +25,7 @@ const ModalWithIngredient: FC = () => {
 
   return (
     <Modal onClose={handleCloseModal} title={'Детали ингредиента'} largeTitle>
-      <IngredientDetails item={ingredientDetails} />
+      <IngredientDetails ingredient={ingredientDetails} />
     </Modal>
   );
 };

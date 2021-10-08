@@ -37,6 +37,10 @@ interface IAppLocation {
   };
 }
 
+interface stateType {
+  from: { pathname: string };
+}
+
 const App: FC = () => {
   const dispatch = useDispatch();
 
@@ -70,7 +74,7 @@ const App: FC = () => {
           <Route exact path='/ingredients/:id' children={<IngridientPage />} />
           <Route exact path='/feed' children={<FeedPage />} />
           <Route exact path='/feed/:id' children={<OrderPage />} />
-          <ProtectedRoute exact path='/profile/orders/:id' children={<UserOrderPage />} />
+          <ProtectedRoute path='/profile/orders/:id' children={<UserOrderPage />} />
           <ProtectedRoute path='/profile' children={<ProfilePage />} />
           <Route children={<NotFoundPage />} />
         </Switch>

@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './ResetPassword.module.css';
 
-import { useEffect } from 'react';
+import { FC, FormEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ import usePassInput from '../../hooks/usePasswordInput';
 import { resetUserPassword } from '../../redux/actions/userActions';
 import userSelectors from '../../redux/selectors/userSelectors';
 
-function ResetPassword() {
+const ResetPassword: FC = () => {
   const dispatch = useDispatch();
 
   const isAuth = useSelector(userSelectors.isAuth);
@@ -27,7 +27,7 @@ function ResetPassword() {
     }
   }, [passInput.ref]);
 
-  const submitHandler = (e) => {
+  const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(resetUserPassword({ password: passInput.value, token: tokenInput.value }));
   };
@@ -53,10 +53,10 @@ function ResetPassword() {
           ref={passInput.ref}
           disabled={loading}
           error={error}
-          type={passInput.type}
+          type={passInput.showText ? 'text' : 'password'}
           name='password'
           placeholder='Введите новый пароль'
-          icon={passInput.icon}
+          icon={passInput.showText ? 'HideIcon' : 'ShowIcon'}
           onIconClick={passInput.onIconClick}
         />
         <Input
@@ -69,7 +69,7 @@ function ResetPassword() {
           name='token'
           placeholder='Введите код из письма'
         />
-        <Button disabled={loading}>Сохранить</Button>
+        <Button>Сохранить</Button>
 
         {loading && 'Loading...'}
         {success && 'Success'}
@@ -84,6 +84,6 @@ function ResetPassword() {
       </span>
     </FormContainer>
   );
-}
+};
 
 export default ResetPassword;

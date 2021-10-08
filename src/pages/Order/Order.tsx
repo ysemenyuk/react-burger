@@ -1,29 +1,30 @@
+import styles from './Order.module.css';
 import cn from 'classnames';
-import styles from './Feed.module.css';
 
-import { useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
+import OrderDetails from '../../components/OrderDetails/OrderDetails';
 import Loader from '../../components/UI/Loader/Loader';
-import OrdersList from '../../components/OrdersList/OrdersList';
-import OrdersStatistic from '../../components/OrdersStatistic/OrdersStatistic';
 import Message from '../../components/UI/Message/Message';
 
+import { getIngredients } from '../../redux/actions/ingredientsActions';
 import {
   wsAllOrdersConnectionClose,
   wsAllOrdersConnectionStart,
 } from '../../redux/actions/allOrdersActions';
-import { getIngredients } from '../../redux/actions/ingredientsActions';
+
 import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
+import { TOrder, TPageParams } from '../../types/types';
 
-function Feed() {
+const Order: FC = () => {
   const dispatch = useDispatch();
+  const { id } = useParams<TPageParams>();
 
-  const wsAllOrders = useSelector(allOrdersSelectors.wsAllOrders);
+  const { wsConnected, wsError, allOrders } = useSelector(allOrdersSelectors.wsAllOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
-
-  const { wsConnected, wsError, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
 
   useEffect(() => {
     !success && dispatch(getIngredients());
@@ -36,23 +37,23 @@ function Feed() {
     };
   }, [dispatch, wsConnected]);
 
+  const currentOrder = allOrders.find((order: TOrder) => order._id === id);
+  console.log(1, currentOrder);
+
   return (
     <div className={styles.container}>
-      <h1 className={cn(styles.title, 'text', 'text_type_main-large')}>Лента заказов</h1>
       {(!wsConnected || loading) && <Loader height='300px' />}
       {(wsError || error) && <Message message={'Network error'} />}
-      {wsConnected && success && !!allOrders.length && (
-        <div className={styles.feed}>
-          <OrdersList ordersList={allOrders} />
-          <OrdersStatistic
-            ordersList={allOrders}
-            ordersTotal={ordersTotal}
-            ordersTotalToday={ordersTotalToday}
-          />
-        </div>
+      {wsConnected && success && currentOrder && (
+        <>
+          <span className={cn(styles.title, 'text_type_digits-default')}>
+            # {currentOrder.number}
+          </span>
+          <OrderDetails order={currentOrder} />
+        </>
       )}
     </div>
   );
-}
+};
 
-export default Feed;
+export default Order;

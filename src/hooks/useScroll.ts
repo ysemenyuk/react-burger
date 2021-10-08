@@ -1,12 +1,20 @@
 import React from 'react';
 
-export function useScroll(containerRef, targetsRefs, callback) {
+type TTargets = {
+  [name: string]: HTMLElement | null;
+};
+
+export const useScroll = (
+  containerRef: any,
+  targetsRefs: TTargets,
+  callback: (entry: any) => void
+) => {
   React.useEffect(() => {
-    const container = containerRef.current;
-    const targets = Object.values(targetsRefs.current);
+    // const container = containerRef;
+    const targets = Object.values(targetsRefs);
 
     const options = {
-      root: container,
+      root: containerRef,
       rootMargin: '0px 0px -80% 0px',
       threshold: 0.5,
     };
@@ -19,10 +27,10 @@ export function useScroll(containerRef, targetsRefs, callback) {
       });
     }, options);
 
-    targets.forEach((el) => observer.observe(el));
+    // targets.forEach((el) => observer.observe(el));
 
     return () => {
-      targets.forEach((el) => observer.unobserve(el));
+      // targets.forEach((el) => observer.unobserve(el));
     };
   }, [containerRef, targetsRefs, callback]);
-}
+};
