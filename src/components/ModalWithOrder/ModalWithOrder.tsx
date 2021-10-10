@@ -5,14 +5,14 @@ import { FC } from 'react';
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
-import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
 import { resetOrderDetails } from '../../redux/actions/allOrdersActions';
+import { ordersSelectors } from '../../redux/selectors';
 
 const ModalWithOrder: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const orderDetails = useSelector(allOrdersSelectors.orderDetails);
+  const orderDetails = useSelector(ordersSelectors.orderDetails);
 
   const handleCloseModal = () => {
     history.goBack();

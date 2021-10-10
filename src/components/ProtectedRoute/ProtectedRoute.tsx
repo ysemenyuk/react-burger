@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import userSelectors from '../../redux/selectors/userSelectors';
+import { userSelectors } from '../../redux/selectors';
 
 const ProtectedRoute: FC<RouteProps> = ({ children, ...rest }) => {
   const isAuth = useSelector(userSelectors.isAuth);

@@ -1,6 +1,7 @@
-import * as types from '../types/types';
+import * as types from '../constants/constants';
+import { TIngredientsActions, TIngredientsState } from '../../types/ingredientsTypes';
 
-const initState = {
+const initState: TIngredientsState = {
   loading: false,
   success: false,
   error: null,
@@ -8,7 +9,10 @@ const initState = {
   itemDetails: null,
 };
 
-export const ingredientsReducer = (state = initState, action) => {
+export const ingredientsReducer = (
+  state = initState,
+  action: TIngredientsActions
+): TIngredientsState => {
   switch (action.type) {
     case types.INGREDIENTS_REQUEST: {
       return { ...state, loading: true, success: false, error: null };

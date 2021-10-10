@@ -1,4 +1,4 @@
-import * as types from '../types/types';
+import * as types from '../constants/constants';
 
 const initialState = {
   wsConnected: false,
@@ -22,8 +22,7 @@ export const userOrdersReducer = (state = initialState, action) => {
       };
     case types.WS_USER_ORDERS_CONNECTION_CLOSED:
       return {
-        ...state,
-        wsConnected: false,
+        ...initialState,
       };
     case types.WS_GET_USER_ORDERS:
       return {

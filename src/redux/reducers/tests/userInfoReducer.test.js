@@ -1,6 +1,6 @@
 import { userInfoReducer } from '../userReducer';
 
-import * as types from '../../types/types';
+import * as types from '../../constants/constants';
 
 import { userInfo, updatedUserInfo } from './data';
 
@@ -40,6 +40,7 @@ describe('userInfoReducer', () => {
       ...state,
       isCheckAuth: false,
       isAuth: false,
+      userInfo: null,
     };
 
     expect(userInfoReducer(state, action)).toEqual(expectedState);
@@ -110,6 +111,7 @@ describe('userInfoReducer', () => {
     const expectedState = {
       ...state,
       isCheckAuth: false,
+      userInfo: null,
     };
 
     expect(userInfoReducer(initialState, action)).toEqual(expectedState);

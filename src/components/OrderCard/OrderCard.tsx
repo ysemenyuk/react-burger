@@ -6,7 +6,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import useOrderDetails from '../../hooks/useOrderDetails';
 
 import { getFormattedDate, getOrderStatus } from '../../utils/helpers';
-import { TOrder } from '../../types/types';
+import { TOrder } from '../../types/mainTypes';
 
 interface IProps {
   order: TOrder;

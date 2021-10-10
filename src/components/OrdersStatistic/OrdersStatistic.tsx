@@ -1,10 +1,10 @@
 import cn from 'classnames';
 import { FC } from 'react';
-import { TOrdersList } from '../../types/types';
+import { TOrder } from '../../types/mainTypes';
 import styles from './OrdersStatistic.module.css';
 
 interface IProps {
-  ordersList: TOrdersList;
+  ordersList: Array<TOrder>;
   ordersTotal: string;
   ordersTotalToday: string;
 }

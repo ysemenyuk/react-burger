@@ -7,12 +7,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import useProfileInput from '../../hooks/useProfileInput';
 import { updateUserInfo } from '../../redux/actions/userActions';
-import user from '../../redux/selectors/userSelectors';
+import { userSelectors } from '../../redux/selectors';
 
 const ProfileForm: FC = () => {
   const dispatch = useDispatch();
-  const { email, name } = useSelector(user.userInfo);
-  const { loading, success, error } = useSelector(user.updateProfile);
+  const { email, name } = useSelector(userSelectors.userInfo);
+  const { loading, success, error } = useSelector(userSelectors.updateProfile);
 
   const userInput = useProfileInput(name);
   const emailInput = useProfileInput(email);

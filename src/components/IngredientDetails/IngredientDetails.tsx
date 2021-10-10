@@ -2,7 +2,7 @@ import cn from 'classnames';
 import styles from './IngredientDetails.module.css';
 
 import { FC } from 'react';
-import { TIngredient } from '../../types/types';
+import { TIngredient } from '../../types/ingredientsTypes';
 
 interface IProps {
   ingredient: TIngredient;

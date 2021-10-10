@@ -10,7 +10,7 @@ import useInput from '../../hooks/useInput';
 import FormContainer from '../../components/FormContainer/FormContainer';
 import usePassInput from '../../hooks/usePasswordInput';
 import { resetUserPassword } from '../../redux/actions/userActions';
-import userSelectors from '../../redux/selectors/userSelectors';
+import { userSelectors } from '../../redux/selectors';
 
 const ResetPassword: FC = () => {
   const dispatch = useDispatch();

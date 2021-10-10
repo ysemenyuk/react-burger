@@ -7,7 +7,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { TOPPINGS } from '../../../utils/constants';
-import { TTopping } from '../../../types/types';
+import { TTopping } from '../../../types/constructorTypes';
 
 interface IProps {
   item: TTopping;

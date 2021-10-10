@@ -25,12 +25,16 @@ import {
   closeCreateOrderDetails,
 } from '../../redux/actions/constructorActions';
 
-import userSelectors from '../../redux/selectors/userSelectors';
-import constructorSelectors from '../../redux/selectors/constructorSelectors';
-
+import { constructorSelectors, userSelectors } from '../../redux/selectors';
 import { INGRIDIENTS, itemsTypes } from '../../utils/constants';
-import { calculateTotalPrice, getOrderItemsIds, swapItems } from '../../utils/helpers';
-import { TTopping } from '../../types/types';
+import {
+  calculateTotalPrice,
+  getConstructorMessage,
+  getOrderItemsIds,
+  swapItems,
+} from '../../utils/helpers';
+import { TTopping } from '../../types/constructorTypes';
+import { TIngredient } from '../../types/ingredientsTypes';
 
 const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -50,7 +54,7 @@ const BurgerConstructor: FC = () => {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item: { type: string }) {
+    drop(item: TIngredient) {
       item.type === itemsTypes.BUN
         ? dispatch(addBun(item))
         : dispatch(addTopping({ ...item, uuid: uuidv4() }));
@@ -98,12 +102,7 @@ const BurgerConstructor: FC = () => {
       )}
 
       <div className={cn(styles.header)}>
-        <p>
-          {!bun && !toppings.length && 'Перетащите ингридиенты в поле ниже'}
-          {!bun && !!toppings.length && 'Добавьте булку'}
-          {bun && !toppings.length && 'Добавьте начинки'}
-          {bun && !!toppings.length && 'Добавьте еще начинки или Оформите заказ'}
-        </p>
+        <p>{getConstructorMessage(!!bun, !!toppings.length)}</p>
         {(bun || !!toppings.length) && (
           <button
             disabled={loading}

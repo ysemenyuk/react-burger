@@ -7,15 +7,15 @@ import {
   userResetPasswordReducer,
 } from '../userReducer';
 
-import * as types from '../../types/types';
+import * as types from '../../constants/constants';
 
 const mapping = [
-  ['userLoginReducer', userLoginReducer, types.userLogin],
-  ['userRegisterReducer', userRegisterReducer, types.userRegister],
-  ['userProfileReducer', userProfileReducer, types.userProfile],
-  ['userUpdateProfileReducer', userUpdateProfileReducer, types.userUpdateProfile],
-  ['userForgotPasswordReducer', userForgotPasswordReducer, types.userForgotPassword],
-  ['userResetPasswordReducer', userResetPasswordReducer, types.userResetPassword],
+  ['userLoginReducer', userLoginReducer, types.userLoginMap],
+  ['userRegisterReducer', userRegisterReducer, types.userRegisterMap],
+  ['userProfileReducer', userProfileReducer, types.userProfileMap],
+  ['userUpdateProfileReducer', userUpdateProfileReducer, types.userUpdateProfileMap],
+  ['userForgotPasswordReducer', userForgotPasswordReducer, types.userForgotPasswordMap],
+  ['userResetPasswordReducer', userResetPasswordReducer, types.userResetPasswordMap],
 ];
 
 const state = { loading: false, success: false, error: null };
@@ -46,12 +46,12 @@ test.each(mapping)('test %s', (_, reducer, types) => {
   // test fail
   expect(
     reducer(state, {
-      type: types.fail,
-      error: { message: 'error' },
+      type: types.error,
+      error: 'Network error',
     })
   ).toEqual({
     ...state,
     loading: false,
-    error: { message: 'error' },
+    error: 'Network error',
   });
 });

@@ -6,7 +6,7 @@ import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
 
 import { resetIngredientDetails } from '../../redux/actions/ingredientsActions';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+import { ingredientsSelectors } from '../../redux/selectors/';
 
 const ModalWithIngredient: FC = () => {
   const dispatch = useDispatch();

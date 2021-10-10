@@ -11,8 +11,9 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import { TIngredient, TPageParams } from '../../types/types';
+import { ingredientsSelectors } from '../../redux/selectors';
+import { TPageParams } from '../../types/mainTypes';
+import { TIngredient } from '../../types/ingredientsTypes';
 
 const Ingredient: FC = () => {
   const dispatch = useDispatch();

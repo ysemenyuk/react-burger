@@ -105,20 +105,11 @@ export const getOrderStatus = (status) => {
   }
 };
 
-export const getFormattedDate = (date) => `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;
-
-export const createRequestReducer = (types) => {
-  const initState = { loading: false, success: false, error: null };
-  return (state = initState, action) => {
-    switch (action.type) {
-      case types.request:
-        return { loading: true, success: false, error: null };
-      case types.success:
-        return { loading: false, success: true, error: null };
-      case types.fail:
-        return { loading: false, success: false, error: action.error };
-      default:
-        return state;
-    }
-  };
+export const getConstructorMessage = (bun, toppingLength) => {
+  if (!bun && !toppingLength) return 'Перетащите ингридиенты в поле ниже';
+  if (!bun && !!toppingLength) return 'Добавьте булку';
+  if (bun && !toppingLength) return 'Добавьте начинки';
+  if (bun && !!toppingLength) return 'Добавьте еще начинки или Оформите заказ';
 };
+
+export const getFormattedDate = (date) => `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;

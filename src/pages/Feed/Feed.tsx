@@ -14,13 +14,12 @@ import {
   wsAllOrdersConnectionStart,
 } from '../../redux/actions/allOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
+import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
 
 const Feed: FC = () => {
   const dispatch = useDispatch();
 
-  const wsAllOrders = useSelector(allOrdersSelectors.wsAllOrders);
+  const wsAllOrders = useSelector(ordersSelectors.wsAllOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   const { wsConnected, wsError, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;

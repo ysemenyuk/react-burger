@@ -9,8 +9,8 @@ import OrderCard from '../OrderCard/OrderCard';
 import Loader from '../UI/Loader/Loader';
 import Message from '../UI/Message/Message';
 
-import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+// import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
+// import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
 
 import {
   wsUserOrdersConnectionClose,
@@ -18,7 +18,8 @@ import {
 } from '../../redux/actions/userOrdersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import { setOrderDetails } from '../../redux/actions/allOrdersActions';
-import { TOrder } from '../../types/types';
+import { TOrder } from '../../types/mainTypes';
+import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
 
 const UserOrdersList: FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const UserOrdersList: FC = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const { wsConnected, wsError, userOrders } = useSelector(userOrdersSelectors.wsUserOrders);
+  const { wsConnected, wsError, userOrders } = useSelector(ordersSelectors.wsUserOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {

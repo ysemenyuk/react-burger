@@ -15,15 +15,14 @@ import {
   wsAllOrdersConnectionStart,
 } from '../../redux/actions/allOrdersActions';
 
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
-import { TOrder, TPageParams } from '../../types/types';
+import { TOrder, TPageParams } from '../../types/mainTypes';
+import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
 
 const Order: FC = () => {
   const dispatch = useDispatch();
   const { id } = useParams<TPageParams>();
 
-  const { wsConnected, wsError, allOrders } = useSelector(allOrdersSelectors.wsAllOrders);
+  const { wsConnected, wsError, allOrders } = useSelector(ordersSelectors.wsAllOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {

@@ -10,19 +10,18 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
 import {
   wsUserOrdersConnectionClose,
   wsUserOrdersConnectionStart,
 } from '../../redux/actions/userOrdersActions';
-import { TOrder, TPageParams } from '../../types/types';
+import { TOrder, TPageParams } from '../../types/mainTypes';
+import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
 
 function UserOrder() {
   const dispatch = useDispatch();
   const { id } = useParams<TPageParams>();
 
-  const { wsConnected, wsError, userOrders } = useSelector(userOrdersSelectors.wsUserOrders);
+  const { wsConnected, wsError, userOrders } = useSelector(ordersSelectors.wsUserOrders);
   const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {

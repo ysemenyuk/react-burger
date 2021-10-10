@@ -4,7 +4,3 @@ export const orderItems = (state) => ({
 });
 
 export const orderCreate = (state) => state.burgerConstructor;
-
-const constructorSelectors = { orderItems, orderCreate };
-
-export default constructorSelectors;

@@ -22,37 +22,23 @@ import OrderPage from '../../pages/Order/Order';
 import UserOrderPage from '../../pages/UserOrder/UserOrder';
 import ModalWithOrder from '../ModalWithOrder/ModalWithOrder';
 
-import { checkUserAuth } from '../../redux/actions/userActions';
-import userSelectors from '../../redux/selectors/userSelectors';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import allOrdersSelectors from '../../redux/selectors/allOrdersSelectors';
-
-interface IAppLocation {
-  background?: {
-    key: string;
-    pathname: string;
-    search: string;
-    hash: string;
-    state: unknown;
-  };
-}
-
-interface stateType {
-  from: { pathname: string };
-}
+import { checkUserAuth, userAuthFail } from '../../redux/actions/userActions';
+import { userSelectors, ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
+import { getRefreshToken } from '../../utils/helpers';
+import { TLocation } from '../../types/mainTypes';
 
 const App: FC = () => {
   const dispatch = useDispatch();
 
   const history = useHistory();
-  const location = useLocation<IAppLocation>();
+  const location = useLocation<{ background: TLocation }>();
 
   const isCheckAuth = useSelector(userSelectors.isCheckAuth);
   const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
-  const orderDetails = useSelector(allOrdersSelectors.orderDetails);
+  const orderDetails = useSelector(ordersSelectors.orderDetails);
 
   useEffect(() => {
-    dispatch(checkUserAuth());
+    getRefreshToken() ? dispatch(checkUserAuth()) : dispatch(userAuthFail());
   }, []);
 
   if (isCheckAuth) {

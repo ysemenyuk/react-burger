@@ -13,7 +13,7 @@ import Loader from '../../components/UI/Loader/Loader';
 import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
+import { ingredientsSelectors } from '../../redux/selectors';
 
 const Home: FC = () => {
   const dispatch = useDispatch();

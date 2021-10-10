@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { useDrag } from 'react-dnd';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { INGRIDIENTS } from '../../../utils/constants';
-import { TIngredient } from '../../../types/types';
+import { TIngredient } from '../../../types/ingredientsTypes';
 
 interface IProps {
   item: TIngredient;

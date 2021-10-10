@@ -2,19 +2,17 @@ import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
 
 import { useState, useRef, useMemo, FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
 
+import { useAppActions, useAppSelector } from '../../hooks/useRedux';
 import { useScroll } from '../../hooks/useScroll';
 import { itemsTypes } from '../../utils/constants';
 import { calculateQuantity, groupByType } from '../../utils/helpers';
-import { setIngredientDetails } from '../../redux/actions/ingredientsActions';
-import constructorSelectors from '../../redux/selectors/constructorSelectors';
-import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-import { TIngredient } from '../../types/types';
+import { constructorSelectors, ingredientsSelectors } from '../../redux/selectors';
+import { TIngredient } from '../../types/ingredientsTypes';
 
 const ingredientsGroups = [
   { type: 'bun', title: 'Булки' },
@@ -27,13 +25,13 @@ type TTargets = {
 };
 
 const BurgerIngredients: FC = () => {
-  const dispatch = useDispatch();
-
   const history = useHistory();
   const location = useLocation();
 
-  const ingredients = useSelector(ingredientsSelectors.items);
-  const orderItems = useSelector(constructorSelectors.orderItems);
+  const { setIngredientDetails } = useAppActions();
+
+  const ingredients = useAppSelector(ingredientsSelectors.items);
+  const orderItems = useAppSelector(constructorSelectors.orderItems);
 
   const ingredientsByType = useMemo(() => groupByType(ingredients), [ingredients]);
   const quantity = useMemo(() => calculateQuantity(orderItems), [orderItems]);
@@ -62,7 +60,7 @@ const BurgerIngredients: FC = () => {
   };
 
   const handleCardClick = (item: TIngredient) => () => {
-    dispatch(setIngredientDetails(item));
+    setIngredientDetails(item);
 
     history.push({
       pathname: `/ingredients/${item._id}`,

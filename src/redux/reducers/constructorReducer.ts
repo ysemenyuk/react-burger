@@ -1,6 +1,7 @@
-import * as types from '../types/types';
+import * as types from '../constants/constants';
+import { TConstructorActions, TConstructorState } from '../../types/constructorTypes';
 
-const initState = {
+const initState: TConstructorState = {
   bun: null,
   toppings: [],
   visible: false,
@@ -9,7 +10,7 @@ const initState = {
   order: null,
 };
 
-export const constructorReducer = (state = initState, action) => {
+export const constructorReducer = (state = initState, action: TConstructorActions) => {
   switch (action.type) {
     case types.ADD_BUN: {
       return { ...state, bun: { ...action.payload } };
@@ -41,7 +42,7 @@ export const constructorReducer = (state = initState, action) => {
         visible: true,
         loading: false,
         error: null,
-        order: { ...action.payload },
+        order: action.payload,
       };
     }
     case types.ORDER_ERROR: {

@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
-import ingredientsSelectors from '../redux/selectors/ingredientsSelectors';
-import { TIngredient, TOrder } from '../types/types';
+import { ingredientsSelectors } from '../redux/selectors';
+import { TIngredient } from '../types/ingredientsTypes';
+import { TOrder } from '../types/mainTypes';
 
 type TIngredientMap = {
   [name: string]: TIngredient;

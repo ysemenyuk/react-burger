@@ -7,10 +7,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
 
 import { setOrderDetails } from '../../redux/actions/allOrdersActions';
-import { TOrder, TOrdersList } from '../../types/types';
+import { TOrder } from '../../types/mainTypes';
 
 interface IProps {
-  ordersList: TOrdersList;
+  ordersList: Array<TOrder>;
 }
 
 const OrdersList: FC<IProps> = ({ ordersList }) => {

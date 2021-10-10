@@ -10,7 +10,7 @@ import FormContainer from '../../components/FormContainer/FormContainer';
 import useInput from '../../hooks/useInput';
 import usePasswordInput from '../../hooks/usePasswordInput';
 import { userRegister } from '../../redux/actions/userActions';
-import userSelectors from '../../redux/selectors/userSelectors';
+import { userSelectors } from '../../redux/selectors';
 
 interface ILocationState {
   from: { pathname: string };

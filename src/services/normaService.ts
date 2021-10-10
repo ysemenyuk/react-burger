@@ -1,14 +1,18 @@
+import { TIngredient } from '../types/ingredientsTypes';
 import {
   TForgotPassword,
-  TIngredient,
   TResetPassword,
   TUpdateUserInfo,
+  TUser,
   TUserLogin,
   TUserRegister,
-} from '../types/types';
+} from '../types/userTypes';
+
 import {
   getAccessToken,
   getRefreshToken,
+  removeAccessToken,
+  removeRefreshToken,
   setAccessToken,
   setRefreshToken,
 } from '../utils/helpers.js';
@@ -16,10 +20,16 @@ import {
 const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
 const contentType = { 'Content-Type': 'application/json' };
 
+export type TRequestOptions = {
+  method: string;
+  headers?: { [key: string]: string };
+  body?: string;
+};
+
 const checkResponse = (response: any): Promise<any> =>
   response.ok ? response.json() : response.json().then((err: any) => Promise.reject(err));
 
-const baseFetch = async (url: string, options: any) => {
+const baseFetch = async (url: string, options: TRequestOptions) => {
   options = {
     ...options,
     headers: { ...(options && options.headers && options.headers), ...contentType },
@@ -33,7 +43,7 @@ const updateRefreshToken = async (): Promise<any> =>
     body: JSON.stringify({ token: getRefreshToken() }),
   });
 
-const authFetch = async (url: string, options: any): Promise<any> => {
+const authFetch = async (url: string, options: TRequestOptions): Promise<any> => {
   try {
     options = { ...options, headers: { Authorization: `Bearer ${getAccessToken()}` } };
     return await baseFetch(url, options);
@@ -41,10 +51,10 @@ const authFetch = async (url: string, options: any): Promise<any> => {
     console.log('authFetch error', error);
 
     if (error.message === 'jwt expired') {
-      const updatedTokens = await updateRefreshToken();
+      const response = await updateRefreshToken();
 
-      setRefreshToken(updatedTokens);
-      setAccessToken(updatedTokens);
+      setRefreshToken(response);
+      setAccessToken(response);
 
       options.headers = { Authorization: `Bearer ${getAccessToken()}` };
       return await baseFetch(url, options);
@@ -54,40 +64,82 @@ const authFetch = async (url: string, options: any): Promise<any> => {
   }
 };
 
-const fetchAllOrders = async (): Promise<any> => await baseFetch(`/orders/all`, { method: 'GET' });
+// const fetchAllOrders = async (): Promise<any> => await baseFetch(`/orders/all`, { method: 'GET' });
 
-const fetchUserOrders = async (): Promise<any> => await authFetch(`/orders`, { method: 'GET' });
+// const fetchUserOrders = async (): Promise<any> => await authFetch(`/orders`, { method: 'GET' });
 
-const fetchIngredients = async (): Promise<{
-  success: boolean;
-  data: Array<TIngredient>;
-}> => await baseFetch(`/ingredients`, { method: 'GET' });
+const fetchIngredients = async (): Promise<{ ingredients: Array<TIngredient> }> => {
+  const response = await baseFetch(`/ingredients`, { method: 'GET' });
+  return { ingredients: response.data };
+};
 
-const fetchUserInfo = async (): Promise<any> => await authFetch(`/auth/user`, { method: 'GET' });
-
-const createOrder = async (data: Array<string>): Promise<any> =>
-  await authFetch(`/orders`, {
+const createOrder = async (data: Array<string>): Promise<any> => {
+  const response = await authFetch(`/orders`, {
     method: 'POST',
     body: JSON.stringify({ ingredients: data }),
   });
 
-const userRegister = async ({ name, email, password }: TUserRegister): Promise<any> =>
-  await baseFetch(`/auth/register`, {
+  return { order: response.order };
+};
+
+const fetchUserInfo = async (): Promise<{ user: TUser }> => {
+  const response = await authFetch(`/auth/user`, { method: 'GET' });
+  return { user: response.user };
+};
+
+const updateUserInfo = async ({
+  name,
+  email,
+  password,
+}: TUpdateUserInfo): Promise<{ user: TUser }> => {
+  const response = await authFetch(`/auth/user`, {
+    method: 'PATCH',
+    body: JSON.stringify({ name, email, password }),
+  });
+
+  return { user: response.user };
+};
+
+const userRegister = async ({
+  name,
+  email,
+  password,
+}: TUserRegister): Promise<{ user: TUser }> => {
+  const response = await baseFetch(`/auth/register`, {
     method: 'POST',
     body: JSON.stringify({ name, email, password }),
   });
 
-const userLogin = async ({ email, password }: TUserLogin): Promise<any> =>
-  await baseFetch(`/auth/login`, {
+  // console.log('userRegister response', response);
+  setRefreshToken(response);
+  setAccessToken(response);
+
+  return { user: response.user };
+};
+
+const userLogin = async ({ email, password }: TUserLogin): Promise<{ user: TUser }> => {
+  const response = await baseFetch(`/auth/login`, {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   });
 
-const userLogout = async (): Promise<any> =>
+  // console.log('userLogin response', response);
+  setRefreshToken(response);
+  setAccessToken(response);
+
+  return { user: response.user };
+};
+
+const userLogout = async (): Promise<any> => {
   await baseFetch(`/auth/logout`, {
     method: 'POST',
     body: JSON.stringify({ token: getRefreshToken() }),
   });
+
+  // console.log('userLogout response', response);
+  removeRefreshToken();
+  removeAccessToken();
+};
 
 const forgotPassword = async ({ email }: TForgotPassword): Promise<any> =>
   await baseFetch(`/password-reset`, {
@@ -101,15 +153,9 @@ const resetPassword = async ({ password, token }: TResetPassword): Promise<any> 
     body: JSON.stringify({ password, token }),
   });
 
-const updateUserInfo = async ({ name, email, password }: TUpdateUserInfo): Promise<any> =>
-  await authFetch(`/auth/user`, {
-    method: 'PATCH',
-    body: JSON.stringify({ name, email, password }),
-  });
-
 const normaService = {
-  fetchAllOrders,
-  fetchUserOrders,
+  // fetchAllOrders,
+  // fetchUserOrders,
   fetchIngredients,
   createOrder,
   userRegister,

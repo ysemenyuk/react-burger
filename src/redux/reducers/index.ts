@@ -3,9 +3,9 @@ import { combineReducers } from 'redux';
 import { allOrdersReducer } from './allOrdersReducer';
 import { userOrdersReducer } from './userOrdersReducer';
 
-import { ingredientsReducer } from './ingredientsReducer.js';
-import { userReducer } from './userReducer.js';
-import { constructorReducer } from './constructorReducer.js';
+import { ingredientsReducer } from './ingredientsReducer';
+import { constructorReducer } from './constructorReducer';
+import { userReducer } from './userReducer';
 
 export const rootReducer = combineReducers({
   burgerIngredients: ingredientsReducer,

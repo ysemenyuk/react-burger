@@ -3,7 +3,7 @@ import styles from './BunCard.module.css';
 
 import { FC } from 'react';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { TIngredient } from '../../../types/types';
+import { TIngredient } from '../../../types/ingredientsTypes';
 
 interface IProps {
   item: TIngredient;
