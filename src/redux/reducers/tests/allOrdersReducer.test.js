@@ -1,5 +1,5 @@
 import { allOrdersReducer } from '../allOrdersReducer';
-import * as types from '../../../types/types';
+import * as types from '../../constants/constants';
 
 import { orders, orderDetails } from './data';
 
