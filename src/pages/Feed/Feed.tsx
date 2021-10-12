@@ -2,7 +2,6 @@ import cn from 'classnames';
 import styles from './Feed.module.css';
 
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Loader from '../../components/UI/Loader/Loader';
 import OrdersList from '../../components/OrdersList/OrdersList';
@@ -12,15 +11,16 @@ import Message from '../../components/UI/Message/Message';
 import {
   wsAllOrdersConnectionClose,
   wsAllOrdersConnectionStart,
-} from '../../redux/actions/allOrdersActions';
+} from '../../redux/actions/ordersActions';
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const Feed: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const wsAllOrders = useSelector(ordersSelectors.wsAllOrders);
-  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const wsAllOrders = useAppSelector(ordersSelectors.wsAllOrders);
+  const { loading, success, error } = useAppSelector(ingredientsSelectors.getItems);
 
   const { wsConnected, wsError, allOrders, ordersTotal, ordersTotalToday } = wsAllOrders;
 

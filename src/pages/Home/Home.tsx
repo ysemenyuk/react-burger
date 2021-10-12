@@ -3,7 +3,6 @@ import cn from 'classnames';
 import styles from './Home.module.css';
 
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
 
@@ -14,10 +13,11 @@ import Message from '../../components/UI/Message/Message';
 
 import { getIngredients } from '../../redux/actions/ingredientsActions';
 import { ingredientsSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const Home: FC = () => {
-  const dispatch = useDispatch();
-  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const dispatch = useAppDispatch();
+  const { loading, success, error } = useAppSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());

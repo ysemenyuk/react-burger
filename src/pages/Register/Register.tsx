@@ -2,7 +2,6 @@ import cn from 'classnames';
 import styles from './Register.module.css';
 
 import { FC, FormEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,17 +10,18 @@ import useInput from '../../hooks/useInput';
 import usePasswordInput from '../../hooks/usePasswordInput';
 import { userRegister } from '../../redux/actions/userActions';
 import { userSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 interface ILocationState {
   from: { pathname: string };
 }
 
 const Register: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { state } = useLocation<ILocationState>();
 
-  const isAuth = useSelector(userSelectors.isAuth);
-  const { loading, success, error } = useSelector(userSelectors.register);
+  const { isAuth } = useAppSelector(userSelectors.userInfo);
+  const { loading, success, error } = useAppSelector(userSelectors.register);
 
   const nameInput = useInput('');
   const emailInput = useInput('');
@@ -57,7 +57,7 @@ const Register: FC = () => {
           value={nameInput.value}
           ref={nameInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type='text'
           name='name'
           placeholder='Имя'
@@ -67,7 +67,7 @@ const Register: FC = () => {
           value={emailInput.value}
           ref={emailInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type='email'
           name='email'
           placeholder='E-mail'
@@ -77,7 +77,7 @@ const Register: FC = () => {
           value={passInput.value}
           ref={passInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type={passInput.showText ? 'text' : 'password'}
           name='password'
           placeholder='Пароль'

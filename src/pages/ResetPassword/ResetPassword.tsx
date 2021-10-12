@@ -2,7 +2,6 @@ import cn from 'classnames';
 import styles from './ResetPassword.module.css';
 
 import { FC, FormEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,12 +10,13 @@ import FormContainer from '../../components/FormContainer/FormContainer';
 import usePassInput from '../../hooks/usePasswordInput';
 import { resetUserPassword } from '../../redux/actions/userActions';
 import { userSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const ResetPassword: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const isAuth = useSelector(userSelectors.isAuth);
-  const { loading, success, error } = useSelector(userSelectors.resetPassword);
+  const { isAuth } = useAppSelector(userSelectors.userInfo);
+  const { loading, success, error } = useAppSelector(userSelectors.resetPassword);
 
   const passInput = usePassInput('');
   const tokenInput = useInput('');
@@ -52,7 +52,7 @@ const ResetPassword: FC = () => {
           value={passInput.value}
           ref={passInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type={passInput.showText ? 'text' : 'password'}
           name='password'
           placeholder='Введите новый пароль'
@@ -64,7 +64,7 @@ const ResetPassword: FC = () => {
           value={tokenInput.value}
           ref={tokenInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type='text'
           name='token'
           placeholder='Введите код из письма'

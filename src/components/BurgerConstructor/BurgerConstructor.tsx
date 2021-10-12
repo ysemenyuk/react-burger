@@ -3,7 +3,6 @@ import styles from './BurgerConstructor.module.css';
 import { v4 as uuidv4 } from 'uuid';
 
 import { FC, useCallback, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useDrop } from 'react-dnd';
 
@@ -25,6 +24,7 @@ import {
   closeCreateOrderDetails,
 } from '../../redux/actions/constructorActions';
 
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { constructorSelectors, userSelectors } from '../../redux/selectors';
 import { INGRIDIENTS, itemsTypes } from '../../utils/constants';
 import {
@@ -37,13 +37,13 @@ import { TTopping } from '../../types/constructorTypes';
 import { TIngredient } from '../../types/ingredientsTypes';
 
 const BurgerConstructor: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  const isAuth = useSelector(userSelectors.isAuth);
-  const orderItems = useSelector(constructorSelectors.orderItems);
-  const { visible, loading, error, order } = useSelector(constructorSelectors.orderCreate);
+  const { isAuth } = useAppSelector(userSelectors.userInfo);
+  const orderItems = useAppSelector(constructorSelectors.orderItems);
+  const { visible, loading, error, order } = useAppSelector(constructorSelectors.orderCreate);
   const { bun, toppings } = orderItems;
 
   const orderItemsIds = useMemo(() => getOrderItemsIds(orderItems), [orderItems]);
@@ -93,11 +93,8 @@ const BurgerConstructor: FC = () => {
     <section className={cn(styles.section)}>
       {visible && (
         <Modal onClose={handleCloseModal}>
-          {error ? (
-            <Message message={error.message} />
-          ) : (
-            <OrderCreateDetails orderNumber={order.number} />
-          )}
+          {error && <Message message={error.message} />}
+          {order && <OrderCreateDetails orderNumber={order.number} />}
         </Modal>
       )}
 

@@ -1,4 +1,3 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FC } from 'react';
 
@@ -7,12 +6,13 @@ import Modal from '../Modal/Modal';
 
 import { resetIngredientDetails } from '../../redux/actions/ingredientsActions';
 import { ingredientsSelectors } from '../../redux/selectors/';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const ModalWithIngredient: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
+  const ingredientDetails = useAppSelector(ingredientsSelectors.ingredientDetails);
 
   const handleCloseModal = () => {
     history.goBack();

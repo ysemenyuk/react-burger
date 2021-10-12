@@ -2,19 +2,19 @@ import cn from 'classnames';
 import styles from './OrdersList.module.css';
 
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import OrderCard from '../OrderCard/OrderCard';
 
-import { setOrderDetails } from '../../redux/actions/allOrdersActions';
-import { TOrder } from '../../types/mainTypes';
+import { setOrderDetails } from '../../redux/actions/ordersActions';
+import { TOrder } from '../../types/ordersTypes';
+import { useAppDispatch } from '../../hooks/useRedux';
 
 interface IProps {
   ordersList: Array<TOrder>;
 }
 
 const OrdersList: FC<IProps> = ({ ordersList }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const history = useHistory();
   const location = useLocation();

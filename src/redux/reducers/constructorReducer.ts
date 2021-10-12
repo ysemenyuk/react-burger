@@ -10,7 +10,10 @@ const initState: TConstructorState = {
   order: null,
 };
 
-export const constructorReducer = (state = initState, action: TConstructorActions) => {
+export const constructorReducer = (
+  state = initState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case types.ADD_BUN: {
       return { ...state, bun: { ...action.payload } };

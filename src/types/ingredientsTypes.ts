@@ -18,7 +18,7 @@ export type TIngredient = {
 export type TIngredientsState = {
   loading: boolean;
   success: boolean;
-  error: unknown | null;
+  error: { message: string } | null;
   items: Array<TIngredient>;
   itemDetails: TIngredient | null;
 };
@@ -34,7 +34,7 @@ export type TIngredientsSuccess = {
 
 export type TIngredientsError = {
   type: typeof types.INGREDIENTS_ERROR;
-  error: unknown;
+  error: { message: string };
 };
 
 export type TSetIngredientDetails = {

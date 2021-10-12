@@ -2,7 +2,6 @@
 import styles from './App.module.css';
 
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 
 import AppHeader from '../AppHeader/AppHeader';
@@ -26,16 +25,18 @@ import { checkUserAuth, userAuthFail } from '../../redux/actions/userActions';
 import { userSelectors, ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
 import { getRefreshToken } from '../../utils/helpers';
 import { TLocation } from '../../types/mainTypes';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const App: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const history = useHistory();
   const location = useLocation<{ background: TLocation }>();
 
-  const isCheckAuth = useSelector(userSelectors.isCheckAuth);
-  const ingredientDetails = useSelector(ingredientsSelectors.ingredientDetails);
-  const orderDetails = useSelector(ordersSelectors.orderDetails);
+  const { isCheckAuth } = useAppSelector(userSelectors.userInfo);
+  const ingredientDetails = useAppSelector(ingredientsSelectors.ingredientDetails);
+  const orderDetails = useAppSelector(ordersSelectors.orderDetails);
+  console.log(orderDetails);
 
   useEffect(() => {
     getRefreshToken() ? dispatch(checkUserAuth()) : dispatch(userAuthFail());

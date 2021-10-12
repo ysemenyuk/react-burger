@@ -1,6 +1,6 @@
 import normaService from '../../services/normaService';
 import { AppThunk } from '../../types/thunkTypes';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../../types/mainTypes';
 import * as types from '../constants/constants';
 import {
   TIngredient,
@@ -23,6 +23,6 @@ export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
     const { ingredients } = await normaService.fetchIngredients();
     dispatch({ type: types.INGREDIENTS_SUCCESS, payload: ingredients });
   } catch (error) {
-    dispatch({ type: types.INGREDIENTS_ERROR, error: error });
+    dispatch({ type: types.INGREDIENTS_ERROR, error: { message: 'Network error' } });
   }
 };

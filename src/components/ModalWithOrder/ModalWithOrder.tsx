@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { FC } from 'react';
 
 import OrderDetails from '../OrderDetails/OrderDetails';
 import Modal from '../Modal/Modal';
 
-import { resetOrderDetails } from '../../redux/actions/allOrdersActions';
+import { resetOrderDetails } from '../../redux/actions/ordersActions';
 import { ordersSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const ModalWithOrder: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const orderDetails = useSelector(ordersSelectors.orderDetails);
+  const orderDetails = useAppSelector(ordersSelectors.orderDetails);
 
   const handleCloseModal = () => {
     history.goBack();

@@ -1,6 +1,6 @@
 import normaService from '../../services/normaService';
 import { AppThunk } from '../../types/thunkTypes';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../../types/mainTypes';
 import * as types from '../constants/constants';
 
 import {
@@ -22,7 +22,7 @@ export const checkUserAuth: AppThunk = () => async (dispatch: AppDispatch) => {
     const response = await normaService.fetchUserInfo();
     dispatch({ type: types.USER_CHECK_AUTH_SUCCESS, payload: response.user });
   } catch (error) {
-    dispatch({ type: types.USER_CHECK_AUTH_ERROR, error: error });
+    dispatch({ type: types.USER_CHECK_AUTH_ERROR, error: { message: 'Network error' } });
   }
 };
 
@@ -35,7 +35,7 @@ export const userRegister: AppThunk =
       dispatch({ type: types.USER_REGISTER_SUCCESS, payload: user });
     } catch (error) {
       // console.log('userRegister error', error);
-      dispatch({ type: types.USER_REGISTER_ERROR, error: error });
+      dispatch({ type: types.USER_REGISTER_ERROR, error: { message: 'Network error' } });
     }
   };
 
@@ -48,7 +48,7 @@ export const userLogin: AppThunk =
       dispatch({ type: types.USER_LOGIN_SUCCESS, payload: user });
     } catch (error) {
       // console.log('userLogin error', error);
-      dispatch({ type: types.USER_LOGIN_ERROR, error: error });
+      dispatch({ type: types.USER_LOGIN_ERROR, error: { message: 'Network error' } });
     }
   };
 
@@ -59,7 +59,7 @@ export const userLogout: AppThunk = () => async (dispatch: AppDispatch) => {
     dispatch({ type: types.USER_LOGOUT_SUCCESS });
   } catch (error) {
     // console.log('userLogout error', error);
-    dispatch({ type: types.USER_LOGOUT_ERROR, error: error });
+    dispatch({ type: types.USER_LOGOUT_ERROR, error: { message: 'Network error' } });
   }
 };
 
@@ -70,7 +70,7 @@ export const getUserInfo: AppThunk = () => async (dispatch: AppDispatch) => {
     dispatch({ type: types.USER_PROFILE_SUCCESS, payload: user });
   } catch (error) {
     // console.log('getUserInfo error', error);
-    dispatch({ type: types.USER_PROFILE_ERROR, error: error });
+    dispatch({ type: types.USER_PROFILE_ERROR, error: { message: 'Network error' } });
   }
 };
 
@@ -83,7 +83,7 @@ export const updateUserInfo: AppThunk =
       dispatch({ type: types.USER_UPDATE_PROFILE_SUCCESS, payload: user });
     } catch (error) {
       // console.log('updateUserInfo error', error);
-      dispatch({ type: types.USER_UPDATE_PROFILE_ERROR, error: error });
+      dispatch({ type: types.USER_UPDATE_PROFILE_ERROR, error: { message: 'Network error' } });
     }
   };
 
@@ -100,7 +100,7 @@ export const forgotUserPassword: AppThunk =
       dispatch({ type: types.USER_FORGOT_PASSWORD_SUCCESS });
     } catch (error) {
       // console.log('forgotUserPassword error', error);
-      dispatch({ type: types.USER_FORGOT_PASSWORD_ERROR, error: error });
+      dispatch({ type: types.USER_FORGOT_PASSWORD_ERROR, error: { message: 'Network error' } });
     }
   };
 
@@ -117,6 +117,6 @@ export const resetUserPassword: AppThunk =
       dispatch({ type: types.USER_RESET_PASSWORD_SUCCESS });
     } catch (error) {
       // console.log('resetUserPassword error', error);
-      dispatch({ type: types.USER_RESET_PASSWORD_ERROR, error: error });
+      dispatch({ type: types.USER_RESET_PASSWORD_ERROR, error: { message: 'Network error' } });
     }
   };

@@ -5,14 +5,13 @@ type TTargets = {
 };
 
 export const useScroll = (
-  containerRef: any,
+  containerRef: HTMLUListElement,
   targetsRefs: TTargets,
   callback: (entry: any) => void
 ) => {
   React.useEffect(() => {
-    // const container = containerRef;
     const targets = Object.values(targetsRefs);
-
+    console.log(targetsRefs);
     const options = {
       root: containerRef,
       rootMargin: '0px 0px -80% 0px',

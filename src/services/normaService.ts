@@ -1,3 +1,4 @@
+import { TCreatedOrder } from '../types/constructorTypes';
 import { TIngredient } from '../types/ingredientsTypes';
 import {
   TForgotPassword,
@@ -50,7 +51,7 @@ const authFetch = async (url: string, options: TRequestOptions): Promise<any> =>
   } catch (error: any) {
     console.log('authFetch error', error);
 
-    if (error.message === 'jwt expired') {
+    if (error.message === 'jwt expired' || error.message === 'jwt malformed') {
       const response = await updateRefreshToken();
 
       setRefreshToken(response);
@@ -65,7 +66,6 @@ const authFetch = async (url: string, options: TRequestOptions): Promise<any> =>
 };
 
 // const fetchAllOrders = async (): Promise<any> => await baseFetch(`/orders/all`, { method: 'GET' });
-
 // const fetchUserOrders = async (): Promise<any> => await authFetch(`/orders`, { method: 'GET' });
 
 const fetchIngredients = async (): Promise<{ ingredients: Array<TIngredient> }> => {
@@ -73,13 +73,14 @@ const fetchIngredients = async (): Promise<{ ingredients: Array<TIngredient> }> 
   return { ingredients: response.data };
 };
 
-const createOrder = async (data: Array<string>): Promise<any> => {
+const createOrder = async (data: Array<string>): Promise<{ order: TCreatedOrder }> => {
   const response = await authFetch(`/orders`, {
     method: 'POST',
     body: JSON.stringify({ ingredients: data }),
   });
 
-  return { order: response.order };
+  const order = { number: response.order.number, name: response.order.name };
+  return { order };
 };
 
 const fetchUserInfo = async (): Promise<{ user: TUser }> => {

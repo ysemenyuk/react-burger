@@ -2,7 +2,6 @@ import cn from 'classnames';
 import styles from './Login.module.css';
 
 import { FC, FormEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect, useLocation } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,17 +10,18 @@ import useInput from '../../hooks/useInput';
 import usePasswordInput from '../../hooks/usePasswordInput';
 import { userLogin } from '../../redux/actions/userActions';
 import { userSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 interface ILocationState {
   from: { pathname: string };
 }
 
 const Login: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { state } = useLocation<ILocationState>();
 
-  const isAuth = useSelector(userSelectors.isAuth);
-  const { loading, success, error } = useSelector(userSelectors.login);
+  const { isAuth } = useAppSelector(userSelectors.userInfo);
+  const { loading, success, error } = useAppSelector((state) => state.user.login);
 
   const emailInput = useInput('');
   const passInput = usePasswordInput('');
@@ -51,7 +51,7 @@ const Login: FC = () => {
           ref={emailInput.ref}
           type='email'
           disabled={loading}
-          error={error}
+          error={!!error}
           name='email'
           placeholder='E-mail'
         />
@@ -61,7 +61,7 @@ const Login: FC = () => {
           ref={passInput.ref}
           type={passInput.showText ? 'text' : 'password'}
           disabled={loading}
-          error={error}
+          error={!!error}
           name='password'
           placeholder='Пароль'
           icon={passInput.showText ? 'HideIcon' : 'ShowIcon'}

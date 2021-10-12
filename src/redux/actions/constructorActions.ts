@@ -1,6 +1,6 @@
 import normaService from '../../services/normaService';
 import { AppThunk } from '../../types/thunkTypes';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../../types/mainTypes';
 import * as types from '../constants/constants';
 import {
   TAddBun,
@@ -45,7 +45,7 @@ export const createOrder: AppThunk =
       dispatch({ type: types.ORDER_REQUEST });
       const { order } = await normaService.createOrder(itemsIds);
       dispatch({ type: types.ORDER_SUCCESS, payload: order });
-    } catch (error) {
-      dispatch({ type: types.ORDER_ERROR, error: error });
+    } catch (err) {
+      dispatch({ type: types.ORDER_ERROR, error: { message: 'Network error' } });
     }
   };

@@ -1,4 +1,4 @@
-import { allOrdersReducer } from '../allOrdersReducer';
+import { allOrdersReducer } from '../ordersReducer';
 import * as types from '../../constants/constants';
 
 import { orders, orderDetails } from './data';

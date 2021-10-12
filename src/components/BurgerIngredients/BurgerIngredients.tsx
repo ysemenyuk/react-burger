@@ -7,12 +7,13 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngridientCard from './IngridientCard/IngridientCard';
 
-import { useAppActions, useAppSelector } from '../../hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useScroll } from '../../hooks/useScroll';
 import { itemsTypes } from '../../utils/constants';
 import { calculateQuantity, groupByType } from '../../utils/helpers';
 import { constructorSelectors, ingredientsSelectors } from '../../redux/selectors';
 import { TIngredient } from '../../types/ingredientsTypes';
+import { setIngredientDetails } from '../../redux/actions/ingredientsActions';
 
 const ingredientsGroups = [
   { type: 'bun', title: 'Булки' },
@@ -25,10 +26,11 @@ type TTargets = {
 };
 
 const BurgerIngredients: FC = () => {
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  const { setIngredientDetails } = useAppActions();
+  // const { setIngredientDetails } = useAppActions();
 
   const ingredients = useAppSelector(ingredientsSelectors.items);
   const orderItems = useAppSelector(constructorSelectors.orderItems);
@@ -40,8 +42,9 @@ const BurgerIngredients: FC = () => {
 
   const containerRef = useRef<HTMLUListElement>(null);
   const targetsRefs = useRef<TTargets>({});
+  // console.log(2, targetsRefs);
 
-  useScroll(containerRef.current, targetsRefs.current, (entry: any) =>
+  useScroll(containerRef.current as HTMLUListElement, targetsRefs.current, (entry: any) =>
     setCurrentTab(entry.target.dataset.type)
   );
 
@@ -60,7 +63,7 @@ const BurgerIngredients: FC = () => {
   };
 
   const handleCardClick = (item: TIngredient) => () => {
-    setIngredientDetails(item);
+    dispatch(setIngredientDetails(item));
 
     history.push({
       pathname: `/ingredients/${item._id}`,

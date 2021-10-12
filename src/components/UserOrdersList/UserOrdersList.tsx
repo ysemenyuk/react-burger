@@ -2,33 +2,32 @@ import cn from 'classnames';
 import styles from './UserOrdersList.module.css';
 
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import OrderCard from '../OrderCard/OrderCard';
 import Loader from '../UI/Loader/Loader';
 import Message from '../UI/Message/Message';
 
-// import userOrdersSelectors from '../../redux/selectors/userOrdersSelectors';
-// import ingredientsSelectors from '../../redux/selectors/ingredientsSelectors';
-
 import {
   wsUserOrdersConnectionClose,
   wsUserOrdersConnectionStart,
-} from '../../redux/actions/userOrdersActions';
+} from '../../redux/actions/ordersActions';
+
 import { getIngredients } from '../../redux/actions/ingredientsActions';
-import { setOrderDetails } from '../../redux/actions/allOrdersActions';
-import { TOrder } from '../../types/mainTypes';
+import { setOrderDetails } from '../../redux/actions/ordersActions';
+
 import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
+import { TOrder } from '../../types/ordersTypes';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const UserOrdersList: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const history = useHistory();
   const location = useLocation();
 
-  const { wsConnected, wsError, userOrders } = useSelector(ordersSelectors.wsUserOrders);
-  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const { wsConnected, wsError, userOrders } = useAppSelector(ordersSelectors.wsUserOrders);
+  const { loading, success, error } = useAppSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());

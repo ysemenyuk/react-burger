@@ -1,17 +1,24 @@
 import { Location } from 'history';
+import { Dispatch } from 'redux';
+
+import { TIngredientsActions } from '../types/ingredientsTypes';
+import { TConstructorActions } from '../types/constructorTypes';
+import { TUserActions } from '../types/userTypes';
+import { TOrdersActions } from '../types/ordersTypes';
+import store from '../redux/store';
 
 export type TLocation = { pathname?: string } & Location;
-
-export type TOrder = {
-  ingredients: ReadonlyArray<string>;
-  readonly _id: string;
-  readonly status: 'created' | 'pending' | 'done';
-  readonly createdAt: string;
-  readonly updatedAt: string;
-  readonly number: number;
-  readonly name: string;
-};
 
 export type TPageParams = {
   id: string;
 };
+
+export type RootState = ReturnType<typeof store.getState>;
+
+export type TAppActions =
+  | TIngredientsActions
+  | TConstructorActions
+  | TUserActions
+  | TOrdersActions;
+
+export type AppDispatch = Dispatch<TAppActions>;

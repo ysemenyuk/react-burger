@@ -2,7 +2,6 @@ import styles from './UserOrder.module.css';
 import cn from 'classnames';
 
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import OrderDetails from '../../components/OrderDetails/OrderDetails';
@@ -13,16 +12,18 @@ import { getIngredients } from '../../redux/actions/ingredientsActions';
 import {
   wsUserOrdersConnectionClose,
   wsUserOrdersConnectionStart,
-} from '../../redux/actions/userOrdersActions';
-import { TOrder, TPageParams } from '../../types/mainTypes';
+} from '../../redux/actions/ordersActions';
+import { TPageParams } from '../../types/mainTypes';
 import { ingredientsSelectors, ordersSelectors } from '../../redux/selectors';
+import { TOrder } from '../../types/ordersTypes';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 function UserOrder() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams<TPageParams>();
 
-  const { wsConnected, wsError, userOrders } = useSelector(ordersSelectors.wsUserOrders);
-  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
+  const { wsConnected, wsError, userOrders } = useAppSelector(ordersSelectors.wsUserOrders);
+  const { loading, success, error } = useAppSelector(ingredientsSelectors.getItems);
 
   useEffect(() => {
     !success && dispatch(getIngredients());

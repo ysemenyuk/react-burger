@@ -3,7 +3,7 @@ import styles from './Ingredient.module.css';
 import cn from 'classnames';
 
 import { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 import { useParams } from 'react-router-dom';
 
 import IngredientDetails from '../../components/IngredientDetails/IngredientDetails';
@@ -16,11 +16,11 @@ import { TPageParams } from '../../types/mainTypes';
 import { TIngredient } from '../../types/ingredientsTypes';
 
 const Ingredient: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams<TPageParams>();
 
-  const { loading, success, error } = useSelector(ingredientsSelectors.getItems);
-  const items = useSelector(ingredientsSelectors.items);
+  const { loading, success, error } = useAppSelector(ingredientsSelectors.getItems);
+  const items = useAppSelector(ingredientsSelectors.items);
   const currentItem = items.find((item: TIngredient) => item._id === id);
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Ingredient: FC = () => {
     <div className={styles.container}>
       {loading && <Loader height='300px' />}
       {error && <Message message={error.message} />}
-      {success && (
+      {success && currentItem && (
         <>
           <h2 className={cn(styles.title, 'text', 'text_type_main-large')}>Детали ингредиента</h2>
           <IngredientDetails ingredient={currentItem} />

@@ -2,20 +2,20 @@ import cn from 'classnames';
 import styles from './ProfileForm.module.css';
 
 import { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import useProfileInput from '../../hooks/useProfileInput';
 import { updateUserInfo } from '../../redux/actions/userActions';
 import { userSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const ProfileForm: FC = () => {
-  const dispatch = useDispatch();
-  const { email, name } = useSelector(userSelectors.userInfo);
-  const { loading, success, error } = useSelector(userSelectors.updateProfile);
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector(userSelectors.userInfo);
+  const { loading, success, error } = useAppSelector(userSelectors.updateProfile);
 
-  const userInput = useProfileInput(name);
-  const emailInput = useProfileInput(email);
+  const userInput = useProfileInput(user ? user.name : '');
+  const emailInput = useProfileInput(user ? user.email : '');
   const passInput = useProfileInput('');
 
   const submitHandler = () => {

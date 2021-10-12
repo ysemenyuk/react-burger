@@ -1,18 +1,33 @@
+import { Middleware } from 'redux';
 import { getAccessToken } from '../../utils/helpers';
 
-export const socketMiddleware = (wsUrl, wsActions, withAuth) => {
+type WsActions = {
+  wsInit: string;
+  wsClose: string;
+  onOpen: string;
+  onError: string;
+  onClose: string;
+  onMessage: string;
+};
+
+export const socketMiddleware = (
+  wsUrl: string,
+  wsActions: WsActions,
+  withAuth: boolean
+): Middleware => {
   return (store) => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
       const { type } = action;
       const { wsInit, wsClose, onOpen, onError, onClose, onMessage } = wsActions;
 
-      const token = getAccessToken() || null;
+      let token = withAuth ? getAccessToken() : null;
 
       if (type === wsInit) {
-        socket = token ? new WebSocket(`${wsUrl}?token=${token}`) : new WebSocket(`${wsUrl}/all`);
+        let url = token ? `${wsUrl}?token=${token}` : `${wsUrl}/all`;
+        socket = new WebSocket(url);
       }
 
       if (socket) {

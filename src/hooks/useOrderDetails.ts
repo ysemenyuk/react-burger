@@ -1,7 +1,7 @@
-import { useSelector } from 'react-redux';
 import { ingredientsSelectors } from '../redux/selectors';
 import { TIngredient } from '../types/ingredientsTypes';
-import { TOrder } from '../types/mainTypes';
+import { TOrder } from '../types/ordersTypes';
+import { useAppSelector } from './useRedux';
 
 type TIngredientMap = {
   [name: string]: TIngredient;
@@ -13,7 +13,7 @@ type TOrderIngredientMap = {
 
 const useOrderDetails = (order: TOrder) => {
   const orderIngredientsIds = order.ingredients.filter((id) => id);
-  const allIngredients = useSelector(ingredientsSelectors.items);
+  const allIngredients = useAppSelector(ingredientsSelectors.items);
 
   const allIngredientsMap: TIngredientMap = allIngredients.reduce(
     (map: TIngredientMap, item: TIngredient) => ({ ...map, [item._id]: item }),

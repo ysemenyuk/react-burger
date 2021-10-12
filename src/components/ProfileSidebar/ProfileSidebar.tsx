@@ -2,13 +2,13 @@
 import styles from './ProfileSidebar.module.css';
 
 import { FC } from 'react';
-import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import { userLogout } from '../../redux/actions/userActions';
+import { useAppDispatch } from '../../hooks/useRedux';
 
 const ProfileSidebar: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const logoutHandler = () => {
     dispatch(userLogout());

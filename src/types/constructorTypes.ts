@@ -3,13 +3,18 @@ import { TIngredient } from './ingredientsTypes';
 
 export type TTopping = TIngredient & { uuid: string };
 
+export type TCreatedOrder = {
+  number: string;
+  name: string;
+};
+
 export type TConstructorState = {
   bun: null | TIngredient;
   toppings: [] | Array<TTopping>;
   visible: boolean;
   loading: boolean;
-  error: unknown | null;
-  order: unknown | null;
+  error: { message: string } | null;
+  order: TCreatedOrder | null;
 };
 
 export type TAddBun = {
@@ -46,12 +51,12 @@ export type TCreateOrderRequest = {
 
 export type TCreateOrderSuccess = {
   type: typeof types.ORDER_SUCCESS;
-  payload: unknown;
+  payload: TCreatedOrder;
 };
 
 export type TCreateOrderError = {
   type: typeof types.ORDER_ERROR;
-  error: unknown;
+  error: { message: string };
 };
 
 export type TConstructorActions =

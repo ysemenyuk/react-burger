@@ -34,7 +34,7 @@ export type TUpdateUserInfo = {
 export type TUserInfoState = {
   isCheckAuth: boolean;
   isAuth: boolean;
-  userInfo: TUser;
+  user: TUser | null;
 };
 
 export type TMap = {
@@ -46,7 +46,7 @@ export type TMap = {
 export type TRequestState = {
   loading: boolean;
   success: boolean;
-  error: null | string;
+  error: null | { message: string };
 };
 
 // USER_CHECK_AUTH
@@ -66,7 +66,7 @@ export type TUserCheckAuthSuccess = {
 
 export type TUserCheckAuthError = {
   type: typeof types.USER_CHECK_AUTH_ERROR;
-  error: unknown;
+  error: { message: string };
 };
 
 // USER_LOGIN
@@ -82,7 +82,7 @@ export type TUserLoginSuccess = {
 
 export type TUserLoginError = {
   type: typeof types.USER_LOGIN_ERROR;
-  error: unknown;
+  error: { message: string };
 };
 
 // USER_LOGOUT

@@ -2,7 +2,6 @@ import cn from 'classnames';
 import styles from './ForgotPassword.module.css';
 
 import { FC, FormEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -11,12 +10,13 @@ import useInput from '../../hooks/useInput';
 
 import { forgotUserPassword } from '../../redux/actions/userActions';
 import { userSelectors } from '../../redux/selectors';
+import { useAppDispatch, useAppSelector } from '../../hooks/useRedux';
 
 const ForgotPassword: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const isAuth = useSelector(userSelectors.isAuth);
-  const { loading, success, error } = useSelector(userSelectors.forgotPassword);
+  const { isAuth } = useAppSelector(userSelectors.userInfo);
+  const { loading, success, error } = useAppSelector(userSelectors.forgotPassword);
 
   const emailInput = useInput('');
 
@@ -48,7 +48,7 @@ const ForgotPassword: FC = () => {
           value={emailInput.value}
           ref={emailInput.ref}
           disabled={loading}
-          error={error}
+          error={!!error}
           type='email'
           name='email'
           placeholder='E-mail'
@@ -57,7 +57,7 @@ const ForgotPassword: FC = () => {
 
         {loading && 'Loading...'}
         {success && 'Success'}
-        {error && error.message}
+        {error && error}
       </form>
 
       <span className={cn(styles.text, 'text_color_inactive')}>
