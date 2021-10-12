@@ -16,7 +16,7 @@ import {
   removeRefreshToken,
   setAccessToken,
   setRefreshToken,
-} from '../utils/helpers.js';
+} from '../utils/helpers';
 
 const NORMA_BASE_URL = 'https://norma.nomoreparties.space/api';
 const contentType = { 'Content-Type': 'application/json' };
@@ -54,8 +54,8 @@ const authFetch = async (url: string, options: TRequestOptions): Promise<any> =>
     if (error.message === 'jwt expired' || error.message === 'jwt malformed') {
       const response = await updateRefreshToken();
 
-      setRefreshToken(response);
-      setAccessToken(response);
+      setRefreshToken(response.refreshToken);
+      setAccessToken(response.accessToken);
 
       options.headers = { Authorization: `Bearer ${getAccessToken()}` };
       return await baseFetch(url, options);
@@ -112,8 +112,8 @@ const userRegister = async ({
   });
 
   // console.log('userRegister response', response);
-  setRefreshToken(response);
-  setAccessToken(response);
+  setRefreshToken(response.refreshToken);
+  setAccessToken(response.accessToken);
 
   return { user: response.user };
 };
@@ -125,8 +125,8 @@ const userLogin = async ({ email, password }: TUserLogin): Promise<{ user: TUser
   });
 
   // console.log('userLogin response', response);
-  setRefreshToken(response);
-  setAccessToken(response);
+  setRefreshToken(response.refreshToken);
+  setAccessToken(response.accessToken);
 
   return { user: response.user };
 };

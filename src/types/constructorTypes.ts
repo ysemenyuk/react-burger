@@ -17,6 +17,11 @@ export type TConstructorState = {
   order: TCreatedOrder | null;
 };
 
+export type TOrderItems = {
+  bun: TIngredient | null;
+  toppings: TTopping[] | [];
+};
+
 export type TAddBun = {
   type: typeof types.ADD_BUN;
   payload: TIngredient;

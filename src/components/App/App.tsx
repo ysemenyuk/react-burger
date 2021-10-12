@@ -36,7 +36,6 @@ const App: FC = () => {
   const { isCheckAuth } = useAppSelector(userSelectors.userInfo);
   const ingredientDetails = useAppSelector(ingredientsSelectors.ingredientDetails);
   const orderDetails = useAppSelector(ordersSelectors.orderDetails);
-  console.log(orderDetails);
 
   useEffect(() => {
     getRefreshToken() ? dispatch(checkUserAuth()) : dispatch(userAuthFail());

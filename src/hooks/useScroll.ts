@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 
 type TTargets = {
   [name: string]: HTMLElement | null;
@@ -6,12 +6,13 @@ type TTargets = {
 
 export const useScroll = (
   containerRef: HTMLUListElement,
-  targetsRefs: TTargets,
+  targetsRefs: any,
   callback: (entry: any) => void
 ) => {
-  React.useEffect(() => {
+  useEffect(() => {
     const targets = Object.values(targetsRefs);
-    console.log(targetsRefs);
+    // console.log(targetsRefs);
+
     const options = {
       root: containerRef,
       rootMargin: '0px 0px -80% 0px',
@@ -26,10 +27,10 @@ export const useScroll = (
       });
     }, options);
 
-    // targets.forEach((el) => observer.observe(el));
+    targets.forEach((el) => observer.observe(el as HTMLElement));
 
     return () => {
-      // targets.forEach((el) => observer.unobserve(el));
+      targets.forEach((el) => observer.unobserve(el as HTMLElement));
     };
   }, [containerRef, targetsRefs, callback]);
 };

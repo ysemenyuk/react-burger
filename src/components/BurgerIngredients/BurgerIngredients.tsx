@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
 
-import { useState, useRef, useMemo, FC } from 'react';
+import { useCallback, useState, useRef, useMemo, FC, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -22,15 +22,13 @@ const ingredientsGroups = [
 ];
 
 type TTargets = {
-  [name: string]: HTMLElement | null;
+  [name: string]: HTMLElement;
 };
 
 const BurgerIngredients: FC = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
   const location = useLocation();
-
-  // const { setIngredientDetails } = useAppActions();
 
   const ingredients = useAppSelector(ingredientsSelectors.items);
   const orderItems = useAppSelector(constructorSelectors.orderItems);
@@ -40,9 +38,11 @@ const BurgerIngredients: FC = () => {
 
   const [currentTab, setCurrentTab] = useState(itemsTypes.BUN);
 
+  const [tars, setTars] = useState<Array<HTMLElement>>([]);
+
   const containerRef = useRef<HTMLUListElement>(null);
   const targetsRefs = useRef<TTargets>({});
-  // console.log(2, targetsRefs);
+  // console.log('targetsRefs --- ', targetsRefs);
 
   useScroll(containerRef.current as HTMLUListElement, targetsRefs.current, (entry: any) =>
     setCurrentTab(entry.target.dataset.type)
@@ -71,6 +71,18 @@ const BurgerIngredients: FC = () => {
     });
   };
 
+  const ref = (type: string) => (el: HTMLHeadingElement) => {
+    targetsRefs.current[type] = el;
+  };
+
+  // const ref = useCallback((node) => {
+  //   if (node !== null) {
+  //     setTars((state) => [...state, node]);
+  //   }
+  // }, []);
+
+  // console.log(1, tars);
+
   return (
     <section className={cn(styles.section)}>
       <ul className={cn(styles.tabs)}>
@@ -87,7 +99,7 @@ const BurgerIngredients: FC = () => {
         {ingredientsGroups.map(({ type, title }) => (
           <li key={type}>
             <h2
-              ref={(el) => (targetsRefs.current[type] = el)}
+              ref={ref(type)}
               data-type={type}
               className={cn(styles.ingredientsGroupTitle, 'text', 'text_type_main-medium')}
             >

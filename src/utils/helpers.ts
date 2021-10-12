@@ -1,14 +1,30 @@
 import 'moment/locale/ru';
 import moment from 'moment-timezone';
+import { TIngredient } from '../types/ingredientsTypes';
+import { TOrderItems, TTopping } from '../types/constructorTypes';
 
-export const groupByType = (items) =>
-  items.reduce((acc, item) => {
-    if (!acc[item.type]) acc[item.type] = [];
+type TIngredientsByTypes = {
+  [name: string]: Array<TIngredient>;
+};
+
+type TIngredientsWithQuantity = {
+  [name: string]: number;
+};
+
+export const groupByType = (items: Array<TIngredient>): TIngredientsByTypes =>
+  items.reduce((acc: TIngredientsByTypes, item) => {
+    if (!acc[item.type]) {
+      acc[item.type] = [];
+    }
     acc[item.type].push(item);
     return acc;
   }, {});
 
-export const swapItems = (dragIndex, hoverIndex, list) => {
+export const swapItems = (
+  dragIndex: number,
+  hoverIndex: number,
+  list: Array<TTopping>
+): Array<TTopping> => {
   const dragCard = list[dragIndex];
   const updatedList = [...list];
   updatedList.splice(dragIndex, 1);
@@ -16,41 +32,39 @@ export const swapItems = (dragIndex, hoverIndex, list) => {
   return updatedList;
 };
 
-export const calculateQuantity = (orderItems) => {
+export const calculateQuantity = (orderItems: TOrderItems): TIngredientsWithQuantity => {
   const { bun, toppings } = orderItems;
-  return [bun, bun, ...toppings].reduce((acc, item) => {
-    if (item) acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
+  const allItems = bun ? [bun, bun, ...toppings] : toppings;
+  return allItems.reduce((acc: TIngredientsWithQuantity, item) => {
+    acc[item._id] ? (acc[item._id] += 1) : (acc[item._id] = 1);
     return acc;
   }, {});
 };
 
-export const getOrderItemsIds = (orderItems) => {
+export const getOrderItemsIds = (orderItems: TOrderItems): Array<string> => {
   const { bun, toppings } = orderItems;
-  const itemIds = toppings.map((item) => item._id);
-  return [bun?._id, ...itemIds];
+  const itemsIds = toppings.map((item) => item._id);
+  return bun ? [bun._id, ...itemsIds] : itemsIds;
 };
 
-export const calculateTotalPrice = (orderItems) => {
+export const calculateTotalPrice = (orderItems: TOrderItems): number => {
   const { bun, toppings } = orderItems;
-  return [bun, bun, ...toppings].reduce((acc, item) => (item ? acc + item.price : acc), 0);
+  return [bun, bun, ...toppings].reduce((acc: number, item) => (item ? acc + item.price : acc), 0);
 };
 
-export const setRefreshToken = (resp) => {
-  const refreshToken = resp.refreshToken;
+export const setRefreshToken = (refreshToken: string) => {
   localStorage.setItem('refreshToken', refreshToken);
 };
 
 export const getRefreshToken = () => localStorage.getItem('refreshToken');
-
 export const removeRefreshToken = () => localStorage.removeItem('refreshToken');
 
-export const setAccessToken = (resp) => {
-  const accessToken = resp.accessToken.split('Bearer ')[1];
+export const setAccessToken = (token: string) => {
+  const accessToken = token.split('Bearer ')[1];
   localStorage.setItem('accessToken', accessToken);
 };
 
 export const getAccessToken = () => localStorage.getItem('accessToken');
-
 export const removeAccessToken = () => localStorage.removeItem('accessToken');
 
 // export const setAccessToken = (resp) => {
@@ -92,7 +106,7 @@ export const removeAccessToken = () => localStorage.removeItem('accessToken');
 //   return matches ? decodeURIComponent(matches[1]) : undefined;
 // }
 
-export const getOrderStatus = (status) => {
+export const getOrderStatus = (status: string): string => {
   switch (status) {
     case 'created':
       return 'Создан';
@@ -105,11 +119,13 @@ export const getOrderStatus = (status) => {
   }
 };
 
-export const getConstructorMessage = (bun, toppingLength) => {
+export const getConstructorMessage = (bun: boolean, toppingLength: boolean): string => {
   if (!bun && !toppingLength) return 'Перетащите ингридиенты в поле ниже';
   if (!bun && !!toppingLength) return 'Добавьте булку';
   if (bun && !toppingLength) return 'Добавьте начинки';
   if (bun && !!toppingLength) return 'Добавьте еще начинки или Оформите заказ';
+  return '';
 };
 
-export const getFormattedDate = (date) => `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;
+export const getFormattedDate = (date: string) =>
+  `${moment.tz(date, 'Europe/Moscow').calendar()} i-GMT+3`;
