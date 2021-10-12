@@ -1,7 +1,7 @@
 import cn from 'classnames';
 import styles from './BurgerIngredients.module.css';
 
-import { useCallback, useState, useRef, useMemo, FC, useEffect } from 'react';
+import { useState, useRef, useMemo, FC } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -38,15 +38,10 @@ const BurgerIngredients: FC = () => {
 
   const [currentTab, setCurrentTab] = useState(itemsTypes.BUN);
 
-  const [tars, setTars] = useState<Array<HTMLElement>>([]);
-
   const containerRef = useRef<HTMLUListElement>(null);
   const targetsRefs = useRef<TTargets>({});
-  // console.log('targetsRefs --- ', targetsRefs);
 
-  useScroll(containerRef.current as HTMLUListElement, targetsRefs.current, (entry: any) =>
-    setCurrentTab(entry.target.dataset.type)
-  );
+  useScroll(containerRef, targetsRefs, (entry: any) => setCurrentTab(entry.target.dataset.type));
 
   const handleTabClick = (tab: string) => {
     setCurrentTab(tab);
@@ -74,14 +69,6 @@ const BurgerIngredients: FC = () => {
   const ref = (type: string) => (el: HTMLHeadingElement) => {
     targetsRefs.current[type] = el;
   };
-
-  // const ref = useCallback((node) => {
-  //   if (node !== null) {
-  //     setTars((state) => [...state, node]);
-  //   }
-  // }, []);
-
-  // console.log(1, tars);
 
   return (
     <section className={cn(styles.section)}>

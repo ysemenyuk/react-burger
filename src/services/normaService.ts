@@ -49,7 +49,7 @@ const authFetch = async (url: string, options: TRequestOptions): Promise<any> =>
     options = { ...options, headers: { Authorization: `Bearer ${getAccessToken()}` } };
     return await baseFetch(url, options);
   } catch (error: any) {
-    console.log('authFetch error', error);
+    // console.log('authFetch error', error);
 
     if (error.message === 'jwt expired' || error.message === 'jwt malformed') {
       const response = await updateRefreshToken();

@@ -38,7 +38,6 @@ const Order: FC = () => {
   }, [dispatch, wsConnected]);
 
   const currentOrder = allOrders.find((order: TOrder) => order._id === id);
-  console.log(1, currentOrder);
 
   return (
     <div className={styles.container}>
