@@ -1,14 +1,8 @@
 import { Middleware } from 'redux';
 import { getAccessToken } from '../../utils/helpers';
+import { wsAllOrdersActions, wsUserOrdersActions } from './../constants/constants';
 
-type WsActions = {
-  wsInit: string;
-  wsClose: string;
-  onOpen: string;
-  onError: string;
-  onClose: string;
-  onMessage: string;
-};
+type WsActions = typeof wsAllOrdersActions | typeof wsUserOrdersActions;
 
 export const socketMiddleware = (
   wsUrl: string,

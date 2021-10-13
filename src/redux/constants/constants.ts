@@ -48,7 +48,7 @@ export const userLogoutMap = {
   request: USER_LOGOUT_REQUEST,
   success: USER_LOGOUT_SUCCESS,
   error: USER_LOGOUT_ERROR,
-};
+} as const;
 
 // USER_REGISTER
 
@@ -60,7 +60,7 @@ export const userRegisterMap = {
   request: USER_REGISTER_REQUEST,
   success: USER_REGISTER_SUCCESS,
   error: USER_REGISTER_ERROR,
-};
+} as const;
 
 // USER_PROFILE
 
@@ -72,7 +72,7 @@ export const userProfileMap = {
   request: USER_PROFILE_REQUEST,
   success: USER_PROFILE_SUCCESS,
   error: USER_PROFILE_ERROR,
-};
+} as const;
 
 // USER_UPDATE_PROFILE
 
@@ -84,7 +84,7 @@ export const userUpdateProfileMap = {
   request: USER_UPDATE_PROFILE_REQUEST,
   success: USER_UPDATE_PROFILE_SUCCESS,
   error: USER_UPDATE_PROFILE_ERROR,
-};
+} as const;
 
 // USER_FORGOT_PASSWORD
 
@@ -96,7 +96,7 @@ export const userForgotPasswordMap = {
   request: USER_FORGOT_PASSWORD_REQUEST,
   success: USER_FORGOT_PASSWORD_SUCCESS,
   error: USER_FORGOT_PASSWORD_ERROR,
-};
+} as const;
 
 // USER_RESET_PASSWORD
 
@@ -108,7 +108,7 @@ export const userResetPasswordMap = {
   request: USER_RESET_PASSWORD_REQUEST,
   success: USER_RESET_PASSWORD_SUCCESS,
   error: USER_RESET_PASSWORD_ERROR,
-};
+} as const;
 
 // ws all orders
 export const WS_ALL_ORDERS_CONNECTION_START = 'WS_ALL_ORDERS_CONNECTION_START' as const;
@@ -130,7 +130,7 @@ export const wsAllOrdersActions = {
   onError: WS_ALL_ORDERS_CONNECTION_ERROR,
   onClose: WS_ALL_ORDERS_CONNECTION_CLOSED,
   onMessage: WS_GET_ALL_ORDERS,
-};
+} as const;
 
 // ws user orders
 export const WS_USER_ORDERS_CONNECTION_START = 'WS_USER_ORDERS_CONNECTION_START' as const;
@@ -140,7 +140,7 @@ export const WS_USER_ORDERS_CONNECTION_SUCCESS = 'WS_USER_ORDERS_CONNECTION_SUCC
 export const WS_USER_ORDERS_CONNECTION_ERROR = 'WS_USER_ORDERS_CONNECTION_ERROR' as const;
 export const WS_USER_ORDERS_CONNECTION_CLOSED = 'WS_USER_ORDERS_CONNECTION_CLOSED' as const;
 
-export const WS_GET_USER_ORDERS = 'WS_GET_USER_ORDERS';
+export const WS_GET_USER_ORDERS = 'WS_GET_USER_ORDERS' as const;
 
 export const wsUserOrdersActions = {
   wsInit: WS_USER_ORDERS_CONNECTION_START,
@@ -149,4 +149,4 @@ export const wsUserOrdersActions = {
   onError: WS_USER_ORDERS_CONNECTION_ERROR,
   onClose: WS_USER_ORDERS_CONNECTION_CLOSED,
   onMessage: WS_GET_USER_ORDERS,
-};
+} as const;

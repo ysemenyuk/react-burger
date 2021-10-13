@@ -1,5 +1,4 @@
 import { Location } from 'history';
-import { Dispatch } from 'redux';
 
 import { TIngredientsActions } from '../types/ingredientsTypes';
 import { TConstructorActions } from '../types/constructorTypes';
@@ -9,9 +8,7 @@ import store from '../redux/store';
 
 export type TLocation = { pathname?: string } & Location;
 
-export type TPageParams = {
-  id: string;
-};
+export type TPageParams = { id: string };
 
 export type RootState = ReturnType<typeof store.getState>;
 
@@ -21,4 +18,4 @@ export type TAppActions =
   | TUserActions
   | TOrdersActions;
 
-export type AppDispatch = Dispatch<TAppActions>;
+export type AppDispatch = typeof store.dispatch;
