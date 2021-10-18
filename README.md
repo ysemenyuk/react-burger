@@ -2,6 +2,10 @@
 
 Burger builder demo project
 
+#### Deploy
+
+https://ysemenyuk-react-burger.herokuapp.com/feed
+
 #### Built With
 
 - JavaScript
@@ -10,7 +14,7 @@ Burger builder demo project
 - redux
 - redux-thunk
 
-#### install and start
+#### local install and start
 
 1. `npm install`
 
