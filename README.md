@@ -1,18 +1,18 @@
-#### react burger project
-
 Burger builder demo project
-
-#### Deploy
-
-https://ysemenyuk-react-burger.herokuapp.com/feed
 
 #### Built With
 
 - JavaScript
+- typescript
 - react
+- react-router-dom
 - react-dnd
 - redux
 - redux-thunk
+
+#### Deploy
+
+https://ysemenyuk-react-burger.herokuapp.com/feed
 
 #### local install and start
 
