@@ -12,7 +12,7 @@ Burger builder demo project
 
 #### Deploy
 
-https://ysemenyuk-react-burger.herokuapp.com/feed
+https://ysemenyuk-react-burger.herokuapp.com
 
 #### local install and start
 
