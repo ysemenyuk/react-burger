@@ -1,5 +1,5 @@
 import { constructorReducer } from '../constructorReducer';
-import * as types from '../../types/types';
+import * as types from '../../constants/constants';
 
 import { data, bun, topping, uuid, order } from './data';
 
@@ -122,14 +122,14 @@ describe('constructorReducer', () => {
   it('constructorReducer ORDER_ERROR', () => {
     const action = {
       type: types.ORDER_ERROR,
-      error: { message: 'error' },
+      error: 'Network error',
     };
 
     const expectedState = {
       ...state,
       loading: false,
       visible: true,
-      error: { message: 'error' },
+      error: 'Network error',
     };
 
     expect(constructorReducer(state, action)).toEqual(expectedState);

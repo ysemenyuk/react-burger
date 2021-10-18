@@ -1,0 +1,152 @@
+// ingredients;
+
+export const INGREDIENTS_REQUEST = 'INGREDIENTS_REQUEST' as const;
+export const INGREDIENTS_SUCCESS = 'INGREDIENTS_SUCCESS' as const;
+export const INGREDIENTS_ERROR = 'INGREDIENTS_ERROR' as const;
+export const SET_INGREDIENT_DETAILS = 'SET_INGREDIENT_DETAILS' as const;
+export const RESET_INGREDIENT_DETAILS = 'RESET_INGREDIENT_DETAILS' as const;
+
+// constructor;
+
+export const ADD_BUN = 'ADD_BUN' as const;
+export const ADD_TOPPING = 'ADD_TOPPING' as const;
+export const DELETE_TOPPING = 'DELETE_TOPPING' as const;
+export const UPDATE_TOPPINGS_LIST = 'UPDATE_TOPPINGS_LIST' as const;
+export const CLEAR_ORDER_ITEMS = 'CLEAR_ORDER_ITEMS' as const;
+export const ORDER_REQUEST = 'ORDER_REQUEST' as const;
+export const ORDER_SUCCESS = 'ORDER_SUCCESS' as const;
+export const ORDER_ERROR = 'ORDER_ERROR' as const;
+export const CLOSE_ORDER_CREATE_DETAILS = 'CLOSE_ORDER_CREATE_DETAILS' as const;
+
+// USER_CHECK_AUTH
+
+export const USER_CHECK_AUTH_FAIL = 'USER_CHECK_AUTH_FAIL' as const;
+
+export const USER_CHECK_AUTH_REQUEST = 'USER_CHECK_AUTH_REQUEST' as const;
+export const USER_CHECK_AUTH_SUCCESS = 'USER_CHECK_AUTH_SUCCESS' as const;
+export const USER_CHECK_AUTH_ERROR = 'USER_CHECK_AUTH_ERROR' as const;
+
+// USER_LOGIN
+
+export const USER_LOGIN_REQUEST = 'USER_LOGIN_REQUEST' as const;
+export const USER_LOGIN_SUCCESS = 'USER_LOGIN_SUCCESS' as const;
+export const USER_LOGIN_ERROR = 'USER_LOGIN_ERROR' as const;
+
+export const userLoginMap = {
+  request: USER_LOGIN_REQUEST,
+  success: USER_LOGIN_SUCCESS,
+  error: USER_LOGIN_ERROR,
+};
+
+// USER_LOGOUT
+
+export const USER_LOGOUT_REQUEST = 'USER_LOGOUT_REQUEST' as const;
+export const USER_LOGOUT_SUCCESS = 'USER_LOGOUT_SUCCESS' as const;
+export const USER_LOGOUT_ERROR = 'USER_LOGOUT_ERROR' as const;
+
+export const userLogoutMap = {
+  request: USER_LOGOUT_REQUEST,
+  success: USER_LOGOUT_SUCCESS,
+  error: USER_LOGOUT_ERROR,
+} as const;
+
+// USER_REGISTER
+
+export const USER_REGISTER_REQUEST = 'USER_REGISTER_REQUEST' as const;
+export const USER_REGISTER_SUCCESS = 'USER_REGISTER_SUCCESS' as const;
+export const USER_REGISTER_ERROR = 'USER_REGISTER_ERROR' as const;
+
+export const userRegisterMap = {
+  request: USER_REGISTER_REQUEST,
+  success: USER_REGISTER_SUCCESS,
+  error: USER_REGISTER_ERROR,
+} as const;
+
+// USER_PROFILE
+
+export const USER_PROFILE_REQUEST = 'USER_PROFILE_REQUEST' as const;
+export const USER_PROFILE_SUCCESS = 'USER_PROFILE_SUCCESS' as const;
+export const USER_PROFILE_ERROR = 'USER_PROFILE_ERROR' as const;
+
+export const userProfileMap = {
+  request: USER_PROFILE_REQUEST,
+  success: USER_PROFILE_SUCCESS,
+  error: USER_PROFILE_ERROR,
+} as const;
+
+// USER_UPDATE_PROFILE
+
+export const USER_UPDATE_PROFILE_REQUEST = 'USER_UPDATE_PROFILE_REQUEST' as const;
+export const USER_UPDATE_PROFILE_SUCCESS = 'USER_UPDATE_PROFILE_SUCCESS' as const;
+export const USER_UPDATE_PROFILE_ERROR = 'USER_UPDATE_PROFILE_ERROR' as const;
+
+export const userUpdateProfileMap = {
+  request: USER_UPDATE_PROFILE_REQUEST,
+  success: USER_UPDATE_PROFILE_SUCCESS,
+  error: USER_UPDATE_PROFILE_ERROR,
+} as const;
+
+// USER_FORGOT_PASSWORD
+
+export const USER_FORGOT_PASSWORD_REQUEST = 'USER_FORGOT_PASSWORD_REQUEST' as const;
+export const USER_FORGOT_PASSWORD_SUCCESS = 'USER_FORGOT_PASSWORD_SUCCESS' as const;
+export const USER_FORGOT_PASSWORD_ERROR = 'USER_FORGOT_PASSWORD_ERROR' as const;
+
+export const userForgotPasswordMap = {
+  request: USER_FORGOT_PASSWORD_REQUEST,
+  success: USER_FORGOT_PASSWORD_SUCCESS,
+  error: USER_FORGOT_PASSWORD_ERROR,
+} as const;
+
+// USER_RESET_PASSWORD
+
+export const USER_RESET_PASSWORD_REQUEST = 'USER_RESET_PASSWORD_REQUEST' as const;
+export const USER_RESET_PASSWORD_SUCCESS = 'USER_RESET_PASSWORD_SUCCESS' as const;
+export const USER_RESET_PASSWORD_ERROR = 'USER_RESET_PASSWORD_ERROR' as const;
+
+export const userResetPasswordMap = {
+  request: USER_RESET_PASSWORD_REQUEST,
+  success: USER_RESET_PASSWORD_SUCCESS,
+  error: USER_RESET_PASSWORD_ERROR,
+} as const;
+
+// ws all orders
+export const WS_ALL_ORDERS_CONNECTION_START = 'WS_ALL_ORDERS_CONNECTION_START' as const;
+export const WS_ALL_ORDERS_CONNECTION_FINISH = 'WS_ALL_ORDERS_CONNECTION_FINISH' as const;
+
+export const WS_ALL_ORDERS_CONNECTION_SUCCESS = 'WS_ALL_ORDERS_CONNECTION_SUCCESS' as const;
+export const WS_ALL_ORDERS_CONNECTION_ERROR = 'WS_ALL_ORDERS_CONNECTION_ERROR' as const;
+export const WS_ALL_ORDERS_CONNECTION_CLOSED = 'WS_ALL_ORDERS_CONNECTION_CLOSED' as const;
+
+export const WS_GET_ALL_ORDERS = 'WS_GET_ALL_ORDERS' as const;
+
+export const SET_ORDER_DETAILS = 'SET_ORDERS_DETAILS' as const;
+export const RESET_ORDER_DETAILS = 'RESET_ORDERS_DETAILS' as const;
+
+export const wsAllOrdersActions = {
+  wsInit: WS_ALL_ORDERS_CONNECTION_START,
+  wsClose: WS_ALL_ORDERS_CONNECTION_FINISH,
+  onOpen: WS_ALL_ORDERS_CONNECTION_SUCCESS,
+  onError: WS_ALL_ORDERS_CONNECTION_ERROR,
+  onClose: WS_ALL_ORDERS_CONNECTION_CLOSED,
+  onMessage: WS_GET_ALL_ORDERS,
+} as const;
+
+// ws user orders
+export const WS_USER_ORDERS_CONNECTION_START = 'WS_USER_ORDERS_CONNECTION_START' as const;
+export const WS_USER_ORDERS_CONNECTION_FINISH = 'WS_USER_ORDERS_CONNECTION_FINISH' as const;
+
+export const WS_USER_ORDERS_CONNECTION_SUCCESS = 'WS_USER_ORDERS_CONNECTION_SUCCESS' as const;
+export const WS_USER_ORDERS_CONNECTION_ERROR = 'WS_USER_ORDERS_CONNECTION_ERROR' as const;
+export const WS_USER_ORDERS_CONNECTION_CLOSED = 'WS_USER_ORDERS_CONNECTION_CLOSED' as const;
+
+export const WS_GET_USER_ORDERS = 'WS_GET_USER_ORDERS' as const;
+
+export const wsUserOrdersActions = {
+  wsInit: WS_USER_ORDERS_CONNECTION_START,
+  wsClose: WS_USER_ORDERS_CONNECTION_FINISH,
+  onOpen: WS_USER_ORDERS_CONNECTION_SUCCESS,
+  onError: WS_USER_ORDERS_CONNECTION_ERROR,
+  onClose: WS_USER_ORDERS_CONNECTION_CLOSED,
+  onMessage: WS_GET_USER_ORDERS,
+} as const;

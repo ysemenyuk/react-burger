@@ -1,5 +1,5 @@
 import { ingredientsReducer } from '../ingredientsReducer';
-import * as types from '../../types/types';
+import * as types from '../../constants/constants';
 
 import data from './data';
 
